@@ -1,0 +1,23 @@
+-- Users Table
+CREATE TABLE IF NOT EXISTS users (
+    id                   SERIAL PRIMARY KEY,
+    clerk_id             VARCHAR(255) UNIQUE NOT NULL,
+    email                VARCHAR(255) UNIQUE NOT NULL,
+    user_type            ENUM('candidate', 'employer') NOT NULL,
+    profile_picture      TEXT,
+    first_name           VARCHAR(100) NOT NULL,
+    last_name            VARCHAR(100) NOT NULL,
+    contact_number       VARCHAR(15) CHECK (contact_number ~ '^[0-9]{10,15}$'),
+    created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Indexes for the users table
+CREATE INDEX IF NOT EXISTS idx_email ON users (email);
+CREATE INDEX IF NOT EXISTS idx_role ON users (role);
+
+
+
+
+
+

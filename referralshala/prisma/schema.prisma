@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  clerkId         String    @unique
+  email           String    @unique
+  userType        UserType
+  profilePicture  String?
+  firstName       String
+  lastName        String
+  contactNumber   String?   @db.VarChar(15)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  candidates      Candidate[]
+  education       Education[]
+  employers       Employer[]
+  experience      Experience[]
+}
+
+enum UserType {
+  candidate
+  employer
+}
+
+model Candidate {
+  id         Int      @id @default(autoincrement())
+  userId     Int      @map("user_id")
+  skills     Json
+  resume     String?
+  updatedAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Education {
+  id                Int       @id @default(autoincrement())
+  userId            Int       @map("user_id")
+  instituteName     String    @map("institute_name") @db.VarChar(255)
+  degree            String    @db.VarChar(255)
+  specialization    String?   @db.VarChar(255)
+  startYear         Int?
+  endYear           Int?
+  percentageOrCgpa  Decimal?  @map("percentage_or_cgpa") @db.Decimal(5, 2)
+  createdAt         DateTime  @default(now())
+
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model Employer {
+  id             Int       @id @default(autoincrement())
+  userId         Int       @map("user_id")
+  companyName    String    @map("company_name") @db.VarChar(255)
+  jobRole        String    @map("job_role") @db.VarChar(255)
+  contactNumber  String?   @db.VarChar(15)
+  location       String?   @db.VarChar(255)
+  updatedAt      DateTime  @default(now())
+
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  referrals      Referral[]
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  userId      Int       @map("user_id")
+  companyName String    @map("company_name") @db.VarChar(255)
+  role        String    @db.VarChar(255)
+  startYear   Int?
+  endYear     Int?
+  description String?
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Referral {
+  id              Int       @id @default(autoincrement())
+  employerId      Int       @map("employer_id")
+  jobTitle        String    @map("job_title") @db.VarChar(255)
+  jobDescription  String    @map("job_description")
+  jobLink         String    @map("job_link")
+  location        String?   @db.VarChar(255)
+  postedAt        DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
+
+  employer        Employer  @relation(fields: [employerId], references: [id], onDelete: Cascade)
+
+  @@index([jobTitle], name: "idx_job_title")
+  @@index([employerId], name: "idx_employer_referral")
+
+  
+}
