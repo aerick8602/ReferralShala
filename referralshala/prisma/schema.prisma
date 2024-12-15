@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,36 +8,48 @@ datasource db {
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
-  clerkId         String    @unique
-  email           String    @unique
+  id              Int         @id @default(autoincrement())
+  clerkId         String      @unique
+  email           String      @unique
   userType        UserType
   profilePicture  String?
   firstName       String
   lastName        String
-  contactNumber   String?   @db.VarChar(15)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  contactNumber   String?     @db.VarChar(15)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
-  candidates      Candidate[]
-  education       Education[]
-  employers       Employer[]
-  experience      Experience[]
-}
-
-enum UserType {
-  candidate
-  employer
+  // Relations
+  candidate       Candidate?  @relation("UserToCandidate")
+  employer        Employer?   @relation("UserToEmployer")
+  educations      Education[] 
+  experiences     Experience[]
 }
 
 model Candidate {
-  id         Int      @id @default(autoincrement())
-  userId     Int      @map("user_id")
-  skills     Json
-  resume     String?
-  updatedAt  DateTime @default(now())
+  id              Int         @id @default(autoincrement())
+  userId          Int         @unique @map("user_id")
+  skills          Json
+  resume          String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Relations
+  user            User        @relation("UserToCandidate", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Employer {
+  id              Int         @id @default(autoincrement())
+  userId          Int         @unique @map("user_id")
+  companyName     String      @map("company_name") @db.VarChar(255)
+  jobRole         String      @map("job_role") @db.VarChar(255)
+  location        String?     @db.VarChar(255)
+  referrals       Referral[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  user            User        @relation("UserToEmployer", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Education {
@@ -57,21 +63,8 @@ model Education {
   percentageOrCgpa  Decimal?  @map("percentage_or_cgpa") @db.Decimal(5, 2)
   createdAt         DateTime  @default(now())
 
+  // Relations
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-
-model Employer {
-  id             Int       @id @default(autoincrement())
-  userId         Int       @map("user_id")
-  companyName    String    @map("company_name") @db.VarChar(255)
-  jobRole        String    @map("job_role") @db.VarChar(255)
-  contactNumber  String?   @db.VarChar(15)
-  location       String?   @db.VarChar(255)
-  updatedAt      DateTime  @default(now())
-
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  referrals      Referral[]
 }
 
 model Experience {
@@ -84,6 +77,7 @@ model Experience {
   description String?
   createdAt   DateTime  @default(now())
 
+  // Relations
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -95,12 +89,16 @@ model Referral {
   jobLink         String    @map("job_link")
   location        String?   @db.VarChar(255)
   postedAt        DateTime  @default(now())
-  updatedAt       DateTime  @default(now()) @updatedAt
+  updatedAt       DateTime  @updatedAt
 
+  // Relations
   employer        Employer  @relation(fields: [employerId], references: [id], onDelete: Cascade)
 
   @@index([jobTitle], name: "idx_job_title")
   @@index([employerId], name: "idx_employer_referral")
+}
 
-  
+enum UserType {
+  CANDIDATE
+  EMPLOYER
 }

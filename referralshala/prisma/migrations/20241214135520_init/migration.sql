@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "UserType" AS ENUM ('candidate', 'employer');
+CREATE TYPE "UserType" AS ENUM ('CANDIDATE', 'EMPLOYER');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -23,9 +23,23 @@ CREATE TABLE "Candidate" (
     "user_id" INTEGER NOT NULL,
     "skills" JSONB NOT NULL,
     "resume" TEXT,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Candidate_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Employer" (
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "company_name" VARCHAR(255) NOT NULL,
+    "job_role" VARCHAR(255) NOT NULL,
+    "location" VARCHAR(255),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Employer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -41,19 +55,6 @@ CREATE TABLE "Education" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Education_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Employer" (
-    "id" SERIAL NOT NULL,
-    "user_id" INTEGER NOT NULL,
-    "company_name" VARCHAR(255) NOT NULL,
-    "job_role" VARCHAR(255) NOT NULL,
-    "contactNumber" VARCHAR(15),
-    "location" VARCHAR(255),
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "Employer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -79,7 +80,7 @@ CREATE TABLE "Referral" (
     "job_link" TEXT NOT NULL,
     "location" VARCHAR(255),
     "postedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Referral_pkey" PRIMARY KEY ("id")
 );
@@ -91,6 +92,12 @@ CREATE UNIQUE INDEX "User_clerkId_key" ON "User"("clerkId");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Candidate_user_id_key" ON "Candidate"("user_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Employer_user_id_key" ON "Employer"("user_id");
+
+-- CreateIndex
 CREATE INDEX "idx_job_title" ON "Referral"("job_title");
 
 -- CreateIndex
@@ -100,10 +107,10 @@ CREATE INDEX "idx_employer_referral" ON "Referral"("employer_id");
 ALTER TABLE "Candidate" ADD CONSTRAINT "Candidate_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Education" ADD CONSTRAINT "Education_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Employer" ADD CONSTRAINT "Employer_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Employer" ADD CONSTRAINT "Employer_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Education" ADD CONSTRAINT "Education_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
