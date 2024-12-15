@@ -11,11 +11,11 @@ model User {
   id              Int         @id @default(autoincrement())
   clerkId         String      @unique
   email           String      @unique
-  userType        UserType
-  profilePicture  String?
   firstName       String
   lastName        String
+  userType        UserType
   contactNumber   String?     @db.VarChar(15)
+  profilePicture  String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
@@ -29,7 +29,7 @@ model User {
 model Candidate {
   id              Int         @id @default(autoincrement())
   userId          Int         @unique @map("user_id")
-  skills          Json
+  skills          Json?
   resume          String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
@@ -41,8 +41,8 @@ model Candidate {
 model Employer {
   id              Int         @id @default(autoincrement())
   userId          Int         @unique @map("user_id")
-  companyName     String      @map("company_name") @db.VarChar(255)
-  jobRole         String      @map("job_role") @db.VarChar(255)
+  companyName     String?      @map("company_name") @db.VarChar(255)
+  jobRole         String?      @map("job_role") @db.VarChar(255)
   location        String?     @db.VarChar(255)
   referrals       Referral[]
   createdAt       DateTime    @default(now())
@@ -57,10 +57,10 @@ model Education {
   userId            Int       @map("user_id")
   instituteName     String    @map("institute_name") @db.VarChar(255)
   degree            String    @db.VarChar(255)
-  specialization    String?   @db.VarChar(255)
-  startYear         Int?
-  endYear           Int?
-  percentageOrCgpa  Decimal?  @map("percentage_or_cgpa") @db.Decimal(5, 2)
+  specialization    String   @db.VarChar(255)
+  startYear         Int
+  endYear           Int
+  percentageOrCgpa  Decimal  @map("percentage_or_cgpa") @db.Decimal(5, 2)
   createdAt         DateTime  @default(now())
 
   // Relations
@@ -72,8 +72,8 @@ model Experience {
   userId      Int       @map("user_id")
   companyName String    @map("company_name") @db.VarChar(255)
   role        String    @db.VarChar(255)
-  startYear   Int?
-  endYear     Int?
+  startYear   Int
+  endYear     Int
   description String?
   createdAt   DateTime  @default(now())
 
@@ -85,8 +85,8 @@ model Referral {
   id              Int       @id @default(autoincrement())
   employerId      Int       @map("employer_id")
   jobTitle        String    @map("job_title") @db.VarChar(255)
-  jobDescription  String    @map("job_description")
-  jobLink         String    @map("job_link")
+  jobDescription  String?   @map("job_description")
+  jobLink         String?    @map("job_link")
   location        String?   @db.VarChar(255)
   postedAt        DateTime  @default(now())
   updatedAt       DateTime  @updatedAt

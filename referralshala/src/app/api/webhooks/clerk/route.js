@@ -1,7 +1,9 @@
-const { Webhook } = require('svix');
-const { headers } = require('next/headers');
+import { Webhook } from 'svix';
+import { headers } from 'next/headers';
+import client from '../../../../connection/prisma';
 
-module.exports = async function handler(req, res) {
+
+export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -12,34 +14,20 @@ module.exports = async function handler(req, res) {
   const wh = new Webhook(WEBHOOK_SECRET);
 
   // Get headers
-  const headerPayload = headers();
+  const headerPayload = await headers();
   const svix_id = headerPayload.get('svix-id');
   const svix_timestamp = headerPayload.get('svix-timestamp');
   const svix_signature = headerPayload.get('svix-signature');
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    res.status(400).send('Error: Missing Svix headers');
-    return;
+    return new Response('Error: Missing Svix headers', {
+      status: 400,
+    });
   }
 
   // Get body
-  let payload;
-  try {
-    payload = await new Promise((resolve, reject) => {
-      let body = '';
-      req.on('data', chunk => {
-        body += chunk;
-      });
-      req.on('end', () => resolve(JSON.parse(body)));
-      req.on('error', reject);
-    });
-  } catch (err) {
-    console.error('Error: Unable to parse body', err);
-    res.status(400).send('Error: Invalid JSON body');
-    return;
-  }
-
+  const payload = await req.json();
   const body = JSON.stringify(payload);
 
   let evt;
@@ -53,15 +41,52 @@ module.exports = async function handler(req, res) {
     });
   } catch (err) {
     console.error('Error: Could not verify webhook:', err);
-    res.status(400).send('Error: Verification error');
-    return;
+    return new Response('Error: Verification error', {
+      status: 400,
+    });
   }
 
   // Do something with payload
+  // For this guide, log payload to console
   const { id } = evt.data;
   const eventType = evt.type;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
-  console.log('Webhook payload:', body);
+  console.log('Webhook payload:', payload);
+  
+  
+  const {email_addresses, first_name, last_name, profile_image_url} = evt.data;
 
-  res.status(200).send('Webhook received');
-};
+  if (evt.type === "user.created") {
+    const user = await client.user.create({
+      data: {
+        clerkId: id,
+        email: email_addresses[0].email_address,
+        firstName: first_name,
+        lastName: last_name,
+        userType: "EMPLOYER",
+        profilePicture: profile_image_url,
+      },
+    });
+  }
+  if (evt.type === "user.updated") {
+    const user = await client.user.update({
+      where: { clerkId: id }, 
+      data: {
+        email: email_addresses[0].email_address,
+        firstName: first_name,
+        lastName: last_name,
+        profilePicture: profile_image_url,
+      },
+    });
+  }
+  if (evt.type === "user.deleted") {
+    const user = await client.user.delete({
+      where: {
+        clerkId: id, 
+      },
+    });
+  }
+
+  
+  return new Response('Webhook received', { status: 200 });
+}
