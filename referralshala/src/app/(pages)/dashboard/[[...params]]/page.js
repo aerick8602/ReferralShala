@@ -1,5 +1,6 @@
 'use client'
-export default function DashboardPage(){
+export default async function DashboardPage(){
+
     return (
       <div>
         <h1>Candidate Dashboard Page</h1>

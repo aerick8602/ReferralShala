@@ -11,10 +11,10 @@ export default function Navbar() {
             <Link href="/auth/sign-in" className="nav-link">
               Login
             </Link>
-            <Link href="/auth/sign-up" className="nav-link">
+            <Link href="auth/sign-up/candidate" className="nav-link">
               Candidate Sign-up
             </Link>
-            <Link href="/auth/sign-up" className="nav-link">
+            <Link href="auth/sign-up/employer" className="nav-link">
               Employer Sign-up
             </Link>
         </div>
