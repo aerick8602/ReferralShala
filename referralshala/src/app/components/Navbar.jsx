@@ -1,13 +1,13 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { SignOutButton } from '@clerk/nextjs';
-import { useUser } from '@clerk/clerk-react';
+import { SignedIn, SignOutButton } from '@clerk/nextjs';
+import { SignedOut, useUser } from '@clerk/clerk-react';
 import '../styles/Navbar.css'
 
 export default function Navbar() {
-  const [userType, setUserType] = useState(null);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const [userType, setUserType] = useState('CANDIDATE');
+
 
   useEffect(() => {
     const storedUserType = localStorage.getItem('userType');
@@ -26,14 +26,13 @@ export default function Navbar() {
       <div className="nav-icon">
         <strong>ReferralShala</strong>
       </div>
-      {isSignedIn ? (
-        <div className="nav-links-container">
-          <SignOutButton redirectUrl='/'>
+      <SignedIn>
+      <SignOutButton>
             <button className="nav-link">Sign Out</button>
-          </SignOutButton>
-        </div>
-      ) : (
-        <div className="nav-links-container">
+      </SignOutButton>
+      </SignedIn>
+      <SignedOut>
+      <div className="nav-links-container">
           <Link href="/auth/sign-in" className="nav-link">
             Login
           </Link>
@@ -52,7 +51,7 @@ export default function Navbar() {
             Employer Sign-up
           </Link>
         </div>
-      )}
+      </SignedOut>
     </div>
   );
 }

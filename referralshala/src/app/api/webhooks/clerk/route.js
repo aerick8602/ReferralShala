@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import client from '../../../../connection/prisma';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -60,6 +61,7 @@ export async function POST(req) {
         },
       })
     }
+    return NextResponse.redirect("/profile")
 
   // Handle user.update event
   if (eventType === "user.updated") {

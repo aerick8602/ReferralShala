@@ -7,7 +7,7 @@ import {
 } from '@clerk/nextjs'
 import "./globals.css";
 import { HashLoader } from "react-spinners";
-
+import Navbar from "./components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
             <HashLoader />
           </ClerkLoading>
           <ClerkLoaded>
-
+          <Navbar></Navbar>
             {children}
 
             

@@ -1,7 +1,6 @@
 'use client'
 
 import { useUser } from "@clerk/nextjs";
-import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -49,7 +48,6 @@ export default function ProfilePage(){
   
     return (
       <div>
-        <Navbar></Navbar>
         <h1>Hii!! {user?.firstName} </h1>
         <p>Welcome to your Profile page!</p>
       </div>
