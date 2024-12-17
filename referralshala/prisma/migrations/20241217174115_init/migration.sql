@@ -2,7 +2,8 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "userId" TEXT NOT NULL,
-    "userData" JSONB NOT NULL,
+    "userType" TEXT NOT NULL DEFAULT 'candidate',
+    "userData" JSONB,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

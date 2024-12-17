@@ -1,24 +1,26 @@
 'use client';
 
 import { useUser } from "@clerk/nextjs";
+import Navbar from "../../components/Navbar";
 import { HashLoader } from "react-spinners";
 
 export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
 
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <HashLoader size={50} color="#8A2BE2" />
+      </div>
+    );
+  }
   return (
-    <div>
-      {!isLoaded ? (
-        <div className="flex items-center justify-center h-screen">
-          <HashLoader color="#36d7b7" size={80} />
+    <>
+        <Navbar />
+        <div className="flex flex-col justify-center items-center min-h-screen">
+          <p className="text-xl">Hello {user.fullName}. Here's your Dashboard</p>
         </div>
-      ) : (
-        <>
-          {/* Content after user is loaded */}
-          <h1>Hii!! {user?.firstName}</h1>
-          <p>Welcome to your Dashboard</p>
-        </>
-      )}
-    </div>
+       </>
+   
   );
 }

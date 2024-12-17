@@ -1,27 +1,29 @@
 'use client';
-
-import { SignedIn, SignedOut, useAuth } from '@clerk/nextjs';
+import { useUser } from "@clerk/nextjs";
+import Navbar from "./components/Navbar";
 import { HashLoader } from 'react-spinners';
 
 export default function Home() {
-  const { isLoaded } = useAuth();
+  const { isSignedIn, user, isLoaded } = useUser();
+
+  if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <HashLoader size={50} color="#8A2BE2" />
+      </div>
+    );
+  }
 
   return (
-    <div>
-      {!isLoaded ? (
-        <div className="flex items-center justify-center h-screen">
-          <HashLoader color="#36d7b7" size={80} />
-        </div>
+   <>
+    <Navbar />
+    <div className="flex flex-col justify-center items-center min-h-screen">
+      {isSignedIn ? (
+        <p className="text-xl">Hello {user.fullName}!</p>
       ) : (
-        <>
-          <SignedIn>
-            <p>Hii</p>
-          </SignedIn>
-          <SignedOut>
-            <p>You are not signed in. Please sign in to view your data.</p>
-          </SignedOut>
-        </>
+        <p className="text-xl">Home</p>
       )}
     </div>
+   </>
   );
 }

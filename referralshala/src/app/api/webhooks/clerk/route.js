@@ -47,20 +47,36 @@ export async function POST(req) {
   }
 
   // Extract event data
-  const {id} = evt.data
+  const {id,unsafe_metadata} = evt.data
   const eventType = evt.type
     console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
     console.log('Webhook payload:', payload)
 
   // Handle user.created event
   if (eventType === 'user.created') {
-      const newUser = await client.user.create({
+    const newUser = await client.user.create({
+      data: {
+        userId: id,
+        userType: unsafe_metadata.userType,
+        userData: payload.data,
+      },
+    });
+    console.log("newUser :", newUser);
+
+    if (unsafe_metadata.userType === "employer") {
+      await client.employer.create({
         data: {
-          userId: id,  
-          userData: payload,
+          userId: newUser.id,
         },
-      })
+      });
+    } else if (unsafe_metadata.userType === "candidate") {
+      await client.candidate.create({
+        data: {
+          userId: newUser.id,
+        },
+      });
     }
+  }
   // Handle user.update event
   if (eventType === "user.updated") {
       const updatedUser = await client.user.update({
