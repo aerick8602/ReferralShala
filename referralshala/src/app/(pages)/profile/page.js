@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function ProfilePage(){
   const { isSignedIn, user, isLoaded } = useUser();
