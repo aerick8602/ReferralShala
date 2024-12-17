@@ -28,7 +28,7 @@ export default function Navbar() {
       </div>
       {isSignedIn ? (
         <div className="nav-links-container">
-          <SignOutButton>
+          <SignOutButton redirectUrl='/'>
             <button className="nav-link">Sign Out</button>
           </SignOutButton>
         </div>
