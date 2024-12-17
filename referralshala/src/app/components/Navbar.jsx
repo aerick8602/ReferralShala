@@ -38,14 +38,14 @@ export default function Navbar() {
             Login
           </Link>
           <Link
-            href="/auth/sign-up/candidate"
+            href="/auth/sign-up"
             className="nav-link"
             onClick={() => handleUserTypeChange('CANDIDATE')}
           >
             Candidate Sign-up
           </Link>
           <Link
-            href="/auth/sign-up/employer"
+            href="/auth/sign-up"
             className="nav-link"
             onClick={() => handleUserTypeChange('EMPLOYER')}
           >
