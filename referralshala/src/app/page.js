@@ -1,10 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { SignedIn, SignedOut } from '@clerk/nextjs';
 import Navbar from './components/Navbar';
-import { useUser } from '@clerk/clerk-react';
-import axios from 'axios';
+
 
 
 export default function  Home() {

@@ -2,6 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import Navbar from "../../components/Navbar";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage(){
   const { isSignedIn, user, isLoaded } = useUser();
