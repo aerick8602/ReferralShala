@@ -20,13 +20,13 @@ export default function ProfilePage(){
     };
   
     const createUserInTable = async () => {
-      if (userType && user.id) {
+      if (userType && userData.id) {
         try {
           const table = userType === 'CANDIDATE' ? 'candidate' : 'employer';
           const response = await axios.post(`/api/${table}`, {
             userId: userData.id,
           });
-          console.log(`${table} created for user ${user.id}`);
+          console.log(`${table} created for user ${userData.id}`);
         } catch (err) {
           console.log("Error creating user in table:", err.message);
         }
