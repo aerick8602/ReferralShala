@@ -8,7 +8,7 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 
 
-export default function Home() {
+export default async function  Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userType, setUserType] = useState(null);
   const [userData, setUserData] = useState({});
