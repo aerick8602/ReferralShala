@@ -61,8 +61,6 @@ export async function POST(req) {
         },
       })
     }
-    return NextResponse.redirect("/profile")
-
   // Handle user.update event
   if (eventType === "user.updated") {
       const updatedUser = await client.user.update({

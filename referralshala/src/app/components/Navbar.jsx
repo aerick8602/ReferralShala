@@ -6,7 +6,7 @@ import { SignedOut, useUser } from '@clerk/clerk-react';
 import '../styles/Navbar.css'
 
 export default function Navbar() {
-  const [userType, setUserType] = useState('CANDIDATE');
+  const [userType, setUserType] = useState(null);
 
 
   useEffect(() => {
