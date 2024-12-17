@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
 import client from "../../../connection/prisma";
 
-
-export async function GET() {
+export async function POST(req) {
+  const { userId } = await req.json();
+  console.log("Attempting to create candidate with userId:", userId);
   try {
-    const employers = await client.employer.findMany();
-
-    return NextResponse.json(employers, { status: 200 });
+    const newUser = await client.employer.create({
+      data: {
+        userId,
+      },
+    });
+    console.log("New user created:", newUser);
+    return NextResponse.json({ success: true, data: newUser }, { status: 201 });
   } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        error:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong while fetching the referrals.",
-      }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return NextResponse.json({ success: false, message: "Failed to create candidate." }, { status: 500 });
   }
 }

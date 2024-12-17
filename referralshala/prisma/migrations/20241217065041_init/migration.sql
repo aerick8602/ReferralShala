@@ -1,16 +1,8 @@
--- CreateEnum
-CREATE TYPE "UserType" AS ENUM ('CANDIDATE', 'EMPLOYER');
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "clerkId" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "firstName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
-    "userType" "UserType" NOT NULL,
-    "contactNumber" VARCHAR(15),
-    "profilePicture" TEXT,
+    "userId" TEXT NOT NULL,
+    "userData" JSONB NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -86,10 +78,7 @@ CREATE TABLE "Referral" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_clerkId_key" ON "User"("clerkId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_userId_key" ON "User"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Candidate_user_id_key" ON "Candidate"("user_id");

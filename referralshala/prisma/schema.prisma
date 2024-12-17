@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,22 +14,17 @@ datasource db {
 }
 
 model User {
-  id              Int         @id @default(autoincrement())
-  clerkId         String      @unique
-  email           String      @unique
-  firstName       String
-  lastName        String
-  userType        UserType
-  contactNumber   String?     @db.VarChar(15)
-  profilePicture  String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id          Int       @id @default(autoincrement())
+  userId     String    @unique                      
+  userData    Json?                                      
+  createdAt   DateTime  @default(now())               
+  updatedAt   DateTime  @updatedAt                    
 
   // Relations
-  candidate       Candidate?  @relation("UserToCandidate")
-  employer        Employer?   @relation("UserToEmployer")
-  educations      Education[] 
-  experiences     Experience[]
+  candidate   Candidate? @relation("UserToCandidate")
+  employer    Employer?  @relation("UserToEmployer")
+  educations  Education[]
+  experiences Experience[]
 }
 
 model Candidate {
@@ -41,8 +42,8 @@ model Candidate {
 model Employer {
   id              Int         @id @default(autoincrement())
   userId          Int         @unique @map("user_id")
-  companyName     String?      @map("company_name") @db.VarChar(255)
-  jobRole         String?      @map("job_role") @db.VarChar(255)
+  companyName     String?     @map("company_name") @db.VarChar(255)
+  jobRole         String?     @map("job_role") @db.VarChar(255)
   location        String?     @db.VarChar(255)
   referrals       Referral[]
   createdAt       DateTime    @default(now())
@@ -57,10 +58,10 @@ model Education {
   userId            Int       @map("user_id")
   instituteName     String    @map("institute_name") @db.VarChar(255)
   degree            String    @db.VarChar(255)
-  specialization    String   @db.VarChar(255)
+  specialization    String    @db.VarChar(255)
   startYear         Int
   endYear           Int
-  percentageOrCgpa  Decimal  @map("percentage_or_cgpa") @db.Decimal(5, 2)
+  percentageOrCgpa  Decimal   @map("percentage_or_cgpa") @db.Decimal(5, 2)
   createdAt         DateTime  @default(now())
 
   // Relations
@@ -86,7 +87,7 @@ model Referral {
   employerId      Int       @map("employer_id")
   jobTitle        String    @map("job_title") @db.VarChar(255)
   jobDescription  String?   @map("job_description")
-  jobLink         String?    @map("job_link")
+  jobLink         String?   @map("job_link")
   location        String?   @db.VarChar(255)
   postedAt        DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -96,9 +97,4 @@ model Referral {
 
   @@index([jobTitle], name: "idx_job_title")
   @@index([employerId], name: "idx_employer_referral")
-}
-
-enum UserType {
-  CANDIDATE
-  EMPLOYER
 }
