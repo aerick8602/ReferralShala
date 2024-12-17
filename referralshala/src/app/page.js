@@ -5,10 +5,9 @@ import { SignedIn, SignedOut } from '@clerk/nextjs';
 import Navbar from './components/Navbar';
 import { useUser } from '@clerk/clerk-react';
 import axios from 'axios';
-import { redirect } from 'next/navigation';
 
 
-export default async function  Home() {
+export default function  Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userType, setUserType] = useState(null);
   const [userData, setUserData] = useState({});
@@ -20,7 +19,6 @@ export default async function  Home() {
       setLoading(true);
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
-      console.log("Fetched user data:", response.data.data);
       setError(null);
     } catch (err) {
       console.error("Error fetching user data:", err.message);
@@ -56,9 +54,6 @@ export default async function  Home() {
 
   useEffect(() => {
     createUserInTable();
-    if (userType && userData.id) {
-      redirect(`/profile/${userType.toLowerCase()}/${userData.id}`);
-    }
   }, [userData]);
 
   return (
