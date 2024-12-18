@@ -2,11 +2,15 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import Navbar from '../../components/Navbar';
+import Navbar from '../../../components/Navbar';
 import { HashLoader } from "react-spinners";
 import axios from 'axios';
+import { useParams } from "next/navigation";
 
 export default function ProfilePage() {
+  const {params}=useParams();
+  // const id=params[0];
+  // console.log(id);
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [Loading, setLoading] = useState(true);
@@ -24,6 +28,7 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
+    
     fetchUserData();
   }, [user]);
 

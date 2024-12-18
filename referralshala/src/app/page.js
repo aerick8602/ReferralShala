@@ -2,9 +2,13 @@
 import { useUser } from "@clerk/nextjs";
 import Navbar from "./components/Navbar";
 import { HashLoader } from 'react-spinners';
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
+  if(isSignedIn){
+    redirect('/dashboard');
+  }
 
   if (!isLoaded) {
     return (

@@ -1,3 +1,4 @@
+- project_structure.text
 - referralshala
   - .env
   - .gitignore
@@ -10,6 +11,10 @@
   - prisma
     - migrations
       - 20241217174115_init
+        - migration.sql
+      - 20241218090336_init
+        - migration.sql
+      - 20241218105713_init
         - migration.sql
       - migration_lock.toml
     - schema.prisma
@@ -36,11 +41,15 @@
             - route.js
       - auth
         - sign-in
-          - [[...sign-in]]
+          - [[...]]
             - page.js
         - sign-up
-          - [[...sign-up]]
-            - page.js
+          - candidate
+            - [[...]]
+              - page.js
+          - employer
+            - [[...]]
+              - page.js
       - components
         - Navbar.jsx
       - favicon.ico
