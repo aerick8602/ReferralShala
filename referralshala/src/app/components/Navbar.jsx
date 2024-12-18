@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
 import '../styles/Navbar.css';
-import { redirect } from 'next/navigation';
 
 export default function Navbar() {
   return (
@@ -11,23 +10,25 @@ export default function Navbar() {
         ReferralShala
       </div>
       <SignedIn>
-        <button onClick={()=>{redirect('/')}}><SignOutButton ></SignOutButton></button>
+        <SignOutButton className="nav-link">
+          <button
+            onClick={() => {
+              window.location.href = '/';
+            }}
+          >
+            Sign Out
+          </button>
+        </SignOutButton>
       </SignedIn>
       <SignedOut>
-      <div className="nav-links-container">
+        <div className="nav-links-container">
           <Link href="/auth/sign-in" className="nav-link">
             Login
           </Link>
-          <Link
-            href="/auth/sign-up/candidate"
-            className="nav-link"
-          >
+          <Link href="/auth/sign-up/candidate" className="nav-link">
             Candidate Sign-up
           </Link>
-          <Link
-            href="/auth/sign-up/employer"
-            className="nav-link"
-          >
+          <Link href="/auth/sign-up/employer" className="nav-link">
             Employer Sign-up
           </Link>
         </div>

@@ -1,7 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import client from '../../../../connection/prisma';
-import { NextResponse } from 'next/server';
+
 
 export async function POST(req) {
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -52,6 +52,11 @@ export async function POST(req) {
     console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
     console.log('Webhook payload:', payload)
 
+
+
+
+
+
   // Handle user.created event
   if (eventType === 'user.created') {
     const newUser = await client.user.create({
@@ -65,15 +70,11 @@ export async function POST(req) {
 
     if (unsafe_metadata.userType === "employer") {
       await client.employer.create({
-        data: {
-          userId: newUser.id,
-        },
+        data: {userId: newUser.id}
       });
     } else if (unsafe_metadata.userType === "candidate") {
       await client.candidate.create({
-        data: {
-          userId: newUser.id,
-        },
+        data: {userId: newUser.id}
       });
     }
   }
