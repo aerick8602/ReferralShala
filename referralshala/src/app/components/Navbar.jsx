@@ -24,12 +24,15 @@ export default function Navbar({ setShowSignIn }) {
         </SignedIn>
         <SignedOut>
           <div className="button-group">
-            <button
+            {/* <button
               className="login-button"
               onClick={() => setShowSignIn(true)}
             >
               Login
-            </button>
+            </button> */}
+             <Link href="/auth/sign-in" className="login-button">
+              Login
+            </Link>
             <Link href="/auth/sign-up/candidate" className="signup">
               Candidate Sign-up
             </Link>
