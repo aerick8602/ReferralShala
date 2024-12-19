@@ -1,40 +1,65 @@
+
 .nav-main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 40px;
-  background-color: #8A2BE2;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  padding: 0px 30px;
+  background-color:#D5EEFE;
 }
 
-.nav-icon {
-  font-size: 1.75rem;
-  font-weight: bold;
-  font-family:monospace;
+.brand-icon {
+  padding: 0px;
+  margin: 0px;
+  width: 300px;
 }
 
-.nav-links-container {
+.sign-out-button {
+  padding: 8px 12px;
+  background-color: #56b3f1;
+  border-radius: 5px;
+  color: #D5EEFE;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border:1px solid #56b3f1;
+}
+
+.sign-out-button:hover {
+  color:#56b3f1;
+  background-color: #D5EEFE;
+  border:1px solid #56b3f1;
+}
+
+.button-group {
   display: flex;
-  gap: 20px;
+  gap: 16px;
 }
 
-.nav-link {
-  background-color: white;
-  color: #8A2BE2;
-  padding: 5px 15px;
-  border-radius: 10px;
-  font-weight: 500;
+.login-button,
+.signup{
+  padding: 8px 12px;
+  border-radius: 5px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  border: 2px solid;
-  font-family:monospace;
-  font-size: 1rem;
+  color:white;
+  transition: background-color 0.3s ease;
 }
 
-.nav-link:hover {
-  background-color: #8A2BE2;
-  color:white;
-  border-color: white;
+.login-button {
+  color: #56b3f1;
+  border: 1px solid #56b3f1;
+}
+
+.login-button:hover {
+  background-color: #56b3f1;
+  color: #D5EEFE;
+}
+
+.signup {
+  background-color: #56b3f1;
+  border:1px solid #56b3f1;
+}
+
+.signup:hover {
+  color:#56b3f1;
+  background-color: #D5EEFE;
+  border:1px solid #56b3f1;
 }

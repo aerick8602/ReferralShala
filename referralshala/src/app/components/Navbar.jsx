@@ -1,37 +1,44 @@
 'use client';
 import Link from 'next/link';
 import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
-import '../styles/Navbar.css';
-export default function Navbar() {
+import "../styles/Navbar.css";
+
+export default function Navbar({ setShowSignIn }) {
   return (
     <div className="nav-main">
-      <div className="nav-icon">
-        ReferralShala
+      <div className="brand-icon">
+        <img src="/ReferralShala.png"></img>
       </div>
-      <SignedIn>
-        <SignOutButton className="nav-link">
-          <button
-            onClick={() => {
-              window.location.href = '/';
-            }}
-          >
-            Sign Out
-          </button>
-        </SignOutButton>
-      </SignedIn>
-      <SignedOut>
-        <div className="nav-links-container">
-          <Link href="/auth/sign-in" className="nav-link">
-            Login
-          </Link>
-          <Link href="/auth/sign-up/candidate" className="nav-link">
-            Candidate Sign-up
-          </Link>
-          <Link href="/auth/sign-up/employer" className="nav-link">
-            Employer Sign-up
-          </Link>
-        </div>
-      </SignedOut>
+      <div>
+        <SignedIn>
+          <SignOutButton>
+            <button
+              className="sign-out-button"
+              onClick={() => {
+                window.location.href = '/';
+              }}
+            >
+              Sign Out
+            </button>
+          </SignOutButton>
+        </SignedIn>
+        <SignedOut>
+          <div className="button-group">
+            <button
+              className="login-button"
+              onClick={() => setShowSignIn(true)}
+            >
+              Login
+            </button>
+            <Link href="/auth/sign-up/candidate" className="signup">
+              Candidate Sign-up
+            </Link>
+            <Link href="/auth/sign-up/employer" className="signup">
+              Employer Sign-up
+            </Link>
+          </div>
+        </SignedOut>
+      </div>
     </div>
   );
 }
