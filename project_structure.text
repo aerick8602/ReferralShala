@@ -31,9 +31,27 @@
         - dashboard
           - page.js
         - profile
-          - page.js
+          - [[...params]]
+            - page.js
       - api
+        - referral
+          - route.js
+          - [employerId]
+            - route.js
         - user
+          - profile
+            - [Id]
+              - candidate
+                - route.js
+              - education
+                - [educationId]
+                  - route.js
+              - employer
+                - route.js
+              - experience
+                - [experienceId]
+                  - route.js
+              - route.js
           - [userId]
             - route.js
         - webhooks
@@ -58,6 +76,8 @@
       - page.js
       - styles
         - Navbar.css
+      - utils
+        - formatedata.js
     - connection
       - neon.js
       - prisma.js

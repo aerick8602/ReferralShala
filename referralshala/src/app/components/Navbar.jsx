@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
 import '../styles/Navbar.css';
-
 export default function Navbar() {
   return (
     <div className="nav-main">
