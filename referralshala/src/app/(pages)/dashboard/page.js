@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { HashLoader } from "react-spinners";
 import axios from 'axios';
 
@@ -30,19 +31,20 @@ export default function DashboardPage() {
   if (!isLoaded || !isSignedIn || Loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
-        <HashLoader size={50} color="#8A2BE2" />
+        <HashLoader size={35} color="#fe5757" />
       </div>
     );
   }
 
   return (
     <>
-      <Navbar />
+      <Navbar user={user} />
       <div className="flex flex-col justify-center items-center min-h-screen">
         <p className="text-xl">
           Hello {user?.firstName || "User"}. Here's your Dashboard. You are a {userData.userType}.
         </p>
       </div>
+      <Footer></Footer>
     </>
   );
 }

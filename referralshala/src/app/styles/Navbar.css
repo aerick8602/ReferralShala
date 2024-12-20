@@ -1,65 +1,87 @@
-
 .nav-main {
+  position: fixed;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 30px;
-  background-color:#D5EEFE;
+  padding: 0 40px 0 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
 }
 
-.brand-icon {
-  padding: 0px;
-  margin: 0px;
-  width: 300px;
+.strip-message {
+  height: 30px;
+  background: linear-gradient(to right, #fe3c3c, #fe5757, #fc6969);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 13px;
+  font-stretch:extra-expanded;
+  font-weight: 500;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+}
+
+.brand-icon img {
+  max-height: 70px;
 }
 
 .sign-out-button {
   padding: 8px 12px;
-  background-color: #56b3f1;
+  background-color: #fe5757;
   border-radius: 5px;
-  color: #D5EEFE;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border:1px solid #56b3f1;
+  border: 1px solid #fe5757;
 }
 
 .sign-out-button:hover {
-  color:#56b3f1;
-  background-color: #D5EEFE;
-  border:1px solid #56b3f1;
+  color: #56b3f1;
+  border: 1px solid #fe5757;
 }
 
 .button-group {
   display: flex;
-  gap: 16px;
+  gap: 15px;
 }
 
 .login-button,
-.signup{
-  padding: 8px 12px;
-  border-radius: 5px;
+.signup-button {
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  border-radius: 10px;
   text-decoration: none;
-  color:white;
+  font-weight: 500;
+  color: white;
   transition: background-color 0.3s ease;
 }
 
 .login-button {
-  color: #56b3f1;
-  border: 1px solid #56b3f1;
+  color: #fe5757;
+  border: 2px solid #fe5757;
 }
 
 .login-button:hover {
-  background-color: #56b3f1;
-  color: #D5EEFE;
+  background-color: #fe5757;
+  color: white;
 }
 
-.signup {
-  background-color: #56b3f1;
-  border:1px solid #56b3f1;
+.signup-button {
+  background-color: #fe5757;
+  border: 2px solid #fe5757;
 }
 
-.signup:hover {
-  color:#56b3f1;
-  background-color: #D5EEFE;
-  border:1px solid #56b3f1;
+.signup-button:hover {
+  color: #fe5757;
+  background-color: white;
 }

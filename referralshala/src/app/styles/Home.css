@@ -11,12 +11,29 @@
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease;
+    margin: 50px;
+    height: 60vh;
+  }
+
+  .Home.blur-slight {
+    filter: blur(1px);
+    transition: filter 0.3s ease-in-out;
   }
   
   .main-content.blur {
-    filter: blur(8px);
+    filter: blur(.1px);
   }
   
+  .content{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 500px;
+  }
+
+  .about{
+    width: 80%;
+  }
   .home-text {
     font-size: 1.25rem;
   }
@@ -27,7 +44,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     z-index: 50;
   }
   
+
+  .greet{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#493031;
+  }
+
+  .greet h1{
+    font-size:3rem;
+    font-weight: bolder;
+  }
+  .greet p{
+    font-size: 1.2rem;
+  }

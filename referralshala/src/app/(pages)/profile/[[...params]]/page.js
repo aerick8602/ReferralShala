@@ -36,7 +36,7 @@
 //   if (!isLoaded || !isSignedIn || Loading) {
 //     return (
 //       <div className="flex flex-col justify-center items-center min-h-screen">
-//         <HashLoader size={50} color="#8A2BE2" />
+//         <HashLoader size={35} color="#8A2BE2" />
 //       </div>
 //     );
 //   }
