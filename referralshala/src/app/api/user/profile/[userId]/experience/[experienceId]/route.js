@@ -2,18 +2,18 @@ import { NextResponse } from "next/server";
 import client from "../../../../../../../connection/prisma";
 
 export async function PUT(req, { params }) {
-  const { Id, experienceId } = await params;
+  const { userId, experienceId } = await params;
   const body = await req.json();
   
-  console.log("User ID:", Id);
-  console.log("Experience ID:", experienceId);
+  console.log("userId:", userId);
+  console.log("Experience userId:", experienceId);
   console.log("Body:", body);
 
   try {
     const updatedEdexperience = await client.experience.update({
       where: { 
-        id: parseInt(experienceId), 
-        userId: parseInt(Id),
+        userId: parseInt(experienceId), 
+        userId: parseInt(userId),
       },
       data: {
         ...body,
@@ -26,7 +26,7 @@ export async function PUT(req, { params }) {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: `Error updating experience with ID ${experienceId}.` },
+      { success: false, message: `Error updating experience with userId ${experienceId}.` },
       { status: 500 }
     );
   }

@@ -17,7 +17,6 @@ export default function DashboardPage() {
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
     } catch (err) {
-      console.error("Error fetching user data:", err.message);
     } finally {
       setLoading(false); 
     }
@@ -38,7 +37,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar user={user} />
+      <Navbar/>
       <div className="flex flex-col justify-center items-center min-h-screen">
         <p className="text-xl">
           Hello {user?.firstName || "User"}. Here's your Dashboard. You are a {userData.userType}.

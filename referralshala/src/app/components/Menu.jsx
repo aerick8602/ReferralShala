@@ -9,10 +9,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { redirect } from 'next/navigation';
-import { SignOutButton } from '@clerk/nextjs';
+import { SignOutButton, useUser } from '@clerk/nextjs';
 
-export default function AccountMenu({user}) {
-  const Name=user.firstName.charAt(0).toUpperCase();
+export default function AccountMenu() {
+  const {user}=useUser();
+  const Name=user?.firstName.charAt(0).toUpperCase();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -84,15 +85,11 @@ export default function AccountMenu({user}) {
         <Divider />
 
         <MenuItem onClick={handleClose}>
+        <SignOutButton>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <SignOutButton>
-            <button
-              onClick={() => {
-                window.location.href = '/';
-              }}
-            >
+            <button>
               Logout
             </button>
           </SignOutButton> 

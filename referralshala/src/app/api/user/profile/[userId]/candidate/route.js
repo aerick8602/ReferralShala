@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 import client from "../../../../../../connection/prisma";
 
 export async function PUT(req, { params }) {
-  const {Id} = await params;
+  const {userId} = await params;
   const body = await req.json();
   
-  console.log("User ID:", Id);
+  console.log("userId:", userId);
   console.log("Body:", body);
 
   try {
-    const updatedEmployer = await client.employer.update({
+    const updatedCandidate = await client.candidate.update({
       where: { 
-        user_id: parseInt(Id),
+        user_id: parseInt(userId),
       },
       data: {
         ...body,
@@ -19,12 +19,12 @@ export async function PUT(req, { params }) {
     });
 
     return NextResponse.json(
-      { success: true, data: updatedEmployer },
+      { success: true, data: updatedCandidate },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: `Error updating Employer with ID ${Id}.` },
+      { success: false, message: `Error updating education with userId ${userId}.` },
       { status: 500 }
     );
   }

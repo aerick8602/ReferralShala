@@ -1,27 +1,43 @@
 'use client';
 import Link from 'next/link';
-import { SignedIn, SignedOut } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
+import { useState } from 'react';
 import "../styles/Navbar.css";
 import Menu from './Menu';
+import { redirect } from 'next/navigation';
 
+export default function Navbar() {
+  const [showSignIn, setShowSignIn] = useState(false);
 
-export default function Navbar({ setShowSignIn,user }) {
   return (
     <>
-      <div className="strip-message">Get exclusive job referrals from industry professionals!!  Sign up now and boost your career with ReferralShala....</div>
+      {showSignIn && (
+        <div
+          className="overlay"
+          onClick={() => setShowSignIn(false)}
+        >
+          <div className="sign-in-modal" onClick={(e) => e.stopPropagation()}>
+            <SignIn/>
+          </div>
+        </div>
+      )}
+
+      <div className="strip-message">
+        Get exclusive job referrals from industry professionals!! Sign up now and boost your career with ReferralShala....
+      </div>
       <div className="nav-main">
         <div className="brand-icon">
-          <img src="/logo.png" alt="Brand Logo" />
+          <img onClick={() => { redirect('/'); }} src="/logo.png" alt="Brand Logo" />
         </div>
         <div>
           <SignedIn>
-            <Menu user={user}/>
+            <Menu />
           </SignedIn>
           <SignedOut>
             <div className="button-group">
               <button
                 className="login-button"
-                onClick={() => setShowSignIn(true)}
+                onClick={() => setShowSignIn(true)} 
               >
                 Login
               </button>

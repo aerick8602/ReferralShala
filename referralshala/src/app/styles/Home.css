@@ -20,9 +20,6 @@
     transition: filter 0.3s ease-in-out;
   }
   
-  .main-content.blur {
-    filter: blur(.1px);
-  }
   
   .content{
     width: 100%;
@@ -38,15 +35,7 @@
     font-size: 1.25rem;
   }
   
-  .overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: 50;
-  }
+
   
 
   .greet{
@@ -54,7 +43,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color:#493031;
+    color:#4B2F31;
   }
 
   .greet h1{

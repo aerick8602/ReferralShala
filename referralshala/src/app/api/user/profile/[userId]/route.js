@@ -4,13 +4,12 @@ import formatUserData from "../../../../utils/formatedata";
 
 
 export async function GET(req, { params }) {
-  const { Id } = await params;
-  // console.log("User ID:", Id);
+  const { userId } = await params;
+  // console.log("userId:", userId);
   
-
   try {
     const profile = await client.user.findUnique({
-      where: { id: parseInt(Id) },
+      where: { userId: parseInt(userId) },
       include: {
         candidate: true,
         employer: true,
@@ -20,7 +19,7 @@ export async function GET(req, { params }) {
     });
     if (!profile) {
       return NextResponse.json(
-        { success: false, message: `Profile with ID ${Id} not found.` },
+        { success: false, message: `Profile with userId ${userId} not found.` },
         { status: 404 }
       );
     }
@@ -33,7 +32,7 @@ export async function GET(req, { params }) {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: `Error fetching profile with ID ${Id}.` },
+      { success: false, message: `Error fetching profile with userId ${userId}.` },
       { status: 500 }
     );
   }

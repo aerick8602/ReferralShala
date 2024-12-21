@@ -1,13 +1,15 @@
+'use client'
 import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import "../styles/Footer.css";
+import { redirect } from "next/navigation";
 
 const Footer = () => {
   return (
     <div className="footer">
       <div className="header">
         <div className="inner-header">
-          <h1 className="title">Connections That Lead to Opportunities</h1>
+          <h1 className="title">Where Growth Meets Opportunity</h1>
         </div>
         <div>
           <svg
@@ -37,9 +39,10 @@ const Footer = () => {
       <footer className="footer-content">
         <div className="footer-links">
         <div className="brand-icon">
-            <img src="/logo.png" alt="Brand Logo" />
+            <img onClick={()=>{redirect('/')}} src="/logo.png" alt="Brand Logo" />
             <p className="footer-about">
-            <strong><p>Why we started?</p></strong>
+            <strong>Why we started?</strong>
+            <br/>
             At <span className="brand-name">ReferraShala</span>, we believe that every individual deserves the opportunity to reach their full potential. Finding the right job or internship should not be a struggle, but a journey of growth and success. 
             <br/>
             Our mission is to bridge the gap between talent and opportunities by providing referrals that are tailored to your career goals. Whether it's location, industry, or role, ReferraShala is here to help you navigate the job market with confidence.
@@ -75,10 +78,10 @@ const Footer = () => {
         <strong><hr></hr><hr></hr></strong>
         <div className="bottom-section">
           <div className="footer-links-bottom">
-            <a href="#">About us</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Contact us</a>
-            <a href="#">Terms & Conditions</a>
+            <a href="/about_us">About us</a>
+            <a href="privacy_policy">Privacy Policy</a>
+            <a href="contact_us">Contact us</a>
+            <a href="terms_&_conditions">Terms & Conditions</a>
           </div>
 
           <div className="social-icons">

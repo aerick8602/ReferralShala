@@ -61,7 +61,7 @@ export async function POST(req) {
   if (eventType === 'user.created') {
     const newUser = await client.user.create({
       data: {
-        userId: id,
+        Id: id,
         userType: unsafe_metadata.userType,
         userData: payload.data,
       },
@@ -70,18 +70,18 @@ export async function POST(req) {
 
     if (unsafe_metadata.userType === "employer") {
       await client.employer.create({
-        data: {userId: newUser.id}
+        data: {userId: newUser.userId}
       });
     } else if (unsafe_metadata.userType === "candidate") {
       await client.candidate.create({
-        data: {userId: newUser.id}
+        data: {userId: newUser.userId}
       });
     }
   }
   // Handle user.update event
   if (eventType === "user.updated") {
       const updatedUser = await client.user.update({
-        where: { userId: id },
+        where: { Id: id },
         data: {
           userData: payload,
         },
@@ -91,7 +91,7 @@ export async function POST(req) {
   // Handle user.delete event
   if (eventType === "user.deleted") {
       const deletedUser = await client.user.delete({
-        where: { userId: id },
+        where: { Id: id },
       })
     }
     
