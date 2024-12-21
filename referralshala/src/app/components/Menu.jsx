@@ -89,7 +89,7 @@ export default function AccountMenu() {
             <Logout fontSize="small" />
           </ListItemIcon>
           <SignOutButton>
-            <button>
+            <button onClick={()=>{window.location.href='/'}}>
               Logout
             </button>
           </SignOutButton> 
