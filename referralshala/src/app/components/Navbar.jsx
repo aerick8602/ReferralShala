@@ -17,7 +17,7 @@ export default function Navbar() {
           onClick={() => setShowSignIn(false)}
         >
           <div className="sign-in-modal" onClick={(e) => e.stopPropagation()}>
-            <SignIn/>
+            <SignIn routing='hash'/>
           </div>
         </div>
       )}

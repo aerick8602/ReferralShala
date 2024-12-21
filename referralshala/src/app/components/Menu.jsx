@@ -44,6 +44,7 @@ export default function AccountMenu() {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
+        disableScrollLock 
         slotProps={{
           paper: {
             elevation: 0,
@@ -85,12 +86,13 @@ export default function AccountMenu() {
         <Divider />
 
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
+          
           <SignOutButton>
-            <button onClick={()=>{window.location.href='/'}}>
-              Logout
+            <button onClick={()=>{window.location.href='/'}} style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+            <ListItemIcon>
+            <Logout fontSize="small" />
+            </ListItemIcon>
+              <p>Logout</p>
             </button>
           </SignOutButton> 
           
