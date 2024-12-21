@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const [userData, setUserData] = useState({});
   const [Loading, setLoading] = useState(true);
 
-  const fetchUserData = async () => {
+  const fetchUserId = async () => {
     try {
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
@@ -23,7 +23,7 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchUserData();
+    fetchUserId();
   }, [user]);
   
 
