@@ -75,7 +75,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={()=>{redirect('/profile')}} style={{paddingLeft:'20px'}}>
+        <MenuItem onClick={()=>{redirect(`/profile/${9}`)}} style={{paddingLeft:'20px'}}>
         Profile
         </MenuItem>
 

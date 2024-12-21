@@ -23,7 +23,7 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     }
-
+ 
     const userDetails = formatUserData(profile);
 
     return NextResponse.json(
