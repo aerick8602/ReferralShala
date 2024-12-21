@@ -39,13 +39,13 @@ export default function ProfilePage(){
     //
     const deleteEducationData=async()=>{}
     //
-    const updateEducationData=async=()=>{}
+    const updateEducationData=async()=>{}
     //
     const addExperienceData=async()=>{}
     //
     const deleteExperienceData=async()=>{}
     //
-    const updateExperienceData=async=()=>{}
+    const updateExperienceData=async()=>{}
 
 
 
