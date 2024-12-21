@@ -14,7 +14,7 @@ export default function Page() {
   }, []);
   return (
    <>{loading?(
-    <div className="loader-container" style={{width:'100vw',height:'100vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
+    <div style={{width:'100vw',height:'100vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
     <HashLoader size={35} color="#fe5757" />
   </div>
   ):(
