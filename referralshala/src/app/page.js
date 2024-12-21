@@ -6,6 +6,7 @@ import './styles/Home.css';
 import { useUser } from '@clerk/nextjs';
 
 export default function Home() {
+  
   const { isSignedIn, user, isLoaded } = useUser();
   if (!isLoaded) {
     return (

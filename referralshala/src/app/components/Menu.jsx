@@ -85,10 +85,10 @@ export default function AccountMenu() {
         <Divider />
 
         <MenuItem onClick={handleClose}>
-        <SignOutButton>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
+          <SignOutButton>
             <button>
               Logout
             </button>
