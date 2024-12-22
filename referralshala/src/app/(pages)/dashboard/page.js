@@ -16,16 +16,17 @@ export default function DashboardPage() {
     try {
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
-      console.log("worked",userData);
+      
     } catch (err) {
     } finally {
+      console.log(userData);
       setLoading(false); 
     }
   };
 
   useEffect(() => {
     fetchUserId();
-  }, []);
+  },[]);
   
 
   if (!isLoaded || !isSignedIn || Loading) {
