@@ -11,7 +11,7 @@ import Logout from '@mui/icons-material/Logout';
 import { redirect } from 'next/navigation';
 import { SignOutButton, useUser } from '@clerk/nextjs';
 
-export default function AccountMenu() {
+export default function AccountMenu({userId}) {
   const {user}=useUser();
   const Name=user?.firstName.charAt(0).toUpperCase();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -76,7 +76,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={()=>{redirect(`/profile/${9}`)}} style={{paddingLeft:'20px'}}>
+        <MenuItem onClick={()=>{redirect(`/profile/${userId}`)}} style={{paddingLeft:'20px'}}>
         Profile
         </MenuItem>
 
@@ -101,4 +101,4 @@ export default function AccountMenu() {
       </Menu>
     </React.Fragment>
   );
-}
+} 

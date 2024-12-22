@@ -20,24 +20,188 @@ export default function ProfilePage(){
 
     const params=useParams();
     const userId=params.params[0];
-    // bas is userid ka use karke sare data se khelenge
+//   console.log(userId);
 
 
-    const fetchuserData=async()=> {}
-    // 
-    const fetchEducationData=async()=> {}
-    // 
-    const fetchExperienceData=async()=> {}
-    // 
-    const fetchCandidateData=async()=> {}
-    // 
-    const fetchEmployerData=async()=> {}
+
+    // fetching user data
+
+
+    const fetchuserData = async () => {
+        try {
+            const res = await fetch(`/api/user/profile/${userId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            const data = await res.json();
+            console.log(data); 
+        } catch (error) {
+            console.log("Error fetching user data:", error);
+        }
+    };
+
+    
+    // fetching user education
+
+
+    const fetchEducationData=async()=> {
+        try {
+            const res=await fetch(`/api/user/profile/${userId}/education`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            if (!res.ok) {
+                throw new Error(`HTTP error! in fetchEducation status: ${res.status}`);
+            }
+            const data = await res.json();
+            console.log(data); 
+        } catch (error) {
+            console.log("error fetching education data",error);
+        }
+    }
+
+
+    // fetching user experience
+
+
+    const fetchExperienceData=async()=> {
+            try {
+                const res=await fetch(`/api/user/profile/${userId}/experience`,{
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                if (!res.ok) {
+                    throw new Error(`HTTP error! in fetchexp status: ${res.status}`);
+                }
+                const data = await res.json();
+                console.log("exp fetched",data); 
+            } catch (error) {
+                console.log("error fetching exp data",error);
+            }
+    }
+
+
+    // fetching candidate data
+
+
+    const fetchCandidateData=async()=> {
+        try {
+            const res=await fetch(`/api/user/profile/${userId}/candidate`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            if (!res.ok) {
+                throw new Error(`HTTP error! in candidate status: ${res.status}`);
+            }
+            const data = await res.json();
+            console.log(data); 
+        } catch (error) {
+            console.log("error fetching candidate data",error);
+        }
+    }
+
+
+    // fetching employer data
+
+
+    const fetchEmployerData=async()=> {
+        try {
+            const res=await fetch(`/api/user/profile/${userId}/employer`,{
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            if (!res.ok) {
+                throw new Error(`HTTP error! in employer status: ${res.status}`);
+            }
+            const data = await res.json();
+            console.log(data); 
+        } catch (error) {
+            console.log("error fetching employer data",error);
+        }
+    }
+
+
+    // UPDATE USER DATA
+
+
+    const updateuserData=async(skills, resume)=>{
+            try {
+        
+              const requestBody = {
+                ...(skills !== undefined && { skills }),
+                ...(resume !== undefined && { resume }), 
+              };
+
+              const response = await fetch(`/api/user/profile/${userId}/candidate`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody),
+              });
+          
+              if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+          
+              const data = await response.json();
+              console.log("Update successful:", data);
+              return data; 
+            } catch (error) {
+              console.error("Error updating candidate:", error);
+              return null; 
+            }
+          };
+          const skills={ "primary": "Java,c++", "secondary": "Node.js,express.js" }
+          const resume="done done doneee"
+          updateuserData(null,null);
+
+
     //
-    const updateuserData=async()=>{}
-    //
+
+
     const addEducationData=async()=>{}
-    //
-    const deleteEducationData=async()=>{}
+
+
+    // DELETE EDUCATION 
+
+
+    const deleteEducationData=async(Eid)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/education/${Eid}`,{
+            method:"DELETE",
+            headers:{
+                "Content-Type": "application/json",
+            }
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.error("Error updating candidate:", error);
+            return null;
+        }
+    }
+        // deleteEducationData(3);
     //
     const updateEducationData=async()=>{}
     //
@@ -46,11 +210,6 @@ export default function ProfilePage(){
     const deleteExperienceData=async()=>{}
     //
     const updateExperienceData=async()=>{}
-
-
-
-
-
 
 
 
