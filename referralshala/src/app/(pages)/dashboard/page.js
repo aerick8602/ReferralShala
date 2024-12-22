@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar/>
+      <Navbar userId={userData.userId}/>
       <div className="flex flex-col justify-center items-center min-h-screen">
         <p className="text-xl">
           Hello {user?.firstName || "User"}. Here's your Dashboard. You are a {userData.userType}.

@@ -10,12 +10,12 @@ export async function GET(req, { params }) {
   try {
     const profile = await client.user.findUnique({
       where: { userId: parseInt(userId) },
-      include: {
-        candidate: true,
-        employer: true,
-        educations: true,
-        experiences: true,
-      },
+      // include: {
+      //   candidate: true,
+      //   employer: true,
+      //   educations: true,
+      //   experiences: true,
+      // },
     });
     if (!profile) {
       return NextResponse.json(
@@ -23,7 +23,7 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     }
- 
+    //  console.log('route.js',profile);
     const userDetails = formatUserData(profile);
 
     return NextResponse.json(

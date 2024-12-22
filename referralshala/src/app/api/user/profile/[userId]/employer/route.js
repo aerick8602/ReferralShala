@@ -29,3 +29,38 @@ export async function PUT(req, { params }) {
     );
   }
 }
+
+export async function GET(req, { params }) {
+  const { userId } = await params;
+  // console.log("userId:", userId);
+
+  if (!userId ) {
+      return NextResponse.json(
+          { success: false, message: "Invalid userId provided." },
+          { status: 400 }
+      );
+  }
+  
+  try {
+    const profile = await client.employer.findUnique({
+      where: { userId: parseInt(userId) },
+      
+    });
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, message: `candidate with userId ${userId} not found.` },
+        { status: 404 }
+      );
+    }
+  
+    return NextResponse.json(
+      { success: true, data: profile },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: `Error fetching candidate with userId ${userId}.` },
+      { status: 500 }
+    );
+  }
+}

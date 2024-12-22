@@ -31,3 +31,43 @@ export async function PUT(req, { params }) {
     );
   }
 }
+
+
+
+export async function DELETE(req, { params }) {
+  const { userId, educationId } =await params;
+
+  console.log("userId:", userId); 
+  console.log("educationId:", educationId);        
+
+  if (!userId || !educationId) {
+    return NextResponse.json(
+      { success: false, message: "Invalid userId or educationId provided." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const profile = await client.education.delete({
+      where: { educationId: parseInt(educationId) }, 
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, message: `Profile with userId ${userId} and educationId ${educationId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Deleted successfully." },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting education:", error);  
+    return NextResponse.json(
+      { success: false, message: `Error deleting profile with userId ${userId}.` },
+      { status: 500 }
+    );
+  }
+}

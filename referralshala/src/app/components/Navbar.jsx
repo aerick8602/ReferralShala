@@ -6,9 +6,10 @@ import "../styles/Navbar.css";
 import Menu from './Menu';
 import { redirect } from 'next/navigation';
 
-export default function Navbar() {
-  const [showSignIn, setShowSignIn] = useState(false);
 
+export default function Navbar({userId}) {
+  const [showSignIn, setShowSignIn] = useState(false);
+ 
   return (
     <>
       {showSignIn && (
@@ -31,7 +32,7 @@ export default function Navbar() {
         </div>
         <div>
           <SignedIn>
-            <Menu />
+            <Menu userId={userId} />
           </SignedIn>
           <SignedOut>
             <div className="button-group">
