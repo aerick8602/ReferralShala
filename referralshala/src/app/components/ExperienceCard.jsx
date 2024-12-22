@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import '../styles/ExperienceCard.css';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 16e4bb542f62375de7a58b366e335550cf0593d7
 const ExperienceCard = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     companyName: '',
