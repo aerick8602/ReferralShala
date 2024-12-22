@@ -63,8 +63,7 @@ export async function DELETE(req, { params }) {
       { success: true, message: "Deleted successfully." },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("Error deleting education:", error);  
+  } catch (error) { 
     return NextResponse.json(
       { success: false, message: `Error deleting profile with userId ${userId}.` },
       { status: 500 }

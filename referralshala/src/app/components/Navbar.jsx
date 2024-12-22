@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../styles/Navbar.css";
 import Menu from './Menu';
 import { redirect } from 'next/navigation';
@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 
 export default function Navbar({userId}) {
   const [showSignIn, setShowSignIn] = useState(false);
+  useEffect(()=>{console.log("USERID :",userId)},[])
  
   return (
     <>
