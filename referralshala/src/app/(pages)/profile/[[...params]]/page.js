@@ -4,6 +4,8 @@ import Navbar from "../../../components/Navbar";
 import "../../../styles/Profile.css"
 import Education from "../../../components/Education"
 import Experience from "../../../components/Experience"
+import ExperienceCard from "../../../components/ExperienceCard"
+import EducationCard from "../../../components/EducationCard"
 import { useParams } from "next/navigation";
 
 
@@ -19,7 +21,7 @@ export default function ProfilePage(){
 
 
     const params=useParams();
-    const userId=params.params[0];
+    const userId=params?.params[0];
     // bas is userid ka use karke sare data se khelenge
 
 
@@ -66,23 +68,10 @@ export default function ProfilePage(){
     
     return (
         <>
-        <Navbar/>
-        <div className="profile">
-            
-            <div className="personal-data">
-                {/* profile image,firstname,lastname,email,phone-number,DOB,location,social-link*/}
-            </div>
-            <div className="main-profile">
-                {/* Resume OR job-role,summary OR company-name,skills OR description,education,experience */}
-
-                {educationData?.map((edu)=>{
-                    return <Education data={edu}></Education>
-                })}
-                {experienceData?.map((exp)=>{
-                    return <Experience data={exp}></Experience>
-                })}
-            </div>
-        </div>
+        {/* <Navbar/> */}
+        <ExperienceCard></ExperienceCard>
+        <EducationCard></EducationCard>
+        
         </>
     )
 }

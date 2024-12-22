@@ -9,27 +9,32 @@ datasource db {
 
 model User {
   userId          Int       @id @default(autoincrement())
-  Id              String    @unique
+  id              String    @unique
   userType        String    @default("guest")
   userData        Json?
-  createdAt       DateTime? @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime? @updatedAt @db.Timestamp(0)
+  createdAt       DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt       DateTime  @updatedAt @db.Timestamp(0)
 
   candidate       Candidate? @relation("UserToCandidate")
   employer        Employer?  @relation("UserToEmployer")
   educations      Education[]
   experiences     Experience[]
+
+  @@index([id], name: "idx_user_id")
 }
 
 model Candidate {
   candidateId     Int         @id @default(autoincrement())
   userId          Int         @unique @map("user_id")
-  skills          Json?
+  skills          String[]
+  socialLinks     String[]    @map("social_links")
   resume          String?
   createdAt       DateTime?   @default(now()) @db.Timestamp(0)
   updatedAt       DateTime?   @updatedAt @db.Timestamp(0)
 
   user            User        @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_candidate_userId")
 }
 
 model Employer {
@@ -43,6 +48,8 @@ model Employer {
   updatedAt       DateTime?   @updatedAt @db.Timestamp(0)
 
   user            User        @relation("UserToEmployer", fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_employer_userId")
 }
 
 model Education {
@@ -50,13 +57,16 @@ model Education {
   userId          Int       @map("user_id")
   instituteName   String    @map("institute_name") @db.VarChar(255)
   degree          String    @db.VarChar(255)
-  specialization  String    @db.VarChar(255)
+  stream          String    @db.VarChar(255)
   startYear       Int
-  endYear         Int
-  percentageOrCgpa Decimal  @map("percentage_or_cgpa") @db.Decimal(5, 2)
-  createdAt       DateTime? @default(now()) @db.Timestamp(0)
+  endYear         Int?
+  isCurrentlyEducating Boolean  @map("is_currently_educating") @default(false)
+  grade           Json      @db.Json 
+  createdAt       DateTime  @default(now()) @db.Timestamp(0)
 
-  user            User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user            User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_education_userId")
 }
 
 model Experience {
@@ -64,12 +74,16 @@ model Experience {
   userId          Int       @map("user_id")
   companyName     String    @map("company_name") @db.VarChar(255)
   role            String    @db.VarChar(255)
+  location        String
   startYear       Int
-  endYear         Int
+  endYear         Int?
+  isCurrentlyEmployed Boolean  @map("is_currently_employed") @default(false) 
   description     String?
-  createdAt       DateTime? @default(now()) @db.Timestamp(0)
+  createdAt       DateTime  @default(now()) @db.Timestamp(0)
 
   user            User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_experience_userId")
 }
 
 model Referral {
@@ -79,7 +93,7 @@ model Referral {
   jobDescription  String?   @map("job_description")
   jobLink         String?   @map("job_link")
   location        String?   @db.VarChar(255)
-  postedAt        DateTime? @default(now()) @db.Timestamp(0)
+  postedAt        DateTime  @default(now()) @db.Timestamp(0)
   updatedAt       DateTime? @updatedAt @db.Timestamp(0)
 
   employer        Employer  @relation(fields: [employerId], references: [employerId], onDelete: Cascade)
