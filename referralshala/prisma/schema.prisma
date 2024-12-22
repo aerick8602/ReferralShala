@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   userId          Int       @id @default(autoincrement())
-  id              String    @unique
+  Id              String    @unique
   userType        String    @default("guest")
   userData        Json?
   createdAt       DateTime  @default(now()) @db.Timestamp(0)
@@ -26,7 +26,7 @@ model User {
   educations      Education[]
   experiences     Experience[]
 
-  @@index([id], name: "idx_user_id")
+  @@index([Id], name: "idx_user_id")
 }
 
 model Candidate {

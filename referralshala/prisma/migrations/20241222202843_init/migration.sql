@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "User" (
     "userId" SERIAL NOT NULL,
-    "id" TEXT NOT NULL,
+    "Id" TEXT NOT NULL,
     "userType" TEXT NOT NULL DEFAULT 'guest',
     "userData" JSONB,
     "createdAt" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -83,10 +83,10 @@ CREATE TABLE "Referral" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_id_key" ON "User"("id");
+CREATE UNIQUE INDEX "User_Id_key" ON "User"("Id");
 
 -- CreateIndex
-CREATE INDEX "idx_user_id" ON "User"("id");
+CREATE INDEX "idx_user_id" ON "User"("Id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Candidate_user_id_key" ON "Candidate"("user_id");
