@@ -16,6 +16,7 @@ export default function DashboardPage() {
     try {
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
+      console.log("worked",userData);
     } catch (err) {
     } finally {
       setLoading(false); 
@@ -24,7 +25,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchUserId();
-  }, [user]);
+  }, []);
   
 
   if (!isLoaded || !isSignedIn || Loading) {

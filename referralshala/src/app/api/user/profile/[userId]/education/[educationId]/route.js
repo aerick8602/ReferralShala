@@ -64,7 +64,7 @@ export async function DELETE(req, { params }) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting education:", error);  
+    console.log("Error deleting education:", error);  
     return NextResponse.json(
       { success: false, message: `Error deleting profile with userId ${userId}.` },
       { status: 500 }
