@@ -11,7 +11,7 @@ export default function Home() {
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
-  const [Loading, setLoading] = useState(true);
+  const [Loading, setLoading] = useState(false);
 
   const fetchUserId = async () => {
     try {
@@ -28,9 +28,12 @@ export default function Home() {
     if (isLoaded && isSignedIn && user) {
       fetchUserId();  
     }
-  }, [isLoaded, isSignedIn, user]); 
+    else{
+      setLoading(false);
+    }
+  }, []); 
 
-  if (!isLoaded || !isSignedIn || Loading) {
+  if (isSignedIn  && (!isLoaded || Loading)) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
         <HashLoader size={35} color="#fe5757" />
