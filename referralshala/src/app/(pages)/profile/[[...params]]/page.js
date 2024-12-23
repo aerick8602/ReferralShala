@@ -168,7 +168,7 @@ export default function ProfilePage(){
               return null; 
             }
           };
-          const skills={ "primary": "Java,c++", "secondary": "Node.js,express.js" }
+          const skills=["c++"]
           const resume="done done doneee"
           updateuserData(skills,resume);
 
