@@ -6,6 +6,7 @@ import Education from "../../../components/Education"
 import Experience from "../../../components/Experience"
 import ExperienceCard from "../../../components/ExperienceCard"
 import EducationCard from "../../../components/EducationCard"
+import PersonalCard from "../../../components/PersonalCard"
 import { useParams } from "next/navigation";
 
 
@@ -228,6 +229,7 @@ export default function ProfilePage(){
     return (
         <>
         {/* <Navbar/> */}
+        <PersonalCard></PersonalCard>
         <ExperienceCard></ExperienceCard>
         <EducationCard></EducationCard>
         

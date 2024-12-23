@@ -80,10 +80,10 @@ input[type="number"] {
 .edu-form-row {
   display: flex;
 }
-
+/* 
 .edu-form-row .edu-form-group {
   flex: 1;
-}
+} */
 
 .edu-form-row .edu-form-group input,
 .edu-form-row .edu-form-group select {

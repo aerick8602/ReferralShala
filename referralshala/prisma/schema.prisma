@@ -33,7 +33,7 @@ model Candidate {
   candidateId     Int         @id @default(autoincrement())
   userId          Int         @unique @map("user_id")
   skills          String[]
-  socialLinks     String[]    @map("social_links")
+  socialLinks     Json        @map("social_links")
   resume          String?
   createdAt       DateTime?   @default(now()) @db.Timestamp(0)
   updatedAt       DateTime?   @updatedAt @db.Timestamp(0)

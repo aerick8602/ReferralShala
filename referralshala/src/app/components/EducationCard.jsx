@@ -205,7 +205,7 @@ const EducationCard = ({ onSubmit }) => {
             </p>
           </div>
 
-          <div className="edu-form-row">
+          <div className="edu-form-row" style={{display:'flex',justifyContent:'space-between'}}>
             <div className="edu-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
@@ -225,7 +225,7 @@ const EducationCard = ({ onSubmit }) => {
             </div>
 
             {!formData.isCurrentlyEducating && (
-              <div className="edu-form-group" style={{ marginLeft: '70px' }}>
+              <div className="edu-form-group">
                 <label htmlFor="endYear">End Year (Optional)</label>
                 <input
                   style={{ width: '240px' }}

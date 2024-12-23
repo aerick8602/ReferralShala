@@ -7,13 +7,14 @@ export async function PATCH(req, { params }) {
   const { userId } = await params;
   const body = await req.json(); 
 
-  const { skills, resume } = body;
+  const { skills, resume,socialLinks } = body;
 
   try {
     
     const updateData = {
       ...(skills !== undefined && { skills }), 
       ...(resume !== undefined && { resume }), 
+      ...(socialLinks!= undefined && {socialLinks})
     };
 
     if (Object.keys(updateData).length === 0) {

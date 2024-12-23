@@ -15,7 +15,7 @@ CREATE TABLE "Candidate" (
     "candidateId" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
     "skills" TEXT[],
-    "social_links" TEXT[],
+    "social_links" JSONB NOT NULL,
     "resume" TEXT,
     "createdAt" TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(0),

@@ -126,17 +126,17 @@ const ExperienceCard = ({ onSubmit }) => {
             {errors.location && <p className={`error-text ${errors.location ? 'active' : ''}`}>{errors.location}</p>}
           </div>
 
-          <div className="exp-form-row">
+          <div className="exp-form-row" style={{display:'flex',justifyContent:'space-between',width:'100%'}}>
             <div className="exp-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
-                style={{ width: '234px' }}
+                style={{ width: '240px' }}
                 type="number"
                 id="startYear"
                 name="startYear"
                 value={formData.startYear}
                 onChange={handleChange}
-                placeholder="Enter start year"
+                placeholder="Enter start year YYYY"
                 required
                 min={years[years.length - 1]}
                 max={currentYear}
@@ -145,16 +145,16 @@ const ExperienceCard = ({ onSubmit }) => {
             </div>
 
             {!formData.isCurrentlyEmployed && (
-              <div className="exp-form-group" style={{ marginLeft: '79px' }}>
+              <div className="exp-form-group">
                 <label htmlFor="endYear">End Year (Optional)</label>
                 <input
-                  style={{ width: '234px' }}
+                  style={{ width: '240px' }}
                   type="number"
                   id="endYear"
                   name="endYear"
                   value={formData.endYear}
                   onChange={handleChange}
-                  placeholder="Enter end year"
+                  placeholder="Enter end year YYYY"
                   min={formData.startYear}
                   max={currentYear}
                 />
