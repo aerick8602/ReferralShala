@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/EducationCard.css';
+import { IoClose } from 'react-icons/io5';  // Import the close icon
+import '../../styles/EducationCard.css';
 
 const EducationCard = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -22,6 +23,8 @@ const EducationCard = ({ onSubmit }) => {
     endYear: '',
     grade: '',
   });
+
+  const [isOpen, setIsOpen] = useState(true); // State to control the overlay visibility
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 50 }, (_, i) => currentYear - i); // Generate years from current year to 50 years ago
@@ -144,11 +147,27 @@ const EducationCard = ({ onSubmit }) => {
     // Submit the form data
     onSubmit(formData);
   };
+
+  const closeCard = () => {
+    setIsOpen(false); // Close the overlay
+  };
+
+  if (!isOpen) return null; // Return nothing if the overlay is closed
+
   return (
     <div className="edu-model">
       <div className="edu-card">
+        <button
+          type="button"
+          className="edu-close-button"
+          onClick={closeCard} // Close card on click
+        >
+          <IoClose size={24} />
+        </button>
+
         <h2 className="edu-title">Education Details</h2>
         <form onSubmit={handleSubmit} className="edu-form">
+
           <div className="edu-form-group">
             <label htmlFor="instituteName">Institute Name</label>
             <input
@@ -309,7 +328,6 @@ const EducationCard = ({ onSubmit }) => {
               </div>
             )}
           </div>
-
           <button type="submit" className="edu-update-button">
             Update
           </button>

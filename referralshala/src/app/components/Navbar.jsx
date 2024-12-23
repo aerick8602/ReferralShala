@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 
 export default function Navbar({userId}) {
   const [showSignIn, setShowSignIn] = useState(false);
-  useEffect(()=>{console.log("USERID :",userId)},[])
+  useEffect(()=>{console.log("USERID in Navbar :",userId)},[])
  
   return (
     <>

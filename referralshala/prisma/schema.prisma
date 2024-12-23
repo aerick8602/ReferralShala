@@ -95,6 +95,7 @@ model Experience {
 model Referral {
   referralId      Int       @id @default(autoincrement())
   employerId      Int       @map("employer_id")
+  companyName     String    @map("company_name") @db.VarChar(255)
   jobTitle        String    @map("job_title") @db.VarChar(255)
   jobDescription  String?   @map("job_description")
   jobLink         String?   @map("job_link")

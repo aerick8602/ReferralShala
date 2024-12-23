@@ -4,9 +4,10 @@ import Navbar from "../../../components/Navbar";
 import "../../../styles/Profile.css"
 import Education from "../../../components/Education"
 import Experience from "../../../components/Experience"
-import ExperienceCard from "../../../components/ExperienceCard"
-import EducationCard from "../../../components/EducationCard"
-import PersonalCard from "../../../components/PersonalCard"
+import ExperienceCard from "../../../components/cards/ExperienceCard"
+import EducationCard from "../../../components/cards/EducationCard"
+import PersonalCard from "../../../components/cards/PersonalCard"
+import ReferralCard from "../../../components/cards/ReferralCard"
 import { useParams } from "next/navigation";
 
 
@@ -228,10 +229,16 @@ export default function ProfilePage(){
     
     return (
         <>
-        {/* <Navbar/> */}
+        <Navbar/>
+        <div className="profile">
+            <div className="personal-data"></div>
+            <div className="main-profile"></div>
+        </div>
+        {/* <ReferralCard></ReferralCard>
         <PersonalCard></PersonalCard>
         <ExperienceCard></ExperienceCard>
-        <EducationCard></EducationCard>
+        <EducationCard></EducationCard> */}
+
         
         </>
     )

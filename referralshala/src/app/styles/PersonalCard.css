@@ -1,26 +1,144 @@
+/* Hide number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .personal-card {
-    background-color: #ffffff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    transition: transform 0.2s ease-in-out;
+  z-index: 200;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(207, 207, 207, 0.5); 
+  height: 100vh;
+  backdrop-filter: blur(1px);
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.personal-card-container {
+  background-color: rgba(255, 255, 255, 1); 
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative; 
+  z-index: 300; 
+}
+
+.personal-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.personal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.personal-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.personal-form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  /* margin-bottom: 0.3rem; */
+}
+
+.personal-form-group input {
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.personal-form-group input:focus {
+  border-color: #fe5757;
+}
+
+/* .personal-form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+} */
+
+.personal-form-group input:focus,
+.personal-form-group select:focus,
+.personal-form-group textarea:focus {
+  border-color: #fe5757;
+}
+
+.personal-error-text {
+  color: #fe3c3c;
+  font-size: 12px;
+  margin-top: 2px !important;
+  margin-bottom: -20px;
+}
+
+.personal-form-group .remove-btn,
+.add-social-btn {
+  color: #fe5757;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover,
+.add-social-btn:hover {
+  color: #ff2c2c;
+}
+
+.personal-add-button {
+  background-color: #10b981;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.personal-add-button:hover {
+  background-color: #059669;
+}
+
+.personal-form-group {
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .personal-card-container {
+    width: 90%;
+    padding: 1.5rem;
   }
-  
-  .personal-card:hover {
-    transform: translateY(-5px);
+
+  .personal-form-group input {
+    font-size: 0.95rem;
   }
-  
-  input:focus {
-    border-color: #2563eb;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.4);
-  }
-  
-  button {
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-  }
-  
-  button:hover {
-    background-color: #1e3a8a;
-    color: #ffffff;
-  }
-  
+}

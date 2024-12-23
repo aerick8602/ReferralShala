@@ -20,7 +20,7 @@ export default function AccountMenu({userId}) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    console.log("USERID :",userId)
+    console.log("USERID in Menu :",userId)
     setAnchorEl(null);
   };
   return (

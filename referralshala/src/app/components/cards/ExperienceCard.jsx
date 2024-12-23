@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import '../styles/ExperienceCard.css';
+import '../../styles/ExperienceCard.css';
+import { IoClose } from 'react-icons/io5';
+
 const ExperienceCard = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     companyName: '',
@@ -18,6 +20,8 @@ const ExperienceCard = ({ onSubmit }) => {
     startYear: '',
     endYear: '',
   });
+
+  const [isOpen, setIsOpen] = useState(true); // State to control the overlay visibility
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
@@ -78,9 +82,23 @@ const ExperienceCard = ({ onSubmit }) => {
     onSubmit(formData);
   };
 
+  const closeCard = () => {
+    setIsOpen(false); // Close the overlay
+  };
+
+  // Render null when the card is closed
+  if (!isOpen) return null;
+
   return (
     <div className="exp-model">
       <div className="exp-card">
+        <button
+          type="button"
+          className="edu-close-button"
+          onClick={closeCard} // Close card on click
+        >
+          <IoClose size={24} />
+        </button>
         <h2 className="exp-title">Work Experience Details</h2>
         <form onSubmit={handleSubmit} className="exp-form">
           <div className="exp-form-group">

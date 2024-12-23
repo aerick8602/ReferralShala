@@ -12,22 +12,30 @@ input[type="number"] {
 
 /* Styling for the overall layout */
 .exp-model {
+  z-index: 200;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background-color: #f9fafb;
+  background-color: rgba(207, 207, 207, 0.5); 
   min-height: 100vh;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(1px);
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .exp-card {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 1); 
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 40%;
   padding: 1.5rem;
   box-sizing: border-box;
+  position: relative; 
+  z-index: 300; 
 }
 
 .exp-title {
