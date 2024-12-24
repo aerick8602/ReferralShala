@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/PersonalCard.css";
-import { FaPlus, FaTrashAlt, FaTimes } from "react-icons/fa"; // Importing the close icon
+import { FaPlus, FaTrashAlt, FaTimes, FaCamera } from "react-icons/fa"; // Importing the close and camera icons
 
 const PersonalCard = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +9,7 @@ const PersonalCard = () => {
     contactNumber: "",
     location: "",
     socialLinks: [{ platform: "", link: "" }],
+    imageURL: "", // Added imageURL to formData
   });
 
   const [errors, setErrors] = useState({
@@ -19,8 +20,11 @@ const PersonalCard = () => {
     socialLinks: [{ platform: "", link: "" }],
   });
 
+  // State to manage profile image
+  const [profileImage, setProfileImage] = useState(null);
+
   // State to manage card visibility
-  const [isOpen, setIsOpen] = useState(true); 
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +37,7 @@ const PersonalCard = () => {
     if (name === "firstName" || name === "lastName") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        [name]: value === "" ? `* ${name.charAt(0).toUpperCase() + name.slice(1)} is required` : "",
+        [name]: value === "" ? `${name.charAt(0).toUpperCase() + name.slice(1)} is required` : "",
       }));
     } else if (name === "contactNumber") {
       const phonePattern = /^[0-9]{10}$/; // Example: validate 10 digit phone number
@@ -91,6 +95,27 @@ const PersonalCard = () => {
     setErrors((prevErrors) => ({ ...prevErrors, socialLinks: newErrors }));
   };
 
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+        // Update formData with the image URL
+        setFormData((prev) => ({
+          ...prev,
+          imageURL: reader.result,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeProfileImage = () => {
+    setProfileImage(null);
+    setFormData((prev) => ({ ...prev, imageURL: "" })); // Clear the imageURL when the image is removed
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -110,13 +135,13 @@ const PersonalCard = () => {
   };
 
   const handleClose = () => {
-    console.log("Close button clicked!"); // Debugging log
     setFormData({
       firstName: "",
       lastName: "",
       contactNumber: "",
       location: "",
       socialLinks: [{ platform: "", link: "" }],
+      imageURL: "", // Reset imageURL as well
     });
     setErrors({
       firstName: "",
@@ -127,7 +152,6 @@ const PersonalCard = () => {
     });
   };
 
-  // Function to close the card
   const closeCard = () => {
     setIsOpen(false); // Close the card
   };
@@ -142,6 +166,39 @@ const PersonalCard = () => {
           <h2 className="personal-title">Personal Details</h2>
 
           <form className="personal-form" onSubmit={handleSubmit}>
+             {/* Profile Image Upload */}
+             <div className="personal-form-group">
+              <label>Profile Image</label>
+              <div className="profile-image-upload">
+                {profileImage ? (
+                  <>
+                  <div style={{display:'flex',flexDirection:'row'}}>
+                    <img src={profileImage} alt="Profile" className="profile-image-preview"  style={{width:'30px',height:'30px'}}/>
+                      <button type="button" onClick={removeProfileImage} className="remove-btn" style={{marginTop:'-6px',fontSize:'14px'}}>
+                        Remove
+                      </button>
+                  </div>
+                    
+                  </>
+                ) : (
+                  <>
+                  <div style={{display:'flex',flexDirection:'row'}}>
+                  <label htmlFor="file" className="file-label" style={{margin:'8px'}}>
+                      <FaCamera size={24} />
+                    </label>
+                    <input
+                    style={{width:'220px'}}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleProfileImageChange}
+                      className="profile-image-input"
+                    />
+                  </div>
+                  </>
+                )}
+              </div>
+            </div>
+
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <div className="personal-form-group">
                 <label htmlFor="firstName">First Name</label>
@@ -198,11 +255,10 @@ const PersonalCard = () => {
               {errors.location && <p className="personal-error-text">{errors.location}</p>}
             </div>
 
+           
+
             {/* Social Links */}
-            <div
-              className="personal-form-group"
-              style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: '100%', marginBottom: '5px' }}
-            >
+            <div className="personal-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
               <label>Social Links</label>
               <button type="button" onClick={addSocialLink} style={{ color: "#4b5563" }}>
                 <FaPlus size={20} />
@@ -210,49 +266,35 @@ const PersonalCard = () => {
             </div>
 
             {formData.socialLinks.map((social, index) => (
-              <div
-                key={index}
-                className="personal-form-group"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  gap: "15px",
-                  marginTop: "-19px",
-                }}
-              >
+              <div key={index} className="personal-form-group" style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", gap: "15px" }}>
                 <div className="social-input-container" style={{ marginBottom: "8px", display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                   <div style={{ width: '500px', display: 'flex', gap: '20px' }}>
-                    <div>
-                      <input
-                        type="text"
-                        name="platform"
-                        value={social.platform}
-                        onChange={(e) => handleSocialLinkChange(index, e)}
-                        placeholder="Platform"
-                        className="social-input"
-                      />
-                      {errors.socialLinks[index]?.platform && (
-                        <p className="personal-error-text">{errors.socialLinks[index].platform}</p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        style={{ width: '300px' }}
-                        type="text"
-                        name="link"
-                        value={social.link}
-                        onChange={(e) => handleSocialLinkChange(index, e)}
-                        placeholder="URL"
-                        className="social-input"
-                      />
-                      {errors.socialLinks[index]?.link && (
-                        <p className="personal-error-text">{errors.socialLinks[index].link}</p>
-                      )}
-                    </div>
+                    <input
+                      type="text"
+                      name="platform"
+                      value={social.platform}
+                      onChange={(e) => handleSocialLinkChange(index, e)}
+                      placeholder="Platform"
+                      className="social-input"
+                    />
+                    {errors.socialLinks[index]?.platform && (
+                      <p className="personal-error-text">{errors.socialLinks[index].platform}</p>
+                    )}
+                    <input
+                      style={{ width: '300px' }}
+                      type="text"
+                      name="link"
+                      value={social.link}
+                      onChange={(e) => handleSocialLinkChange(index, e)}
+                      placeholder="URL"
+                      className="social-input"
+                    />
+                    {errors.socialLinks[index]?.link && (
+                      <p className="personal-error-text">{errors.socialLinks[index].link}</p>
+                    )}
                   </div>
-                  <button style={{ marginLeft: '27px' }} type="button" className="remove-btn" onClick={() => removeSocialLink(index)}>
-                    <FaTrashAlt size={15} />
+                  <button type="button" className="remove-btn" onClick={() => removeSocialLink(index)}>
+                    <FaTrashAlt size={14} />
                   </button>
                 </div>
               </div>

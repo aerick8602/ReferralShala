@@ -9,6 +9,9 @@ import EducationCard from "../../../components/cards/EducationCard"
 import PersonalCard from "../../../components/cards/PersonalCard"
 import ReferralCard from "../../../components/cards/ReferralCard"
 import { useParams } from "next/navigation";
+import { FaPencilAlt } from "react-icons/fa";
+import EducationWrapper from "../../../components/Education";
+import ExperienceWrapper from "../../../components/Experience";
 
 
 
@@ -226,20 +229,137 @@ export default function ProfilePage(){
     useEffect(()=>{fetchExperienceData()},[experienceData]);
     useEffect(()=>{fetchCandidateData()},[candidateData]);
     useEffect(()=>{fetchEmployerData()},[employerData]);
+
+    const [isPersonalCardOpen, setPersonalCardOpen] = useState(false);
+    const [isExperienceCardOpen, setExperienceCardOpen] = useState(false);
+    const [isEducationCardOpen, setEducationCardOpen] = useState(false);
+
+    const toggleCard = (cardType) => {
+        if (cardType === 'personal') {
+            setPersonalCardOpen(!isPersonalCardOpen);
+        } else if (cardType === 'experience') {
+            setExperienceCardOpen(!isExperienceCardOpen);
+        } else if (cardType === 'education') {
+            setEducationCardOpen(!isEducationCardOpen);
+        }
+    };
+
+    const educatioonData = [
+        {
+          educationId: 1,
+          userId: 123,
+          instituteName: "National Institute of Technology",
+          degree: "Bachelor's",
+          stream: "Electrical Engineering",
+          startYear: 2020,
+          endYear: 2024,
+          isCurrentlyEducating: true,
+          grade: { type: "CGPA", value: "9.5" },
+          createdAt: "2020-09-01T00:00:00Z",
+        },
+        {
+          educationId: 2,
+          userId: 123,
+          instituteName: "ABC High School",
+          degree: "High School Diploma",
+          stream: "Science",
+          startYear: 2018,
+          endYear: 2020,
+          isCurrentlyEducating: false,
+          grade: { type: "Percentage", value: "90%" },
+          createdAt: "2018-06-01T00:00:00Z",
+        },
+      ];
+
+      const experienceeData = [
+        {
+          experienceId: 1,
+          userId: 123,
+          companyName: "Tech Solutions Inc.",
+          role: "Software Engineer",
+          location: "New York, USA",
+          startYear: 2022,
+          endYear: null,
+          isCurrentlyEmployed: true,
+          description: "Worked on building scalable web applications and APIs.",
+          createdAt: "2022-01-01T00:00:00Z",
+        },
+        {
+          experienceId: 2,
+          userId: 123,
+          companyName: "Innovatech Pvt. Ltd.",
+          role: "Intern",
+          location: "San Francisco, USA",
+          startYear: 2020,
+          endYear: 2021,
+          isCurrentlyEmployed: false,
+          description: "Developed tools for data analysis and process automation.",
+          createdAt: "2020-06-01T00:00:00Z",
+        },
+      ];
+      
+      
     
     return (
         <>
-        <Navbar/>
+        <Navbar />
         <div className="profile">
-            <div className="personal-data"></div>
-            <div className="main-profile"></div>
-        </div>
-        {/* <ReferralCard></ReferralCard>
-        <PersonalCard></PersonalCard>
-        <ExperienceCard></ExperienceCard>
-        <EducationCard></EducationCard> */}
+            <div className="personal-data">
+                <div className="avatar">
+                    <img src="/path-to-avatar.jpg" alt="Profile" className="avatar-img" />
+                    {/* <button className="edit-btn" onClick={() => toggleCard('personal')}>
+                        <FaPencilAlt />
+                    </button> */}
+                </div>
+                <div className="details">
+                    <p>{userData?.emailAddress}</p>
+                    <p>{}</p>
+                    <p>{userData?.location}</p>
+                    <p>location</p>
+                    <p>Social Links:</p>
+                    <ul>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
 
-        
-        </>
+            <div className="main-profile">
+            <EducationWrapper education={educatioonData} />
+            <ExperienceWrapper experiences={experienceeData} />
+            
+                {/* <div className="section">
+                    <h2>Resume</h2>
+                    <button className="upload-btn">Upload Resume</button>
+                </div>
+                <div className="section">
+                    <h2>Skills</h2>
+                    <ul>
+                        <li>JavaScript</li>
+                        <li>React</li>
+                        <li>Node.js</li>
+                    </ul>
+                </div>
+                <div className="section">
+                    <h2>Education</h2>
+                    <button className="edit-btn" onClick={() => toggleCard('education')}>
+                        <FaPencilAlt />
+                    </button>
+
+                </div>
+                <div className="section">
+                    <h2>Experience</h2>
+                    <button className="edit-btn" onClick={() => toggleCard('experience')}>
+                        <FaPencilAlt />
+                    </button>
+
+                </div> */}
+            </div>
+        </div>
+
+        {isPersonalCardOpen && <PersonalCard onClose={() => toggleCard('personal')} />}
+        {isExperienceCardOpen && <ExperienceCard onClose={() => toggleCard('experience')} />}
+        {isEducationCardOpen && <EducationCard onClose={() => toggleCard('education')} />}
+    </>
     )
 }
