@@ -61,6 +61,7 @@ export async function GET(req, { params }) {
         where: { userId: parseInt(userId) },
         
       });
+      console.log(profile)
       if (!profile) {
         return NextResponse.json(
           { success: false, message: `candidate with userId ${userId} not found.` },

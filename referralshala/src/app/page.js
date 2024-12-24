@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar userId={userData.userId} />
+      <Navbar userId={userData.userId} userType={userData.userType}/>
       <div className="Home">
         <div className="main-content">
           {isSignedIn ? (

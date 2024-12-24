@@ -14,10 +14,10 @@ const EducationWrapper = ({ education, onEdit, onDelete }) => {
             {edu.degree} in {edu.stream}
           </p>
           <p className="text-sm text-gray-600">
-            {edu.startYear} - {edu.endYear || (edu.isCurrentlyEducating ? "Present" : "N/A")}
+            {edu.startYear} - {edu.endYear || edu.isCurrentlyEducating ? "Present" : "N/A"}
           </p>
           <p className="text-sm text-gray-600">
-            {edu.grade.type}: {edu.grade.value}
+            {edu.grade.percentage ? `Percentage: ${edu.grade.percentage}%` : `CGPA: ${edu.grade.CGPA}`}
           </p>
           <div className="absolute top-2 right-2 flex gap-2">
             <button

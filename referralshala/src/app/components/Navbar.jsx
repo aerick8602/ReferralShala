@@ -7,10 +7,9 @@ import Menu from './Menu';
 import { redirect } from 'next/navigation';
 
 
-export default function Navbar({userId}) {
+export default function Navbar({userId,userType}) {
   const [showSignIn, setShowSignIn] = useState(false);
-  useEffect(()=>{console.log("USERID in Navbar :",userId)},[])
- 
+
   return (
     <>
       {showSignIn && (
@@ -33,7 +32,7 @@ export default function Navbar({userId}) {
         </div>
         <div>
           <SignedIn>
-            <Menu userId={userId} />
+            <Menu userId={userId} userType={userType} />
           </SignedIn>
           <SignedOut>
             <div className="button-group">

@@ -11,10 +11,13 @@ const ExperienceWrapper = ({ experiences, onEdit, onDelete }) => {
         >
           <h3 className="text-lg font-bold">{exp.companyName}</h3>
           <p className="text-sm text-gray-600">
-            {exp.role} - {exp.location}
+            {exp.role}
           </p>
           <p className="text-sm text-gray-600">
-            {exp.startYear} - {exp.endYear || (exp.isCurrentlyEmployed ? "Present" : "N/A")}
+            {exp.location}
+          </p>
+          <p className="text-sm text-gray-600">
+            {exp.startYear} - {exp.endYear || exp.isCurrentlyEmployed ? "Present" : "N/A"}
           </p>
           {exp.description && (
             <p className="text-sm text-gray-600 mt-2">{exp.description}</p>
