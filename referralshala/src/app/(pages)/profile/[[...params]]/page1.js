@@ -136,7 +136,29 @@ export default function ProfilePage(){
     //
 
 
-    const addEducationData=async()=>{}
+    const addEducationData=async(instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/education`,{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.error("Error updating candidate:", error);
+            return null;
+        }
+    }
 
 
     // DELETE EDUCATION 
@@ -160,21 +182,99 @@ export default function ProfilePage(){
           return data; 
         }
         catch(error){
-            console.error("Error updating candidate:", error);
+            console.log("Error updating candidate:", error);
             return null;
         }
     }
     //
-    const updateEducationData=async()=>{}
+    const updateEducationData=async(instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/education/${Eid}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error updating candidate:", error);
+            return null;
+        }
+    }
     //
     const addExperienceData=async()=>{}
     //
     const deleteExperienceData=async()=>{}
+    
+
     //
-    const updateExperienceData=async()=>{}
 
 
+    const updateExperienceData=async()=>{
+    }
 
+
+    //
+
+
+    const updateuser=async(firstname,lastname)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({firstname,lastname})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error updating candidate:", error);
+            return null;
+        }
+    }
+  
+    //
+
+    const updateEmployer=async()=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/employer`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({companyName, jobRole,location})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error updating candidate:", error);
+            return null;
+        }
+    }
 
 
 

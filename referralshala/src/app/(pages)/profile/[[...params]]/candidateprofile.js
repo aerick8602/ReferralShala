@@ -101,8 +101,81 @@ export default function CandidateProfile({userId}) {
             console.log("Error fetching experience data", error);
         }
     };
-    
 
+    const updateuser=async(firstname,lastname)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({firstname,lastname})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error updating candidate:", error);
+            return null;
+        }
+    }
+
+    const addEducationData=async(instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/education`,{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("post education successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error post education candidate:", error);
+            return null;
+        }
+    }
+
+    const updateEducationData=async(instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/education/${Eid}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade})
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update EDUCATION successful:", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error updating candidate:", error);
+            return null;
+        }
+    }
+    
+    const updateExperienceData=async()=>{
+    }
 
 
     useEffect(() => {
@@ -111,6 +184,10 @@ export default function CandidateProfile({userId}) {
             fetchCandidateData();
             fetchEducationData();
             fetchExperienceData();
+            // updateuser("aditya","sawner");
+            // addEducationData("IITB", "btech", "Cse",2021, 2025, true, 10)
+            const instituteName="oxford"
+            // updateEducationData(instituteName)
         }
     }, [userId]);
 
