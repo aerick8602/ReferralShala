@@ -1,43 +1,41 @@
-import React, { useState } from 'react';
-import { IoClose } from 'react-icons/io5';  // Import the close icon
-import '../../styles/EducationCard.css';
+import React, { useEffect, useState } from 'react';
+import { IoClose } from 'react-icons/io5';
+import '../../styles/EducationModel.css';
+import axios from 'axios';
 
-const EducationCard = ({ onSubmit }) => {
+const EducationModel = ({ toggleModal,education,addEducationData}) => {
   const [formData, setFormData] = useState({
-    instituteName: '',
-    degree: '',
-    specialization: '',
-    startYear: '',
-    endYear: '',
-    isCurrentlyEducating: false,
-    gradeType: '', // 'percentage' or 'cgpa'
-    gradePercentage: '', // Percentage value
-    gradeCGPA: '', // CGPA value
+    instituteName: education?.instituteName || '',
+    degree: education?.degree || '',
+    stream: education?.stream || '',
+    startYear: education?.startYear || '',
+    endYear: education?.endYear || '',
+    isCurrentlyEducating: education?.isCurrentlyEducating || false,
+    grade: education?.grade?.percentage ? 'percentage' : education?.grade?.CGPA ? 'CGPA' : '',
+    gradePercentage: education?.grade.percentage || '',
+    gradeCGPA: education?.grade.CGPA || '',
   });
 
   const [errors, setErrors] = useState({
     instituteName: '',
     degree: '',
-    specialization: '',
+    stream: '',
     startYear: '',
     endYear: '',
     grade: '',
   });
 
-  const [isOpen, setIsOpen] = useState(true); // State to control the overlay visibility
-
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 50 }, (_, i) => currentYear - i); // Generate years from current year to 50 years ago
+  const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    if (name === 'gradeType') {
+    if (name === 'grade') {
       setFormData({
         ...formData,
         [name]: value,
-        gradePercentage: '', // Reset percentage field when switching to CGPA
-        gradeCGPA: '', // Reset CGPA field when switching to percentage
+        gradePercentage: formData.gradePercentage,
+        gradeCGPA: formData.gradeCGPA,
       });
     } else {
       setFormData({
@@ -46,7 +44,6 @@ const EducationCard = ({ onSubmit }) => {
       });
     }
 
-    // Real-time validation and removing errors once valid
     if (name === 'instituteName') {
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -57,10 +54,10 @@ const EducationCard = ({ onSubmit }) => {
         ...prevErrors,
         degree: value === '' ? '* Degree is required' : '',
       }));
-    } else if (name === 'specialization') {
+    } else if (name === 'stream') {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        specialization: value === '' ? '* Specialization is required' : '',
+        stream: value === '' ? '* Stream is required' : '',
       }));
     } else if (name === 'startYear') {
       if (value.length !== 4 || isNaN(value)) {
@@ -97,7 +94,7 @@ const EducationCard = ({ onSubmit }) => {
         }));
       }
     } else if (name === 'gradePercentage' || name === 'gradeCGPA') {
-      if (formData.gradeType === 'percentage' && name === 'gradePercentage') {
+      if (formData.grade === 'percentage' && name === 'gradePercentage') {
         setErrors((prevErrors) => ({
           ...prevErrors,
           grade:
@@ -105,7 +102,7 @@ const EducationCard = ({ onSubmit }) => {
               ? '* Percentage must be between 0 and 100'
               : '',
         }));
-      } else if (formData.gradeType === 'cgpa' && name === 'gradeCGPA') {
+      } else if (formData.grade === 'CGPA' && name === 'gradeCGPA') {
         setErrors((prevErrors) => ({
           ...prevErrors,
           grade:
@@ -124,35 +121,30 @@ const EducationCard = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Check for empty fields (required fields)
     if (
       !formData.instituteName ||
       !formData.degree ||
-      !formData.specialization ||
+      !formData.stream ||
       !formData.startYear ||
-      (formData.gradeType === 'percentage' && !formData.gradePercentage) ||
-      (formData.gradeType === 'cgpa' && !formData.gradeCGPA)
+      (formData.grade === 'percentage' && !formData.gradePercentage) ||
+      (formData.grade === 'CGPA' && !formData.gradeCGPA)
     ) {
       alert('Please fill all required fields');
       return;
     }
 
-    // Check for validation errors
     if (Object.values(errors).some((error) => error !== '')) {
       alert('Please fix the errors before submitting');
       return;
     }
+    addEducationData(formData);
+    toggleModal();
 
-    // Submit the form data
-    onSubmit(formData);
   };
 
-  const closeCard = () => {
-    setIsOpen(false); // Close the overlay
-  };
+  
+  
 
-  if (!isOpen) return null; // Return nothing if the overlay is closed
 
   return (
     <div className="edu-model">
@@ -160,7 +152,7 @@ const EducationCard = ({ onSubmit }) => {
         <button
           type="button"
           className="edu-close-button"
-          onClick={closeCard} // Close card on click
+          onClick={toggleModal}
         >
           <IoClose size={24} />
         </button>
@@ -191,40 +183,39 @@ const EducationCard = ({ onSubmit }) => {
               onChange={handleChange}
               required
             >
-              <option value="" style={{color:'#d1d5db'}}>Select a degree</option>
-              <option value="BTech">BTech</option>
-              <option value="BSc">BSc</option>
-              <option value="MSc">MSc</option>
-              <option value="BA">BA</option>
-              <option value="MA">MA</option>
-              <option value="MBA">MBA</option>
-              {/* Add more degree options as needed */}
+            <option value="" style={{ color: '#d1d5db' }}>Select a degree</option>
+<option value="Bachelor of Technology (BTech)">Bachelor of Technology (BTech)</option>
+<option value="Bachelor of Science (BSc)">Bachelor of Science (BSc)</option>
+<option value="Master of Science (MSc)">Master of Science (MSc)</option>
+<option value="Bachelor of Arts (BA)">Bachelor of Arts (BA)</option>
+<option value="Master of Arts (MA)">Master of Arts (MA)</option>
+<option value="Master of Business Administration (MBA)">Master of Business Administration (MBA)</option>
+
             </select>
             {errors.degree && <p className="edu-error-text">{errors.degree}</p>}
           </div>
 
           <div className="edu-form-group">
-            <label htmlFor="specialization">Specialization</label>
+            <label htmlFor="stream">Stream</label>
             <input
               type="text"
-              id="specialization"
-              name="specialization"
-              value={formData.specialization}
+              id="stream"
+              name="stream"
+              value={formData.stream}
               onChange={handleChange}
-              placeholder="Enter specialization"
+              placeholder="Enter stream"
               required
             />
-            {errors.specialization && <p className="edu-error-text">{errors.specialization}</p>}
+            {errors.stream && <p className="edu-error-text">{errors.stream}</p>}
           </div>
 
-          {/* Add text for degree explanation */}
           <div className="edu-info-text">
-            <p style={{fontSize: '13px', color: '#6b7280'}}>
-              Example: If your degree is B.Tech in Electrical Engineering, then select Bachelor of Technology (B.Tech) in degree and Electrical Engineering as specialization. 
+            <p style={{ fontSize: '13px', color: '#6b7280' }}>
+              Example: If your degree is BTech in Electrical Engineering, then select Bachelor of Technology (BTech) in degree and Electrical Engineering as stream.
             </p>
           </div>
 
-          <div className="edu-form-row" style={{display:'flex',justifyContent:'space-between'}}>
+          <div className="edu-form-row" style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className="edu-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
@@ -236,9 +227,9 @@ const EducationCard = ({ onSubmit }) => {
                 onChange={handleChange}
                 placeholder="Enter start year YYYY"
                 required
-                min={years[years.length - 1]} // Minimum year available
-                max={currentYear} // Maximum year should be current year
-                maxLength="4" // Limit input to 4 digits
+                min={years[years.length - 1]}
+                max={currentYear}
+                maxLength="4"
               />
               {errors.startYear && <p className="edu-error-text">{errors.startYear}</p>}
             </div>
@@ -254,9 +245,9 @@ const EducationCard = ({ onSubmit }) => {
                   value={formData.endYear}
                   onChange={handleChange}
                   placeholder="Enter end year YYYY"
-                  min={formData.startYear} // Ensure end year is after start year
-                  max={currentYear} // Maximum year should be current year
-                  maxLength="4" // Limit input to 4 digits
+                  min={formData.startYear}
+                  max={currentYear}
+                  maxLength="4"
                 />
                 {errors.endYear && <p className="edu-error-text">{errors.endYear}</p>}
               </div>
@@ -277,64 +268,62 @@ const EducationCard = ({ onSubmit }) => {
 
           <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
             <div className="edu-form-group">
-              <label htmlFor="gradeType">Grade</label>
+              <label htmlFor="grade">Grade</label>
               <select
-                id="gradeType"
-                name="gradeType"
-                value={formData.gradeType}
+                id="grade"
+                name="grade"
+                value={formData.grade}
                 onChange={handleChange}
                 required
               >
                 <option value="percentage">Percentage</option>
-                <option value="cgpa">CGPA</option>
+                <option value="CGPA">CGPA</option>
               </select>
             </div>
 
-            {formData.gradeType && (
-              <div className="edu-form-group" style={{ width: '220px' }}>
-                {formData.gradeType === 'percentage' ? (
-                  <>
-                    <label htmlFor="gradePercentage">Percentage</label>
-                    <input
-                      type="number"
-                      id="gradePercentage"
-                      name="gradePercentage"
-                      value={formData.gradePercentage}
-                      onChange={handleChange}
-                      placeholder="Enter percentage (out of 100)"
-                      required
-                      min="0"
-                      max="100"
-                    />
-                    {errors.grade && <p className="edu-error-text">{errors.grade}</p>}
-                  </>
-                ) : (
-                  <>
-                    <label htmlFor="gradeCGPA">CGPA</label>
-                    <input
-                      type="number"
-                      id="gradeCGPA"
-                      name="gradeCGPA"
-                      value={formData.gradeCGPA}
-                      onChange={handleChange}
-                      placeholder="Enter CGPA (out of 10)"
-                      required
-                      min="0"
-                      max="10"
-                    />
-                    {errors.grade && <p className="edu-error-text">{errors.grade}</p>}
-                  </>
-                )}
-              </div>
-            )}
+            <div className="edu-form-group" style={{ width: '220px' }}>
+              {formData.grade === 'percentage' ? (
+                <>
+                  <label htmlFor="gradePercentage">Percentage</label>
+                  <input
+                    type="number"
+                    id="gradePercentage"
+                    name="gradePercentage"
+                    value={formData.gradePercentage}
+                    onChange={handleChange}
+                    placeholder="Enter percentage (out of 100)"
+                    required
+                    min="0"
+                    max="100"
+                  />
+                  {errors.grade && <p className="edu-error-text">{errors.grade}</p>}
+                </>
+              ) : (
+                <>
+                  <label htmlFor="gradeCGPA">CGPA</label>
+                  <input
+                    type="number"
+                    id="gradeCGPA"
+                    name="gradeCGPA"
+                    value={formData.gradeCGPA}
+                    onChange={handleChange}
+                    placeholder="Enter CGPA (out of 10)"
+                    required
+                    min="0"
+                    max="10"
+                  />
+                  {errors.grade && <p className="edu-error-text">{errors.grade}</p>}
+                </>
+              )}
+            </div>
           </div>
           <button type="submit" className="edu-update-button">
-            Update
-          </button>
+              Save 
+            </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default EducationCard;
+export default EducationModel;

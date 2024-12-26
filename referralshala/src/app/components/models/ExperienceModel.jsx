@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import '../../styles/ExperienceCard.css';
+import '../../styles/ExperienceModel.css';
 import { IoClose } from 'react-icons/io5';
 
-const ExperienceCard = ({ onSubmit }) => {
+const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
   const [formData, setFormData] = useState({
-    companyName: '',
-    role: '',
-    location: '',
-    startYear: '',
-    endYear: '',
-    isCurrentlyEmployed: false,
-    description: '',
+    companyName: experience?.companyName,
+    role: experience?.role,
+    location: experience?.location,
+    startYear: experience?.startYear,
+    endYear:experience?.endYear,
+    isCurrentlyEmployed: experience?.isCurrentlyEmployed,
+    description: experience?.description,
   });
+
+    
 
   const [errors, setErrors] = useState({
     companyName: '',
@@ -95,7 +97,7 @@ const ExperienceCard = ({ onSubmit }) => {
         <button
           type="button"
           className="edu-close-button"
-          onClick={closeCard} // Close card on click
+          onClick={toggleModal} // Close card on click
         >
           <IoClose size={24} />
         </button>
@@ -215,4 +217,4 @@ const ExperienceCard = ({ onSubmit }) => {
   );
 };
 
-export default ExperienceCard;
+export default ExperienceModel;

@@ -40,17 +40,19 @@ export async function GET(req, { params }) {
 
   export async function POST(req, { params }) {
     const { userId } = await params;
-  
+    
+    console.log("ferrrrrrrrrrrrrrrrrrrrrrrrrrrreeeeeeff")
     if (!userId) {
       return NextResponse.json(
         { success: false, message: "Invalid userId provided." },
         { status: 400 }
       );
     }
+
+    console.log("feeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeff")
   
     // Parse request body
     const { instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade } = await req.json();
-  
     // Check for missing required fields
     if (
       !instituteName ||
@@ -61,10 +63,11 @@ export async function GET(req, { params }) {
       !grade
     ) {
       return NextResponse.json(
-        { success: false, message: "Missing required fields." },
+        { success: false, message: "Missing required fields."},
         { status: 400 }
       );
     }
+    console.log("fffffffffffffffffffffffffffffffffff")
   
     try {
       // Creating the new education record
