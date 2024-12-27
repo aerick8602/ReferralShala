@@ -1,32 +1,100 @@
 import { NextResponse } from "next/server";
 import client from "../../../../../../../connection/prisma";
 
-export async function PUT(req, { params }) {
-  const { userId, experienceId } = await params;
+
+
+export async function PATCH(req, { params }) {
+  const { userId,experienceId } = await params;
+
+  if (!userId || !experienceId) {
+    return NextResponse.json(
+      { success: false, message: "Invalid userId provided." },
+      { status: 400 }
+    );
+  }
+
   const body = await req.json();
-  
-  console.log("userId:", userId);
-  console.log("Experience userId:", experienceId);
-  console.log("Body:", body);
+  const { companyname,role, location, startyear,endyear,currentlyemployed,description } = body;
+
+  const updateData = {
+    ...(companyname !== undefined && { companyName:companyname }),
+    ...(role !== undefined && { role:role }),
+    ...(location !== undefined && { location:location }),
+    ...(startyear !== undefined && { startYear:startyear }),
+    ...(endyear !== undefined && { endYear:endyear }),
+    ...(currentlyemployed !== undefined && { isCurrentlyEmployed:currentlyemployed }),
+    ...(description !== undefined && { description:description }),
+  };
+
+  if (Object.keys(updateData).length === 0) {
+    return NextResponse.json(
+      { success: false, message: "No fields provided for update." },
+      { status: 400 }
+    );
+  }
 
   try {
-    const updatedEdexperience = await client.experience.update({
-      where: { 
-        userId: parseInt(experienceId), 
-        userId: parseInt(userId),
-      },
-      data: {
-        ...body,
-      },
+    const updatedExp = await client.experience.updateMany({
+      where: { experienceId: parseInt(experienceId) },
+      data: updateData,
     });
 
+    if (!updatedExp.count) {
+      return NextResponse.json(
+        { success: false, message: `No education record found for userId ${userId}.` },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, data: updatedEdexperience },
+      { success: true, message: "Education record updated successfully.", data: updatedExp },
       { status: 200 }
     );
   } catch (error) {
+    console.log("Error updating education record:", error);
     return NextResponse.json(
-      { success: false, message: `Error updating experience with userId ${experienceId}.` },
+      { success: false, message: `Error updating education record for userId ${userId}.` },
+      { status: 500 }
+    );
+  }
+}
+
+
+
+
+
+export async function DELETE(req, { params }) {
+  const { userId, experienceId } =await params;
+
+  console.log("userId:", userId); 
+  console.log("experienceId:", experienceId);        
+
+  if (!userId || !experienceId) {
+    return NextResponse.json(
+      { success: false, message: "Invalid userId or experienceId provided." },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const profile = await client.experience.delete({
+      where: { experienceId: parseInt(experienceId) }, 
+    });
+
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, message: `Profile with userId ${userId} and experienceId ${experienceId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Deleted successfully." },
+      { status: 200 }
+    );
+  } catch (error) { 
+    return NextResponse.json(
+      { success: false, message: `Error deleting profile with userId ${userId}.` },
       { status: 500 }
     );
   }

@@ -213,7 +213,53 @@ const updateEducationData=async(instituteName, degree, stream, startYear, endYea
     }
 }
 
+const addExperienceData=async(companyname,role, location, startyear,endyear,currentlyemployed,description )=>{
+    try {
+        const response= await fetch(`/api/user/profile/${userId}/experience`,{
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify({companyname,role, location, startyear,endyear,currentlyemployed,description })
+        });
 
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("add experiencesssssssssssssssss successful:", data);
+          return data;
+    } catch (error) {
+        console.log("error adding exp",error)
+    }
+}
+
+
+ 
+const updateExperienceData = async (Eid, updateFields) => {
+    try {
+      const response = await fetch(`/api/user/profile/${userId}/experience/${Eid}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateFields), // Dynamically pass only fields to update
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log("Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh", data);
+      return data;
+    } catch (error) {
+      console.log("Error updating EXP", error);
+      return null;
+    }
+  };
+  
 
     useEffect(()=>{
       fetchuserData();
@@ -222,6 +268,8 @@ const updateEducationData=async(instituteName, degree, stream, startYear, endYea
     // addEducationData("IITB", "btech", "Cse",2021, 2025, true, 10)
     // updateEmployer("atlassian","sde100","delhi")
     // updateEducationData(instituteName)
+    // addExperienceData("BHEL","ENGG","BHOPAL",2019,2023,false,"mast thi")
+    // updateExperienceData(8,{companyname:"developer"});
     },[userId]);
 
 

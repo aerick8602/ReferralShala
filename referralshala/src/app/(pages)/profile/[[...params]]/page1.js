@@ -186,7 +186,11 @@ export default function ProfilePage(){
             return null;
         }
     }
+
+
     //
+
+
     const updateEducationData=async(instituteName, degree, stream, startYear, endYear, isCurrentlyEducating, grade)=>{
         try{
             const response= await fetch(`/api/user/profile/${userId}/education/${Eid}`,{
@@ -210,17 +214,88 @@ export default function ProfilePage(){
             return null;
         }
     }
+
+
     //
-    const addExperienceData=async()=>{}
+
+
+    const addExperienceData=async(companyname,role, location, startyear,endyear,currentlyemployed,description )=>{
+        try {
+            const response= await fetch(`/api/user/profile/${userId}/experience`,{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body:JSON.stringify({companyname,role, location, startyear,endyear,currentlyemployed,description })
+            });
+    
+               if(!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+          
+              const data = await response.json();
+              console.log("add experiencesssssssssssssssss successful:", data);
+              return data;
+        } catch (error) {
+            console.log("error adding exp",error)
+        }
+    }
+
+
     //
-    const deleteExperienceData=async()=>{}
+
+    
+    const deleteExperienceData=async(Eid)=>{
+        try{
+            const response= await fetch(`/api/user/profile/${userId}/experience/${Eid}`,{
+            method:"DELETE",
+            headers:{
+                "Content-Type": "application/json",
+            }
+        });
+
+           if(!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("delete successful: deleteeeeeeeeeeeeee", data);
+          return data; 
+        }
+        catch(error){
+            console.log("Error deleting candidate:", error);
+            return null;
+        }
+    }
     
 
     //
 
 
-    const updateExperienceData=async()=>{
-    }
+ 
+    const updateExperienceData = async (Eid, updateFields) => {
+        try {
+          const response = await fetch(`/api/user/profile/${userId}/experience/${Eid}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateFields), // Dynamically pass only fields to update
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log("Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh", data);
+          return data;
+        } catch (error) {
+          console.log("Error updating EXP", error);
+          return null;
+        }
+      };
+      
 
 
     //

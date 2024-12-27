@@ -37,7 +37,7 @@ export async function PATCH(req, { params }) {
   const { userId } = await params;
   const body = await req.json();
 
-  const { firstname, lastname } = body;
+  const { firstname, lastname, imageurl } = body;
 
   if (!firstname || !lastname) {
     return NextResponse.json(
@@ -63,6 +63,7 @@ export async function PATCH(req, { params }) {
       ...profile.userData,
       first_name:firstname,
       last_name:lastname,
+      image_url:imageurl,
     }
 
 

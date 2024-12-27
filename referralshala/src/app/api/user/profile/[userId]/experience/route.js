@@ -38,3 +38,69 @@ export async function GET(req, { params }) {
       );
     }
   }
+
+
+
+  export async function POST(req, { params }) {
+    const { userId } =await params;
+  
+    if (!userId || isNaN(parseInt(userId))) {
+      return NextResponse.json(
+        { success: false, message: "Invalid userId provided." },
+        { status: 400 }
+      );
+    }
+  
+    let body;
+    try {
+      body = await req.json();
+    } catch (error) {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON in request body." },
+        { status: 400 }
+      );
+    }
+  
+    const { companyname, role, location, startyear, endyear, currentlyemployed, description } = body;
+  
+    if (
+      !companyname ||
+      !role ||
+      !location ||
+      !startyear ||
+      currentlyemployed === undefined ||
+      !description
+    ) {
+      return NextResponse.json(
+        { success: false, message: "Missing required fields." },
+        { status: 400 }
+      );
+    }
+  
+    try {
+      const newExp = await client.experience.create({
+        data: {
+          userId: parseInt(userId),
+          companyName:companyname,
+          role,
+          location,
+          startYear:startyear,
+          endYear: endyear || null,
+          isCurrentlyEmployed:currentlyemployed,
+          description,
+        },
+      });
+  
+      return NextResponse.json(
+        { success: true, data: newExp },
+        { status: 201 }
+      );
+    } catch (error) {
+      console.log("Error creating exp record:", error);
+      return NextResponse.json(
+        { success: false, message: `Error creating exp record for userId ${userId}.` },
+        { status: 500 }
+      );
+    }
+  }
+  
