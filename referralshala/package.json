@@ -21,10 +21,15 @@
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "express": "^4.21.2",
+    "formidable": "^3.5.2",
     "install": "^0.13.0",
+    "multer": "^1.4.5-lts.1",
+    "multiselect-react-dropdown": "^2.0.25",
     "mysql2": "^3.11.5",
     "next": "15.1.0",
+    "next-connect": "^1.0.0",
     "npm": "^10.9.2",
+    "primeflex": "^2.0.0",
     "primereact": "^10.8.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -35,6 +40,7 @@
     "sweetalert2": "^11.15.1"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.12",
     "@types/node": "22.10.2",
     "@types/react": "19.0.1",
     "postcss": "^8",

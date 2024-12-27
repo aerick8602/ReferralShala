@@ -35,8 +35,8 @@ input[type="number"] {
   box-sizing: border-box;
   position: relative;
   z-index: 300;
-  overflow-y: auto; /* Allows vertical scrolling */
-  max-height: 90vh; /* Limits height to 90% of the viewport height */
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
 .edu-title {
@@ -50,7 +50,6 @@ input[type="number"] {
 .edu-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .edu-form-group {

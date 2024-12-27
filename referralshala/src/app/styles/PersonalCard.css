@@ -51,7 +51,7 @@ input[type="number"] {
 .personal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: .5rem;
 }
 
 .personal-form-group {
