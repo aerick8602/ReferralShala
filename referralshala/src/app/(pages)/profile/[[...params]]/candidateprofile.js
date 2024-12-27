@@ -145,25 +145,14 @@ export default function CandidateProfile({ userId }) {
 
   
 
-  useEffect(() => {
-    if (userId) {
-      fetchUserData();
-      fetchCandidateData();
-      fetchEducationData();
-      fetchExperienceData();
-    }
-  }, [userId]);
-
-  const togglePersonalModel = () => {
-    setIsPersonalModalOpen((prev) => !prev);
-  };
-  const toggleEducationModel = () => {
-    setIsEducationModalOpen((prev) => !prev);
-  };
-  const toggleExperienceModel = () => {
-    setIsExperienceModalOpen((prev) => !prev);
-  };
-
+    useEffect(() => {
+        if (userId) {
+            fetchUserData();
+            fetchCandidateData();
+            fetchEducationData();
+            fetchExperienceData();
+        }
+    }, [userId]);
 
   return (
     <>

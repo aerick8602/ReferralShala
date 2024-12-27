@@ -10,12 +10,6 @@ export async function GET(req, { params }) {
   try {
     const profile = await client.user.findUnique({
       where: { userId: parseInt(userId) },
-      // include: {
-      //   candidate: true,
-      //   employer: true,
-      //   educations: true,
-      //   experiences: true,
-      // },
     });
     if (!profile) {
       return NextResponse.json(
@@ -38,3 +32,61 @@ export async function GET(req, { params }) {
   }
 }
 
+
+export async function PATCH(req, { params }) {
+  const { userId } = await params;
+  const body = await req.json();
+
+  const { firstname, lastname } = body;
+
+  if (!firstname || !lastname) {
+    return NextResponse.json(
+      { success: false, message: "firstname and secondname are required." },
+      { status: 400 }
+    );
+  }
+
+  try {
+
+    const profile = await client.user.findUnique({
+      where: { userId: parseInt(userId) },
+    });
+    if (!profile) {
+      return NextResponse.json(
+        { success: false, message: `Profile with userId ${userId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    // console.log(profile);
+    const updatedUserdata={
+      ...profile.userData,
+      first_name:firstname,
+      last_name:lastname,
+    }
+
+
+    const updatedProfile = await client.user.update({
+      where: { userId: parseInt(userId) },
+      data: {userData:updatedUserdata},
+    });
+
+    if (!updatedProfile) {
+      return NextResponse.json(
+        { success: false, message: `Profile with userId ${userId} not found.` },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "User profile updated successfully.", data: updatedProfile },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return NextResponse.json(
+      { success: false, message: `Error updating profile with userId ${userId}.` },
+      { status: 500 }
+    );
+  }
+}
