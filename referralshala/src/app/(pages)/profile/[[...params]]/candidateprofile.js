@@ -6,7 +6,6 @@ import ExperienceWrapper from "../../../components/wrappers/ExperienceWrapper";
 import PersonalCard from "../../../components/models/PersonalModel";
 import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
-import Multiselect from "multiselect-react-dropdown";
 import DragnDrop from "../../../components/DragNDrop";
 import {
   FaPencilAlt,
@@ -18,6 +17,7 @@ import {
 import "../../../styles/Profile.css";
 import axios from "axios";
 import { HashLoader } from "react-spinners";
+import MultipleSelectChip from "../../../components/skills";
 
 export default function CandidateProfile({ userId }) {
   const [userData, setUserData] = useState({});
@@ -28,8 +28,7 @@ export default function CandidateProfile({ userId }) {
   const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
   const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Single loader state
-  const [selectedValue, setSelectedValue] = useState([]);
-
+  const [skills, setSkills] = useState([]);
   const [file, setFile] = useState(null);
 
   const handleFilesSelected = (selectedFile) => {
@@ -58,103 +57,6 @@ export default function CandidateProfile({ userId }) {
       const imagePath = result.filePath;
       console.log("imagePath", imagePath);
     }
-  };
-
-  const [skills, setSkills] = useState([]);
-  const [options] = useState([
-    { name: "C++", id: 1 },
-    { name: "Python", id: 2 },
-    { name: "JavaScript", id: 3 },
-    { name: "Java", id: 4 },
-    { name: "TypeScript", id: 5 },
-    { name: "Go", id: 6 },
-    { name: "Ruby", id: 7 },
-    { name: "C#", id: 8 },
-    { name: "PHP", id: 9 },
-    { name: "Swift", id: 10 },
-    { name: "Kotlin", id: 11 },
-    { name: "Rust", id: 12 },
-    { name: "HTML5", id: 13 },
-    { name: "CSS3", id: 14 },
-    { name: "React.js", id: 15 },
-    { name: "Next.js", id: 16 },
-    { name: "Node.js", id: 17 },
-    { name: "Express.js", id: 18 },
-    { name: "Vue.js", id: 19 },
-    { name: "Angular", id: 20 },
-    { name: "MongoDB", id: 21 },
-    { name: "MySQL", id: 22 },
-    { name: "PostgreSQL", id: 23 },
-    { name: "SQLite", id: 24 },
-    { name: "Redis", id: 25 },
-    { name: "Firebase", id: 26 },
-    { name: "Docker", id: 27 },
-    { name: "Kubernetes", id: 28 },
-    { name: "AWS", id: 29 },
-    { name: "Google Cloud Platform", id: 30 },
-    { name: "Azure", id: 31 },
-    { name: "Terraform", id: 32 },
-    { name: "Git", id: 33 },
-    { name: "GitHub", id: 34 },
-    { name: "CI/CD", id: 35 },
-    { name: "Tableau", id: 36 },
-    { name: "Power BI", id: 37 },
-    { name: "Machine Learning", id: 38 },
-    { name: "Deep Learning", id: 39 },
-    { name: "TensorFlow", id: 40 },
-    { name: "Keras", id: 41 },
-    { name: "PyTorch", id: 42 },
-    { name: "Data Visualization", id: 43 },
-    { name: "Hadoop", id: 44 },
-    { name: "Spark", id: 45 },
-    { name: "R", id: 46 },
-    { name: "Data Science", id: 47 },
-    { name: "OpenCV", id: 48 },
-    { name: "NLP", id: 49 },
-    { name: "Solidity", id: 50 },
-    { name: "Ethereum", id: 51 },
-    { name: "Blockchain", id: 52 },
-    { name: "Smart Contracts", id: 53 },
-    { name: "Unity", id: 54 },
-    { name: "Unreal Engine", id: 55 },
-    { name: "Figma", id: 56 },
-    { name: "Adobe XD", id: 57 },
-    { name: "Sketch", id: 58 },
-    { name: "Agile Methodologies", id: 59 },
-    { name: "Scrum", id: 60 },
-    { name: "TDD (Test-Driven Development)", id: 61 },
-    { name: "Jest", id: 62 },
-    { name: "Mocha", id: 63 },
-    { name: "Chai", id: 64 },
-    { name: "Cypress", id: 65 },
-    { name: "Selenium", id: 66 },
-    { name: "Postman", id: 67 },
-    { name: "Jenkins", id: 68 },
-    { name: "Apache Kafka", id: 69 },
-    { name: "Elasticsearch", id: 70 },
-    { name: "Redis", id: 71 },
-    { name: "SEO", id: 72 },
-    { name: "Content Management Systems (CMS)", id: 73 },
-    { name: "WordPress", id: 74 },
-    { name: "Drupal", id: 75 },
-    { name: "Joomla", id: 76 },
-    { name: "Ruby on Rails", id: 77 },
-    { name: "Laravel", id: 78 },
-    { name: "Spring Boot", id: 79 },
-    { name: "Django", id: 80 },
-    { name: "Flask", id: 81 },
-    { name: "Express.js", id: 82 },
-    { name: "Laravel", id: 83 },
-    { name: "Zend Framework", id: 84 },
-    { name: "ASP.NET", id: 85 },
-  ]);
-
-  const onSelect = (selectedList) => {
-    setSelectedValue(selectedList);
-  };
-
-  const onRemove = (selectedList) => {
-    setSelectedValue(selectedList);
   };
 
   const fetchData = async () => {
@@ -389,13 +291,7 @@ export default function CandidateProfile({ userId }) {
             </div>
             <div>
               <label>Skills</label>
-              <Multiselect
-                options={options} // Options to display in the dropdown
-                selectedValues={selectedValue} // Preselected value to persist in dropdown
-                onSelect={onSelect} // Function will trigger on select event
-                onRemove={onRemove} // Function will trigger on remove event
-                displayValue="name" // Property name to display in the dropdown options
-              />
+             <MultipleSelectChip></MultipleSelectChip>
               <div>
                 {skills.map((skill, index) => {
                   return <p key={index}>{skill}</p>;
