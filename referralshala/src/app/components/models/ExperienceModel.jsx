@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import '../styles/ExperienceCard.css';
+import '../../styles/ExperienceModel.css';
+import { IoClose } from 'react-icons/io5';
 
-const ExperienceCard = ({ onSubmit }) => {
+const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
   const [formData, setFormData] = useState({
-    companyName: '',
-    role: '',
-    location: '',
-    startYear: '',
-    endYear: '',
-    isCurrentlyEmployed: false,
-    description: '',
+    companyName: experience?.companyName,
+    role: experience?.role,
+    location: experience?.location,
+    startYear: experience?.startYear,
+    endYear:experience?.endYear,
+    isCurrentlyEmployed: experience?.isCurrentlyEmployed,
+    description: experience?.description,
   });
+
+    
 
   const [errors, setErrors] = useState({
     companyName: '',
@@ -19,6 +22,8 @@ const ExperienceCard = ({ onSubmit }) => {
     startYear: '',
     endYear: '',
   });
+
+  const [isOpen, setIsOpen] = useState(true); // State to control the overlay visibility
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
@@ -79,9 +84,23 @@ const ExperienceCard = ({ onSubmit }) => {
     onSubmit(formData);
   };
 
+  const closeCard = () => {
+    setIsOpen(false); // Close the overlay
+  };
+
+  // Render null when the card is closed
+  if (!isOpen) return null;
+
   return (
     <div className="exp-model">
       <div className="exp-card">
+        <button
+          type="button"
+          className="edu-close-button"
+          onClick={toggleModal} // Close card on click
+        >
+          <IoClose size={24} />
+        </button>
         <h2 className="exp-title">Work Experience Details</h2>
         <form onSubmit={handleSubmit} className="exp-form">
           <div className="exp-form-group">
@@ -126,17 +145,17 @@ const ExperienceCard = ({ onSubmit }) => {
             {errors.location && <p className={`error-text ${errors.location ? 'active' : ''}`}>{errors.location}</p>}
           </div>
 
-          <div className="exp-form-row">
+          <div className="exp-form-row" style={{display:'flex',justifyContent:'space-between',width:'100%'}}>
             <div className="exp-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
-                style={{ width: '234px' }}
+                style={{ width: '240px' }}
                 type="number"
                 id="startYear"
                 name="startYear"
                 value={formData.startYear}
                 onChange={handleChange}
-                placeholder="Enter start year"
+                placeholder="Enter start year YYYY"
                 required
                 min={years[years.length - 1]}
                 max={currentYear}
@@ -145,16 +164,16 @@ const ExperienceCard = ({ onSubmit }) => {
             </div>
 
             {!formData.isCurrentlyEmployed && (
-              <div className="exp-form-group" style={{ marginLeft: '79px' }}>
+              <div className="exp-form-group">
                 <label htmlFor="endYear">End Year (Optional)</label>
                 <input
-                  style={{ width: '234px' }}
+                  style={{ width: '240px' }}
                   type="number"
                   id="endYear"
                   name="endYear"
                   value={formData.endYear}
                   onChange={handleChange}
-                  placeholder="Enter end year"
+                  placeholder="Enter end year YYYY"
                   min={formData.startYear}
                   max={currentYear}
                 />
@@ -198,4 +217,4 @@ const ExperienceCard = ({ onSubmit }) => {
   );
 };
 
-export default ExperienceCard;
+export default ExperienceModel;

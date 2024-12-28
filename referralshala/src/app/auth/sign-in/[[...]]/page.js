@@ -10,7 +10,6 @@
 
 
 import { SignIn } from "@clerk/nextjs";
-import '../../../styles/Login.css'
 export default function Page() {
   return (
     <div className="super-main">

@@ -27,14 +27,16 @@ input[type="number"] {
 }
 
 .edu-card {
-  background-color: rgba(255, 255, 255, 1); 
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 40%;
   padding: 1.5rem;
   box-sizing: border-box;
-  position: relative; 
-  z-index: 300; 
+  position: relative;
+  z-index: 300;
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
 .edu-title {
@@ -48,7 +50,6 @@ input[type="number"] {
 .edu-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .edu-form-group {

@@ -27,15 +27,18 @@ input[type="number"] {
 }
 
 .personal-card-container {
-  background-color: rgba(255, 255, 255, 1); 
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 40%;
   padding: 1.5rem;
   box-sizing: border-box;
-  position: relative; 
-  z-index: 300; 
+  position: relative;
+  z-index: 300;
+  overflow-y: auto; /* Allows vertical scrolling */
+  max-height: 90vh; /* Limits height to 90% of the viewport height */
 }
+
 
 .personal-title {
   text-align: center;
@@ -48,7 +51,7 @@ input[type="number"] {
 .personal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: .5rem;
 }
 
 .personal-form-group {
