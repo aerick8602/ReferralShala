@@ -17,6 +17,8 @@ CREATE TABLE "Candidate" (
     "skills" TEXT[],
     "social_links" JSONB,
     "resume" TEXT,
+    "contact_number" VARCHAR(15),
+    "location" VARCHAR(255),
     "createdAt" TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(0),
 
@@ -30,6 +32,7 @@ CREATE TABLE "Employer" (
     "company_name" VARCHAR(255),
     "job_role" VARCHAR(255),
     "location" VARCHAR(255),
+    "contact_number" VARCHAR(15),
     "createdAt" TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(0),
 
@@ -71,7 +74,8 @@ CREATE TABLE "Experience" (
 -- CreateTable
 CREATE TABLE "Referral" (
     "referralId" SERIAL NOT NULL,
-    "employer_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "company_name" VARCHAR(255) NOT NULL,
     "job_title" VARCHAR(255) NOT NULL,
     "job_description" TEXT,
     "job_link" TEXT,
@@ -110,7 +114,7 @@ CREATE INDEX "idx_experience_userId" ON "Experience"("user_id");
 CREATE INDEX "idx_job_title" ON "Referral"("job_title");
 
 -- CreateIndex
-CREATE INDEX "idx_employer_referral" ON "Referral"("employer_id");
+CREATE INDEX "idx_referral_userId" ON "Referral"("user_id");
 
 -- AddForeignKey
 ALTER TABLE "Candidate" ADD CONSTRAINT "Candidate_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -125,4 +129,4 @@ ALTER TABLE "Education" ADD CONSTRAINT "Education_user_id_fkey" FOREIGN KEY ("us
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Referral" ADD CONSTRAINT "Referral_employer_id_fkey" FOREIGN KEY ("employer_id") REFERENCES "Employer"("employerId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Referral" ADD CONSTRAINT "Referral_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;

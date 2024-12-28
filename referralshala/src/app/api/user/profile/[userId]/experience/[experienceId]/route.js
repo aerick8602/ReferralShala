@@ -14,15 +14,15 @@ export async function PATCH(req, { params }) {
   }
 
   const body = await req.json();
-  const { companyname,role, location, startyear,endyear,currentlyemployed,description } = body;
+  const { companyName,role, location, startYear,endYear,isCurrentlyEmployed,description } = body;
 
   const updateData = {
-    ...(companyname !== undefined && { companyName:companyname }),
+    ...(companyName !== undefined && { companyName:companyName }),
     ...(role !== undefined && { role:role }),
     ...(location !== undefined && { location:location }),
-    ...(startyear !== undefined && { startYear:startyear }),
-    ...(endyear !== undefined && { endYear:endyear }),
-    ...(currentlyemployed !== undefined && { isCurrentlyEmployed:currentlyemployed }),
+    ...(startYear !== undefined && { startYear:startYear }),
+    ...(endYear !== undefined && { endYear:endYear }),
+    ...(isCurrentlyEmployed !== undefined && { isCurrentlyEmployed:isCurrentlyEmployed }),
     ...(description !== undefined && { description:description }),
   };
 

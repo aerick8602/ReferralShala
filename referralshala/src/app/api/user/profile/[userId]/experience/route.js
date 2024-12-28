@@ -61,14 +61,14 @@ export async function GET(req, { params }) {
       );
     }
   
-    const { companyname, role, location, startyear, endyear, currentlyemployed, description } = body;
+    const { companyName, role, location, startYear, endYear, isCurrentlyEmployed, description } = body;
   
     if (
-      !companyname ||
+      !companyName ||
       !role ||
       !location ||
-      !startyear ||
-      currentlyemployed === undefined ||
+      !startYear ||
+      isCurrentlyEmployed === undefined ||
       !description
     ) {
       return NextResponse.json(
@@ -81,12 +81,12 @@ export async function GET(req, { params }) {
       const newExp = await client.experience.create({
         data: {
           userId: parseInt(userId),
-          companyName:companyname,
+          companyName:companyName,
           role,
           location,
-          startYear:startyear,
-          endYear: endyear || null,
-          isCurrentlyEmployed:currentlyemployed,
+          startYear:startYear,
+          endYear: endYear || null,
+          isCurrentlyEmployed:isCurrentlyEmployed,
           description,
         },
       });

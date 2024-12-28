@@ -44,22 +44,10 @@ export default function CandidateProfile({ userId }) {
       formDataToUpload.append("file", file);
       console.log(formDataToUpload);
 
-<<<<<<< HEAD
-    const updateuser=async(firstname,lastname,imageurl)=>{
-        try{
-            const response= await fetch(`/api/user/profile/${userId}`,{
-            method:"PATCH",
-            headers:{
-                "Content-Type": "application/json",
-            },
-            body:JSON.stringify({firstname,lastname,imageurl})
-        });
-=======
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formDataToUpload,
       });
->>>>>>> b6967dd7721a38daa694a00984aa0af5be6f642d
 
       if (!response.ok) {
         throw new Error("Failed to upload image");
@@ -130,91 +118,6 @@ export default function CandidateProfile({ userId }) {
         return;
       }
 
-<<<<<<< HEAD
-           if(!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          console.log("Update EDUCATION successful:", data);
-          return data; 
-        }
-        catch(error){
-            console.log("Error updating candidate:", error);
-            return null;
-        }
-    }
-
-
-    const addExperienceData=async(companyname,role, location, startyear,endyear,currentlyemployed,description )=>{
-        try {
-            const response= await fetch(`/api/user/profile/${userId}/experience`,{
-                method:"POST",
-                headers:{
-                    "Content-Type": "application/json",
-                },
-                body:JSON.stringify({companyname,role, location, startyear,endyear,currentlyemployed,description })
-            });
-    
-               if(!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-              }
-          
-              const data = await response.json();
-              console.log("add experiencesssssssssssssssss successful:", data);
-              return data;
-        } catch (error) {
-            console.log("error adding exp",error)
-        }
-    }
-    
-    
-     
-    const updateExperienceData = async (Eid, updateFields) => {
-        try {
-          const response = await fetch(`/api/user/profile/${userId}/experience/${Eid}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updateFields), // Dynamically pass only fields to update
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          console.log("Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh", data);
-          return data;
-        } catch (error) {
-          console.log("Error updating EXP", error);
-          return null;
-        }
-      };
-
-      const deleteExperienceData=async(Eid)=>{
-        try{
-            const response= await fetch(`/api/user/profile/${userId}/experience/${Eid}`,{
-            method:"DELETE",
-            headers:{
-                "Content-Type": "application/json",
-            }
-        });
-
-           if(!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          console.log("delete successful: deleteeeeeeeeeeeeee", data);
-          return data; 
-        }
-        catch(error){
-            console.log("Error deleting candidate:", error);
-            return null;
-        }
-=======
       const response = await fetch(`/api/user/profile/${userId}/education`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -229,27 +132,9 @@ export default function CandidateProfile({ userId }) {
       console.log("Update successful:", data);
     } catch (error) {
       console.error("Error updating education data:", error);
->>>>>>> b6967dd7721a38daa694a00984aa0af5be6f642d
     }
   };
 
-<<<<<<< HEAD
-    
-
-    useEffect(() => {
-        if (userId) {
-            fetchUserData();
-            fetchCandidateData();
-            fetchEducationData();
-            fetchExperienceData();
-            updateuser("aditya","sawner","update he ji");
-            addEducationData("IITB", "btech", "Cse",2021, 2025, true, 10)
-            const instituteName="oxford"
-            // updateEducationData(instituteName)
-            deleteExperienceData(11);
-        }
-    }, [userId]);   
-=======
   const updateEducationData = async (educationData) => {
     try {
       const response = await fetch(
@@ -260,7 +145,6 @@ export default function CandidateProfile({ userId }) {
           body: JSON.stringify(educationData),
         }
       );
->>>>>>> b6967dd7721a38daa694a00984aa0af5be6f642d
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -407,7 +291,7 @@ export default function CandidateProfile({ userId }) {
             </div>
             <div>
               <label>Skills</label>
-             <MultipleSelectChip></MultipleSelectChip>
+              <MultipleSelectChip></MultipleSelectChip>
               <div>
                 {skills.map((skill, index) => {
                   return <p key={index}>{skill}</p>;

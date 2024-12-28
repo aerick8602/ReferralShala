@@ -58,16 +58,6 @@ export async function PATCH(req, { params }) {
       );
     }
 
-<<<<<<< HEAD
-    // console.log(profile);
-    const updatedUserdata={
-      ...profile.userData,
-      first_name:firstname,
-      last_name:lastname,
-      image_url:imageurl,
-    }
-
-=======
     const existingUserData = profile.userData || {};
     const updatedUserData = {
       ...existingUserData,
@@ -75,7 +65,6 @@ export async function PATCH(req, { params }) {
       last_name: lastname,
       image_url: imageurl,
     };
->>>>>>> b6967dd7721a38daa694a00984aa0af5be6f642d
 
     const updatedProfile = await client.user.update({
       where: { userId: parseInt(userId, 10) },
