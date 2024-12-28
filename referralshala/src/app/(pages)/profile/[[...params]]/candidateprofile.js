@@ -6,7 +6,7 @@ import ExperienceWrapper from "../../../components/wrappers/ExperienceWrapper";
 import PersonalCard from "../../../components/models/PersonalModel";
 import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
-import DragnDrop from "../../../components/DragNDrop";
+// import DragnDrop from "../../../components/DragnDrop";
 import {
   FaPencilAlt,
   FaEnvelope,
@@ -274,11 +274,11 @@ export default function CandidateProfile({ userId }) {
         <div className="main-profile">
           <div className="education-section">
             <div className="my-2">
-              <DragnDrop
+              {/* <DragnDrop
                 onFilesSelected={handleFilesSelected}
                 width="100%"
                 height="200px"
-              />{" "}
+              /> */}
               {/* Add DragNdrop component here */}
             </div>
             <div className="flex flex-row justify-center">
