@@ -6,20 +6,20 @@ import ExperienceWrapper from "../../../components/wrappers/ExperienceWrapper";
 import PersonalCard from "../../../components/models/PersonalModel";
 import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
-// import DragnDrop from "../../../components/DragnDrop";
+import DragnDrop from "../../../components/DragnDrop";
 import {
   FaPencilAlt,
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
   FaExternalLinkAlt,
+  FaTimes,
 } from "react-icons/fa";
 import "../../../styles/Profile.css";
-import axios from "axios";
 import { HashLoader } from "react-spinners";
-import MultipleSelectChip from "../../../components/skills";
+import SkillSet from "../../../components/MultiSelect";
 
-export default function CandidateProfile({ userId }) {
+export default function CandidateProfile({ userId , isauth}) {
   const [userData, setUserData] = useState({});
   const [candidateData, setCandidateData] = useState({});
   const [educationData, setEducationData] = useState([]);
@@ -28,89 +28,100 @@ export default function CandidateProfile({ userId }) {
   const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
   const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Single loader state
-  const [skills, setSkills] = useState([]);
+  const [candidateSkills, setCandidateSkills] = useState([]);
   const [file, setFile] = useState(null);
+  const [resumePath, setResumePath] = useState(null);
 
-  const handleFilesSelected = (selectedFile) => {
-    setFile(selectedFile);
-  };
-  const handleUpload = async () => {
-    console.log("hey i am here");
-    // e.preventDefault();
-    console.log(file);
 
-    if (file) {
-      const formDataToUpload = new FormData();
-      formDataToUpload.append("file", file);
-      console.log(formDataToUpload);
-
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formDataToUpload,
+  /*####################  apis  #####################*/
+  const fetchUserData = async () => {
+    try {
+      const res = await fetch(`/api/user/profile/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
-
-      const result = await response.json();
-      const imagePath = result.filePath;
-      console.log("imagePath", imagePath);
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      console.log("User Data :", data.data);
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
     }
   };
+  const fetchCandidateData = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/profile/${userId}/candidate`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      console.log("Candidate Data :", data.data);
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching candidate data:", error);
+      return null;
+    }
+  };
+  const fetchEducationData = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/profile/${userId}/education`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      // if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      console.log("Education Data :", data.data);
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching education data:", error);
+      return null;
+    }
+  };
+  const fetchExperienceData = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/profile/${userId}/experience`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      console.log("Experinece Data :", data.data);
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching experience data:", error);
+      return null;
+    }
+  };
+  // Main function to fetch all data
   const fetchData = async () => {
+    console.log("UserId :", userId);
     setIsLoading(true);
     try {
-      const [userRes, candidateRes, educationRes, experienceRes] =
-        await Promise.all([
-          fetch(`/api/user/profile/${userId}`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }),
-          fetch(`/api/user/profile/${userId}/candidate`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }),
-          fetch(`/api/user/profile/${userId}/education`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }),
-          fetch(`/api/user/profile/${userId}/experience`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }),
-        ]);
-
-      if (
-        !userRes.ok ||
-        !candidateRes.ok ||
-        !educationRes.ok ||
-        !experienceRes.ok
-      ) {
-        throw new Error("Error fetching data");
-      }
-
       const [userData, candidateData, educationData, experienceData] =
         await Promise.all([
-          userRes.json(),
-          candidateRes.json(),
-          educationRes.json(),
-          experienceRes.json(),
+          fetchUserData(userId),
+          fetchCandidateData(userId),
+          fetchEducationData(userId),
+          fetchExperienceData(userId),
         ]);
 
-      setUserData(userData.data);
-      setCandidateData(candidateData.data);
-      setSkills(candidateData.data.skills);
-      setEducationData(educationData.data);
-      setExperienceData(experienceData.data);
+      setUserData(userData);
+      setCandidateData(candidateData);
+      setCandidateSkills(candidateData.skills);
+      setResumePath(candidateData.resume);
+      setEducationData(educationData);
+      setExperienceData(experienceData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
   const addEducationData = async (educationData) => {
     try {
       if (!userId) {
@@ -130,12 +141,13 @@ export default function CandidateProfile({ userId }) {
 
       const data = await response.json();
       console.log("Update successful:", data);
+      return data;
     } catch (error) {
       console.error("Error updating education data:", error);
     }
   };
-
   const updateEducationData = async (educationData) => {
+    console.log(educationData);
     try {
       const response = await fetch(
         `/api/user/profile/${userId}/education/${educationData.educationId}`,
@@ -156,7 +168,6 @@ export default function CandidateProfile({ userId }) {
       console.error("Error updating candidate:", error);
     }
   };
-
   const deleteEducationData = async (educationId) => {
     try {
       const response = await fetch(
@@ -177,7 +188,82 @@ export default function CandidateProfile({ userId }) {
       console.error("Error deleting education data:", error);
     }
   };
+  const addExperienceData = async (experienceData) => {
+    console.log("heloooo");
+    console.log(experienceData);
+    try {
+      const response = await fetch(`/api/user/profile/${userId}/experience`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(experienceData),
+      });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Update successful:", data);
+      return data;
+    } catch (error) {
+      console.log("error adding exp", error);
+    }
+  };
+  const updateExperienceData = async (experienceData) => {
+    console.log(experienceData);
+    try {
+      const response = await fetch(
+        `/api/user/profile/${userId}/experience/${experienceData.experienceId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(experienceData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(
+        "Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh",
+        data
+      );
+      return data;
+    } catch (error) {
+      console.log("Error updating EXP", error);
+      return null;
+    }
+  };
+  const deleteExperienceData = async (experienceId) => {
+    try {
+      const response = await fetch(
+        `/api/user/profile/${userId}/experience/${experienceId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("delete successful: deleteeeeeeeeeeeeee", data);
+      return data;
+    } catch (error) {
+      console.log("Error deleting candidate:", error);
+      return null;
+    }
+  };
   const updateUserData = async (firstname, lastname, imageurl) => {
     try {
       const response = await fetch(`/api/user/profile/${userId}`, {
@@ -198,6 +284,89 @@ export default function CandidateProfile({ userId }) {
     } catch (error) {
       console.log("Error updating candidate:", error);
       return null;
+    }
+  };
+  const updateCandidateData = async (experienceData) => {
+    try {
+      if (typeof experienceData !== "object" || experienceData === null) {
+        throw new Error("experienceData must be a non-null object.");
+      }
+      const requestBody = {
+        ...(experienceData.skills !== undefined && {
+          skills: experienceData.skills,
+        }),
+        ...(experienceData.resume !== undefined && {
+          resume: experienceData.resume,
+        }),
+        ...(experienceData.location !== undefined && {
+          location: experienceData.location,
+        }),
+        ...(experienceData.contactNumber !== undefined && {
+          contactNumber: experienceData.contactNumber,
+        }),
+        ...(experienceData.socialLinks !== undefined && {
+          socialLinks: experienceData.socialLinks,
+        }),
+      };
+
+      console.log("RequestBody:", requestBody);
+
+      const response = await fetch(`/api/user/profile/${userId}/candidate`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Update successful:", data);
+      return data;
+    } catch (error) {
+      console.log("Error updating candidate:", error);
+      return null;
+    }
+  };
+    /*####################  apis  #####################*/
+
+  const removeSkill = async (skillToRemove) => {
+    // Remove the skill from the array
+    const updatedSkills = candidateSkills.filter(
+      (skill) => skill !== skillToRemove
+    );
+
+    // Update the state with the new skill set
+    setCandidateSkills(updatedSkills);
+
+    // Update the backend with the new skill set
+    updateCandidateData({ skills: updatedSkills });
+  };
+
+  const handleFilesSelected = async (selectedFile) => {
+    setFile(selectedFile);
+    if (file) {
+      const formDataToUpload = new FormData();
+      formDataToUpload.append("file", file);
+      console.log(formDataToUpload);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formDataToUpload,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const result = await response.json();
+      console.log(result);
+      const filePath = result.filePath;
+      console.log("filePath", filePath);
+      updateCandidateData({ resume: filePath });
     }
   };
 
@@ -225,9 +394,12 @@ export default function CandidateProfile({ userId }) {
       <Navbar userId={userId} />
       <div className="profile">
         <div className="personal-data">
-          <button onClick={togglePersonalModel} className="edit-button">
+          { isauth ? (<button onClick={togglePersonalModel} className="edit-button">
             <FaPencilAlt /> Edit
-          </button>
+          </button>):(
+            <></>
+          ) 
+          }
           <div className="avatar">
             <img
               src={userData?.profileImage || "/user.png"}
@@ -274,36 +446,62 @@ export default function CandidateProfile({ userId }) {
         <div className="main-profile">
           <div className="education-section">
             <div className="my-2">
-              {/* <DragnDrop
+              <DragnDrop
                 onFilesSelected={handleFilesSelected}
+                resumePath={resumePath}
+                setResumePath={setResumePath}
                 width="100%"
                 height="200px"
-              /> */}
-              {/* Add DragNdrop component here */}
+              />
             </div>
-            <div className="flex flex-row justify-center">
-              <button
-                className="py-1 px-4 w-16 bg-sky-500 text-white rounded-lg mt-4 hover:bg-sky-600 transition-colors"
-                onClick={handleUpload}
-              >
-                Save
-              </button>
-            </div>
+            <div className="flex flex-row justify-center"></div>
             <div>
               <label>Skills</label>
-              <MultipleSelectChip></MultipleSelectChip>
-              <div>
-                {skills.map((skill, index) => {
-                  return <p key={index}>{skill}</p>;
-                })}
+             {
+              isauth?(
+                <SkillSet
+                candidateSkills={candidateSkills}
+                setCandidateSkills={setCandidateSkills}
+                updateCandidateData={updateCandidateData}
+              ></SkillSet>
+              ):(
+                <></>
+              )
+             }
+              <div className="skills-list">
+                {candidateSkills && candidateSkills.length > 0 ? (
+                  candidateSkills.map((skill, index) => (
+                    <div
+                      key={index}
+                      className="skill-item flex items-center space-x-2"
+                    >
+                      <p>{skill}</p>
+                     {
+                      isauth?(
+                        <button
+                        onClick={() => removeSkill(skill)} // Trigger the remove function
+                        className="remove-skill-btn text-red-500"
+                      >
+                        <FaTimes />
+                      </button>
+                      ):(
+                        <></>
+                      )
+                     }
+                    </div>
+                  ))
+                ) : (
+                  <p>No skills available</p>
+                )}
               </div>
             </div>
           </div>
           <div className="education-section">
-            {educationData.length > 0 ? (
+            {educationData?.length > 0 ? (
               <div>
                 <label>Education Details</label>
                 <EducationWrapper
+                  isauth={isauth}
                   educationData={educationData}
                   setEducationData={setEducationData}
                   updateEducationData={updateEducationData}
@@ -313,20 +511,24 @@ export default function CandidateProfile({ userId }) {
             ) : (
               <p>No education data available.</p>
             )}
-
-            {experienceData.length > 0 ? (
+        {isauth?(      <p onClick={toggleEducationModel}>Add Education Details</p>):(<></>)}
+            {experienceData?.length > 0 ? (
               <div>
                 <label>Experience Details</label>
                 <ExperienceWrapper
-                  experiences={experienceData}
+                isauth={isauth}
+                  experienceData={experienceData}
                   setExperienceData={setExperienceData}
+                  deleteExperienceData={deleteExperienceData}
+                  updateExperienceData={updateExperienceData}
+                  
                 />
               </div>
             ) : (
               <p>No experience data available.</p>
             )}
-            <p onClick={toggleEducationModel}>Add Education Details</p>
-            <p onClick={toggleExperienceModel}>Add Experience Details</p>
+
+            {isauth? (<p onClick={toggleExperienceModel}>Add Experience Details</p>):(<></>)}
           </div>
         </div>
 
@@ -343,6 +545,7 @@ export default function CandidateProfile({ userId }) {
                 setCandidateData={setCandidateData}
                 togglePersonalModel={togglePersonalModel}
                 updateUserData={updateUserData}
+                updateCandidateData={updateCandidateData}
               />
             </div>
           </div>
@@ -373,6 +576,7 @@ export default function CandidateProfile({ userId }) {
               <ExperienceModel
                 experienceData={experienceData}
                 setExperienceData={setExperienceData}
+                addExperienceData={addExperienceData}
                 toggleExperienceModel={toggleExperienceModel}
               />
             </div>

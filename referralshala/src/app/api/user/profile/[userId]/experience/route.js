@@ -60,6 +60,7 @@ export async function GET(req, { params }) {
         { status: 400 }
       );
     }
+    console.log(body);
   
     const { companyName, role, location, startYear, endYear, isCurrentlyEmployed, description } = body;
   
@@ -68,8 +69,7 @@ export async function GET(req, { params }) {
       !role ||
       !location ||
       !startYear ||
-      isCurrentlyEmployed === undefined ||
-      !description
+      isCurrentlyEmployed === undefined
     ) {
       return NextResponse.json(
         { success: false, message: "Missing required fields." },
@@ -81,11 +81,11 @@ export async function GET(req, { params }) {
       const newExp = await client.experience.create({
         data: {
           userId: parseInt(userId),
-          companyName:companyName,
+          companyName,
           role,
           location,
-          startYear:startYear,
-          endYear: endYear || null,
+          startYear,
+          endYear,
           isCurrentlyEmployed:isCurrentlyEmployed,
           description,
         },

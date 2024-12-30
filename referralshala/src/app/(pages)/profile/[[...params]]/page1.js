@@ -85,7 +85,7 @@ export default function ProfilePage() {
 
   // UPDATE USER DATA
 
-  const updateuserData = async (skills, resume) => {
+  const updateCandidateData = async (skills, resume) => {
     try {
       const requestBody = {
         ...(skills !== undefined && { skills }),

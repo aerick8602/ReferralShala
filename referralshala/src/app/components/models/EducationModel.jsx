@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import '../../styles/EducationModel.css';
-import { HashLoader} from 'react-spinners';
+import { v4 as uuidv4 } from 'uuid';
 
 const EducationModel = ({ 
   currentEducation,
@@ -44,7 +44,7 @@ const EducationModel = ({
 
   const handleSaveOrUpdate = async (e) => {
     e.preventDefault();
-
+  
     if (
       !formData.instituteName ||
       !formData.degree ||
@@ -56,9 +56,9 @@ const EducationModel = ({
       alert('Please fill all required fields.');
       return;
     }
-
+  
     const newEducationData = {
-      educationId: currentEducation?.educationId || Date.now(),
+      educationId: currentEducation?.educationId || uuidv4(),
       instituteName: formData.instituteName,
       degree: formData.degree,
       stream: formData.stream,
@@ -70,21 +70,35 @@ const EducationModel = ({
         cgpa: formData.grade === 'cgpa' ? parseFloat(formData.gradeCGPA) : undefined,
       },
     };
-
+  
+    const updatedEducationData = Array.isArray(educationData) ? [...educationData] : [];
+  
     if (currentEducation) {
-      const updatedData = educationData.map((edu) => 
+      const updatedData = updatedEducationData.map((edu) =>
         edu.educationId === newEducationData.educationId ? newEducationData : edu
       );
       setEducationData(updatedData);
       if (updateEducationData) updateEducationData(newEducationData);
+      toggleEducationModel();
     } else {
-      const newData = [...educationData, newEducationData];
-      setEducationData(newData);
-      if (addEducationData) addEducationData(newEducationData);
+      updatedEducationData.push(newEducationData);
+      setEducationData(updatedEducationData);
+      toggleEducationModel();
+      if (addEducationData) {
+        const response = await addEducationData(newEducationData);
+        console.log(response);
+        if (response.data?.educationId) {
+          const updatedDataWithId = updatedEducationData.map((edu) =>
+            edu.educationId === newEducationData.educationId
+              ? { ...edu, educationId: response.data.educationId }
+              : edu
+          );
+          setEducationData(updatedDataWithId);
+        }
+      }
     }
-
-    toggleEducationModel();
   };
+
   return (
     <div className="edu-model">
       <div className="edu-card">
@@ -179,7 +193,7 @@ const EducationModel = ({
                     onChange={handleChange}
                     placeholder="Enter end year YYYY"
                     min={formData.startYear}
-                    max={currentYear}
+                    // max={currentYear}
                     maxLength="4"
                     required
                   />

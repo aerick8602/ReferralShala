@@ -8,18 +8,20 @@ const PersonalCard = ({
   setUserData,
   setCandidateData,
   togglePersonalModel,
-  updateUserData
+  updateUserData,
+  updateCandidateData,
 }) => {
-  useEffect(()=>{
+  useEffect(() => {
     console.log(userData);
     console.log(candidateData);
-  },[]);
+  }, []);
+
   const [formData, setFormData] = useState({
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    contactNumber: candidateData.contactNumber,
-    location: candidateData.location,
-    socialLinks: candidateData.socialLinks,
+    firstName: userData.firstName || "",
+    lastName: userData.lastName || "",
+    contactNumber: candidateData.contactNumber || "",
+    location: candidateData.location || "",
+    socialLinks: candidateData.socialLinks || [], // Make sure it's an empty array by default
     profileImage: userData.profileImage || "",
   });
 
@@ -51,52 +53,54 @@ const PersonalCard = ({
   const removeProfileImage = () => {
     setFormData((prev) => ({ ...prev, profileImage: null }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (file) {
       const formDataToUpload = new FormData();
       formDataToUpload.append("file", file);
-  
+
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formDataToUpload,
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to upload image");
       }
-  
+
       const result = await response.json();
       const imagePath = result.filePath;
       console.log("imagePath", imagePath);
-  
-      const updatedFormData = {
+
+      const updatedPersonalFormData = {
         ...formData,
-        profileImage: imagePath, 
+        profileImage: imagePath,
       };
-      setFormData(updatedFormData); 
+      setFormData(updatedPersonalFormData);
       setUserData((prevData) => ({
-        ...prevData, 
-        firstName: formData.firstName, 
+        ...prevData,
+        firstName: formData.firstName,
         lastName: formData.lastName,
         profileImage: formData.profileImage,
       }));
-    }
-    else{
+    } else {
       setUserData((prevData) => ({
-        ...prevData, 
-        firstName: formData.firstName, 
+        ...prevData,
+        firstName: formData.firstName,
         lastName: formData.lastName,
-        profileImage: null
+        profileImage: null,
       }));
-      updateUserData(formData.firstName,formData.lastName,null);
+      
     }
-
-    
-    
-
-    // console.log("Updated Form Data:", updatedFormData);
+    updateUserData(formData.firstName, formData.lastName, formData.profileImage);
+    setCandidateData((prevData)=>({
+      location:formData.location,
+      contactNumber:formData.contactNumber,
+      socialLinks:formData.socialLinks
+    }));
+    updateCandidateData({location:formData.location,contactNumber:formData.contactNumber,socialLinks:formData.socialLinks});
 
     togglePersonalModel();
   };
@@ -223,7 +227,7 @@ const PersonalCard = ({
               value={formData.contactNumber}
               onChange={handleInputChange}
               placeholder="Enter your 10-digit contact number"
-              pattern="\d{10}" // Ensure this is correctly escaped
+              pattern="\d{10}"
               title="Please enter a valid 10-digit contact number."
               required
             />
@@ -260,7 +264,7 @@ const PersonalCard = ({
             </button>
           </div>
 
-          {formData.socialLinks.map((social, index) => (
+          {formData.socialLinks?.map((social, index) => (
             <div
               key={index}
               className="personal-form-group"

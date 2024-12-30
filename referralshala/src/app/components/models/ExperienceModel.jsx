@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
 import '../../styles/ExperienceModel.css';
 import { IoClose } from 'react-icons/io5';
+import { v4 as uuidv4 } from 'uuid';
 
-const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
+const ExperienceModel = ({ 
+  currentExperience, 
+  experienceData, 
+  setExperienceData, 
+  addExperienceData, 
+  updateExperienceData,
+  toggleExperienceModel, 
+}) => {
   const [formData, setFormData] = useState({
-    companyName: experience?.companyName,
-    role: experience?.role,
-    location: experience?.location,
-    startYear: experience?.startYear,
-    endYear:experience?.endYear,
-    isCurrentlyEmployed: experience?.isCurrentlyEmployed,
-    description: experience?.description,
+    companyName: currentExperience?.companyName || '',
+    role: currentExperience?.role || '',
+    location: currentExperience?.location || '',
+    startYear: currentExperience?.startYear || '',
+    endYear: currentExperience?.endYear || '',
+    isCurrentlyEmployed: currentExperience?.isCurrentlyEmployed || false,
+    description: currentExperience?.description || '',
   });
-
-    
-
-  const [errors, setErrors] = useState({
-    companyName: '',
-    role: '',
-    location: '',
-    startYear: '',
-    endYear: '',
-  });
-
-  const [isOpen, setIsOpen] = useState(true); // State to control the overlay visibility
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
@@ -34,75 +30,74 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
-
-    // Error handling and removal of error logic
-    setErrors((prevErrors) => {
-      const updatedErrors = { ...prevErrors };
-
-      if (name === 'companyName') {
-        updatedErrors.companyName = value === '' ? '* Company name is required' : '';
-      }
-
-      if (name === 'role') {
-        updatedErrors.role = value === '' ? '* Role is required' : '';
-      }
-
-      if (name === 'location') {
-        updatedErrors.location = value === '' ? '* Location is required' : '';
-      }
-
-      if (name === 'startYear') {
-        if (value.length !== 4 || isNaN(value)) {
-          updatedErrors.startYear = '* Start year is invalid';
-        } else if (value < years[years.length - 1] || value > currentYear) {
-          updatedErrors.startYear = `* Start year must be between ${years[years.length - 1]} and ${currentYear}`;
-        } else {
-          updatedErrors.startYear = '';
-        }
-      }
-
-      if (name === 'endYear') {
-        if (value.length !== 4 || isNaN(value)) {
-          updatedErrors.endYear = '* End year is invalid';
-        } else if (value < formData.startYear || value > currentYear) {
-          updatedErrors.endYear = `* End year must be before ${currentYear}`;
-        } else {
-          updatedErrors.endYear = '';
-        }
-      }
-
-      return updatedErrors;
-    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSaveOrUpdate = async (e) => {
     e.preventDefault();
-    if (Object.values(errors).some((error) => error !== '') || Object.values(formData).some((field) => field === '')) {
-      alert('Please fix the errors before submitting');
+  
+    if (
+      !formData.companyName ||
+      !formData.role ||
+      !formData.location ||
+      !formData.startYear 
+    ) {
+      alert('Please fill all required fields.');
       return;
     }
-    onSubmit(formData);
+  
+    const newExperienceData = {
+      experienceId: currentExperience?.experienceId || uuidv4(),
+      companyName: formData?.companyName || '',
+      role: formData?.role || '',
+      location: formData?.location || '',
+      startYear: parseInt(formData?.startYear) || '',
+      endYear: parseInt(formData?.endYear) || null,
+      isCurrentlyEmployed: formData?.isCurrentlyEmployed || false,
+      description: formData?.description || null
+    };
+  
+    // Ensure experienceData is always an array
+    const updatedExperienceData = Array.isArray(experienceData) ? [...experienceData] : [];
+  
+    if (currentExperience) {
+      // Update existing experience
+      const updatedData = updatedExperienceData.map((exp) =>
+        exp.experienceId === newExperienceData.experienceId ? newExperienceData : exp
+      );
+      setExperienceData(updatedData);
+      toggleExperienceModel();
+      if (updateExperienceData) updateExperienceData(newExperienceData);
+    } else {
+      // Add new experience
+      const newData = [...updatedExperienceData, newExperienceData];
+      setExperienceData(newData);
+      toggleExperienceModel();
+      if (addExperienceData) {
+        const response = await addExperienceData(newExperienceData); // Assuming this returns a response with the actual experienceId
+          console.log(response.data);
+  
+          // If the response contains the actual experienceId, update the experience data
+          if (response.data?.experienceId) {
+            const updatedDataWithId = newData.map((exp) =>
+              exp.experienceId === newExperienceData.experienceId
+                ? { ...exp, experienceId: response.data.experienceId }
+                : exp
+            );
+            setExperienceData(updatedDataWithId);
+          }
+      }
+    }
   };
-
-  const closeCard = () => {
-    setIsOpen(false); // Close the overlay
-  };
-
-  // Render null when the card is closed
-  if (!isOpen) return null;
+  
 
   return (
     <div className="exp-model">
       <div className="exp-card">
-        <button
-          type="button"
-          className="edu-close-button"
-          onClick={toggleModal} // Close card on click
-        >
+        <button type="button" className="edu-close-button" onClick={toggleExperienceModel}>
           <IoClose size={24} />
         </button>
         <h2 className="exp-title">Work Experience Details</h2>
-        <form onSubmit={handleSubmit} className="exp-form">
+        <form onSubmit={handleSaveOrUpdate} className="exp-form">
           <div className="exp-form-group">
             <label htmlFor="companyName">Company Name</label>
             <input
@@ -114,7 +109,6 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
               placeholder="Enter company name"
               required
             />
-            {errors.companyName && <p className={`error-text ${errors.companyName ? 'active' : ''}`}>{errors.companyName}</p>}
           </div>
 
           <div className="exp-form-group">
@@ -128,7 +122,6 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
               placeholder="Enter your role"
               required
             />
-            {errors.role && <p className={`error-text ${errors.role ? 'active' : ''}`}>{errors.role}</p>}
           </div>
 
           <div className="exp-form-group">
@@ -142,10 +135,9 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
               placeholder="Enter job location"
               required
             />
-            {errors.location && <p className={`error-text ${errors.location ? 'active' : ''}`}>{errors.location}</p>}
           </div>
 
-          <div className="exp-form-row" style={{display:'flex',justifyContent:'space-between',width:'100%'}}>
+          <div className="exp-form-row" style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
             <div className="exp-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
@@ -160,7 +152,6 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
                 min={years[years.length - 1]}
                 max={currentYear}
               />
-              {errors.startYear && <p className={`error-text ${errors.startYear ? 'active' : ''}`}>{errors.startYear}</p>}
             </div>
 
             {!formData.isCurrentlyEmployed && (
@@ -175,15 +166,15 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
                   onChange={handleChange}
                   placeholder="Enter end year YYYY"
                   min={formData.startYear}
-                  max={currentYear}
+                  // max={currentYear}
+                  required
                 />
-                {errors.endYear && <p className={`error-text ${errors.endYear ? 'active' : ''}`}>{errors.endYear}</p>}
               </div>
             )}
           </div>
 
           <div className="exp-form-group exp-checkbox-group" style={{ display: 'flex', flexDirection: 'row', fontSize: '12px' }}>
-            <label htmlFor="isCurrentlyEmployed" style={{}}>Currently working here</label>
+            <label htmlFor="isCurrentlyEmployed">Currently working here</label>
             <input
               style={{ marginTop: '3px' }}
               type="checkbox"
@@ -210,7 +201,9 @@ const ExperienceModel = ({ onSubmit,toggleModal,experience }) => {
             Example: Describe key responsibilities, technologies used, and achievements during your role.
           </p>
 
-          <button type="submit" className="exp-update-button">Update</button>
+          <button type="submit" className="exp-update-button">
+            {currentExperience ? "Update" : "Save"} 
+          </button>
         </form>
       </div>
     </div>

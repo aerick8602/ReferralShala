@@ -50,7 +50,7 @@ input[type="number"] {
 .exp-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: .6rem;
 }
 
 .exp-form-group {
@@ -146,7 +146,7 @@ input[type="number"] {
 /* Help text styling */
 .exp-help-text {
   font-size: 0.8rem;
-  margin-top: -15px;
+  margin-top: -5px;
   color: #6b7280;
   text-align: center;
 }

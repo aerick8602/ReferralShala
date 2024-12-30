@@ -11,19 +11,10 @@ export async function GET(req, { params }) {
       { status: 400 }
     );
   }
-
   try {
     const profile = await client.education.findMany({
       where: { userId: parseInt(userId) },
     });
-
-    if (!profile.length) {
-      return NextResponse.json(
-        { success: false, message: `Profile with userId ${userId} not found.` },
-        { status: 404 }
-      );
-    }
-
     return NextResponse.json(
       { success: true, data: profile },
       { status: 200 }

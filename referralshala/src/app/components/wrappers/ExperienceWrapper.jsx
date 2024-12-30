@@ -2,28 +2,36 @@ import React, { useState } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import ExperienceModel from "../models/ExperienceModel"; // Create this modal component separately.
 
-const ExperienceWrapper = ({ experiences, onEdit, onDelete, onSave }) => {
-  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
+const ExperienceWrapper = ({
+  isauth,
+  experienceData,
+  setExperienceData,
+  updateExperienceData,
+  deleteExperienceData,
+}) => {
   const [currentExperience, setCurrentExperience] = useState(null);
+  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
+
+  const toggleExperienceModel = () => setIsExperienceModalOpen(!isExperienceModalOpen);
 
   const handleEdit = (experienceId) => {
-    const selectedExperience = experiences.find((exp) => exp.experienceId === experienceId);
+    const selectedExperience = experienceData.find((exp) => exp.experienceId === experienceId);
     setCurrentExperience(selectedExperience);
-    setIsExperienceModalOpen(true); // Open modal
+    toggleExperienceModel();
   };
 
-  const handleSave = (updatedExperience) => {
-    onSave(updatedExperience); // Call onSave prop to save the updated experience
-    setIsExperienceModalOpen(false); // Close modal after saving
-  };
+  const handleDelete = async (experienceId) => {
 
-  const handleDelete = (experienceId) => {
-    onDelete(experienceId); // Call onDelete prop to delete the experience entry
+      if (confirm("Are you sure you want to delete this entry?")) {
+        const updateExperienceData = experienceData.filter((exp) => exp.experienceId !== experienceId);
+        setExperienceData(updateExperienceData);
+        await deleteExperienceData(experienceId); 
+      }
   };
 
   return (
     <div className="flex flex-col gap-4 w-11/12 m-auto">
-      {experiences.map((exp) => (
+      {experienceData?.map((exp) => (
         <div
           key={exp.experienceId}
           className="border p-4 rounded-lg shadow-lg bg-white relative w-full"
@@ -32,10 +40,10 @@ const ExperienceWrapper = ({ experiences, onEdit, onDelete, onSave }) => {
           <p className="text-sm text-gray-600">{exp.role}</p>
           <p className="text-sm text-gray-600">{exp.location}</p>
           <p className="text-sm text-gray-600">
-            {exp.startYear} - {exp.endYear || exp.isCurrentlyEmployed ? "Present" : "N/A"}
+            {exp.startYear} - {exp.endYear || (exp.isCurrentlyEmployed ? "Present" : "N/A")}
           </p>
           {exp.description && <p className="text-sm text-gray-600 mt-2">{exp.description}</p>}
-          <div className="absolute top-2 right-2 flex gap-2">
+          {isauth?(<div className="absolute top-2 right-2 flex gap-2">
             <button
               onClick={() => handleEdit(exp.experienceId)} // Open modal for specific experience
               className="text-blue-500 hover:text-blue-700"
@@ -48,16 +56,18 @@ const ExperienceWrapper = ({ experiences, onEdit, onDelete, onSave }) => {
             >
               <FaTrash />
             </button>
-          </div>
+          </div>):(<></>)}
         </div>
       ))}
 
       {/* Conditional Modal Rendering for specific experience */}
       {isExperienceModalOpen && currentExperience && (
         <ExperienceModel
-          toggleModal={() => setIsExperienceModalOpen(false)} // Close modal
-          experience={currentExperience}
-          onSave={handleSave} // Save updated experience
+          experienceData={experienceData}
+          currentExperience={currentExperience}
+          setExperienceData={setExperienceData}
+          toggleExperienceModel={toggleExperienceModel}
+          updateExperienceData={updateExperienceData}
         />
       )}
     </div>

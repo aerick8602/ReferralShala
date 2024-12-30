@@ -4,19 +4,23 @@ import client from "../../../../../../connection/prisma";
 
 
 export async function PATCH(req, { params }) {
-  const { userId } = await params;
+  const { userId } = await  params;  // Extract `userId` from params
   const body = await req.json(); 
-
-  const { skills, resume,socialLinks } = body;
+  console.log("Body :",body)
+  const { skills, resume, location, contactNumber, socialLinks } = body;
 
   try {
-    
+    // Build updateData object conditionally
     const updateData = {
-      ...(skills !== undefined && { skills }), 
-      ...(resume !== undefined && { resume }), 
-      ...(socialLinks!= undefined && {socialLinks})
+      ...(skills !== undefined && { skills }),
+      ...(resume !== undefined && { resume }),
+      ...(location !== undefined && { location }),
+      ...(contactNumber !== undefined && { contactNumber }),
+      ...(socialLinks !== undefined && { socialLinks }),
     };
+    console.log("Update Candidate Data :",updateData)
 
+    // If no fields are provided for update, return an error
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json(
         { success: false, message: "No valid fields provided for update." },
@@ -24,6 +28,7 @@ export async function PATCH(req, { params }) {
       );
     }
 
+    // Update the candidate data in the database
     const updatedCandidate = await client.candidate.update({
       where: { userId: parseInt(userId) },
       data: updateData,
@@ -41,7 +46,6 @@ export async function PATCH(req, { params }) {
     );
   }
 }
-
 
 
 

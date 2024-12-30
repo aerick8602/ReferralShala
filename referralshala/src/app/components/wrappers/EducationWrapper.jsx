@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
-import EducationModal from "../models/EducationModel"; 
+import EducationModal from "../../components/models/EducationModel"; 
 
 const EducationWrapper = ({
+  isauth,
   educationData,
   setEducationData,
   updateEducationData,
@@ -46,7 +47,8 @@ const EducationWrapper = ({
               ? `Percentage: ${edu.grade?.percentage}%`
               : `CGPA: ${edu.grade?.cgpa}`}
           </p>
-          <div className="absolute top-2 right-2 flex gap-2">
+         {
+          isauth?( <div className="absolute top-2 right-2 flex gap-2">
             <button
               onClick={() => handleEdit(edu.educationId)}
               className="text-blue-500 hover:text-blue-700"
@@ -59,7 +61,8 @@ const EducationWrapper = ({
             >
               <FaTrash />
             </button>
-          </div>
+          </div>):(<></>)
+         }
         </div>
       ))}
 
