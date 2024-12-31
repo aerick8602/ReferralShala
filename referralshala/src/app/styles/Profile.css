@@ -1,5 +1,5 @@
 .profile{
-    width: 85vw;
+    width: 86vw;
     margin-top: 70px;
     display: flex;
     flex-direction: row;
@@ -7,57 +7,202 @@
 }
 
 .personal-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* align-items: center; */
     width:35%;
-    margin: 50px 50px 50px 250px;
-    height: 70vh;
-    border-radius: 15px;
-    border:.5px solid rgba(207, 207, 207, 0.9);
+    margin: 50px 50px 50px 180px;
+    height: 65vh;
+    border-radius: 10px;
+    border:.5px solid rgba(255, 207, 207, 0.9);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 1px 1px 1px rgba(255, 39, 39, 0.1);
 }
+
+.avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40%;
+    margin-bottom: 20px;
+
+    /* background-color: red; */
+}
+
+.avatar img {
+    height: 150px;
+    width: 150px;
+    border-radius: 100px;
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+  }
+  
+
+.edit-button{
+    font-size:large;
+    margin-left: 240px;
+    margin-top: -60px;
+    opacity: .6;
+    /* color: #fe4949; */
+}
+.edit-button:hover{
+    opacity: 1;
+}
+.icon{
+    opacity:.8;
+}
+
+.info-item{
+    display: flex;
+     align-items: center;
+     gap: 10px;
+     margin-left: 35px;
+}
+
+.user-name{
+    display: flex;
+    width: 100%;
+    font-weight: 600;
+    font-stretch: expanded;
+}
+
+
+.social-links{
+    margin:15px 20px 15px 20px;
+}
+
+
+.social-links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .social-chip {
+    background-color: #fe4949;
+    border-radius: 25px;
+    padding: 5px 10px;
+    font-size: 12.5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .social-chip:hover {
+    background-color: #fe4949;
+  }
+  
+  .chip-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+  }
+.labels{
+  font-size: large;
+  font-family:Arial, Helvetica, sans-serif;
+  padding: 10px 10px 10px 20px;
+}
+
+
+
+
+
 
 
 .main-profile{
-    width:80%;
-    margin: 50px 50px 50px 0px;
-    border-radius: 15px;
-    height: 150vh;
-    border:.5px solid rgba(207, 207, 207, 0.9);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-/* 
-.avatar{
-    height: 180px;
-    width: 100%;
-    display:flex;
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    /* justify-content: center; */
+    width:100%;
+    margin: 50px 50px 50px 0px;
+    border-radius: 10px;
+    /* height: 150vh; */
+    border:.5px solid rgba(255, 207, 207, 0.9);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 1px 1px 1px rgba(255, 39, 39, 0.1);
 }
 
-
-.avatar-img{
-    height: 150px;
-    width: 150px;
-    background-color: aqua;
-    border-radius: 100px
+.resume,.skills,.education,.experience{
+    width:90%;
+    margin: 10px;
+    border-radius: 10px;
+    /* border:.5px solid rgba(223, 223, 223, 0.9);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); */
 }
-
-.details{
-    margin: 0px 20px 20px 60px;
-} */
-
-/* .education-section{
-    border: 1px solid black;
-    padding:10px;
-    border-radius: 4px;
-    position: absolute;
-
+.experience{
+  margin-bottom: 50px;
 }
-.education-label{
+.skills-container {
+    /* padding: 10px; */
+    width: 100%;
+    margin: 0 auto;
+  }
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
 
-    border-radius: 4px;
-    border: 1px solid black;
-    margin-bottom: -20px;
-} */
+  }
+  
+  .skill-chip {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .skill-chip p {
+    margin-right: 8px;
+    font-weight: 500;
+  }
+  
+  .skill-chip:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .remove-skill-btn {
+    background: none;
+    border: none;
+    color: #f44b4b;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .remove-skill-btn:hover {
+    color: rgb(205, 35, 35);
+  }
+  
+  .skills-list p {
+    color: #5e5e5e;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .err{
+    color: #5e5e5e;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .skills-container {
+      padding: 15px;
+    }
+  
+    .skill-chip {
+      font-size: 0.9rem;
+      padding: 6px 10px;
+    }
+  }
+  

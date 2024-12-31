@@ -36,6 +36,7 @@ export async function GET(req, { params }) {
 export async function PATCH(req, { params }) {
   const { userId } = params;
   const body = await req.json();
+  console.log(body);
 
   const { firstname, lastname, imageurl } = body;
 

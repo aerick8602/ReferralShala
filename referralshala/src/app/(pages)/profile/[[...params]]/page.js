@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useParams } from "next/navigation";
 import CandidateProfile from "./candidateprofile";
@@ -6,7 +6,7 @@ import EmployerProfile from "./employerprofile";
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { HashLoader } from "react-spinners"; 
+import { HashLoader } from "react-spinners";
 
 export default function ProfilePage() {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -15,13 +15,13 @@ export default function ProfilePage() {
   const userId = params.params[1];
 
   const [isauth, setIsAuth] = useState(false);
-  const [userData, setUserData] = useState(null); 
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchUserId = async () => {
     try {
       const response = await axios.get(`/api/user/${user?.id}`);
-      setUserData(response.data.data); 
+      setUserData(response.data.data);
     } catch (err) {
       console.log("Error fetching user data:", err);
     } finally {
@@ -39,7 +39,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (userData) {
-      if (userData.userId === userId) {
+      if (parseInt(userData.userId) === parseInt(userId)) {
         setIsAuth(true);
       } else {
         setIsAuth(false);

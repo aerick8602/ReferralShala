@@ -7,6 +7,8 @@ import PersonalCard from "../../../components/models/PersonalModel";
 import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
 import DragnDrop from "../../../components/DragnDrop";
+import Footer from "../../../components/Footer";
+
 import {
   FaPencilAlt,
   FaEnvelope,
@@ -14,12 +16,15 @@ import {
   FaMapMarkerAlt,
   FaExternalLinkAlt,
   FaTimes,
+  FaTrashAlt,
+  FaPlus,
 } from "react-icons/fa";
 import "../../../styles/Profile.css";
 import { HashLoader } from "react-spinners";
 import SkillSet from "../../../components/MultiSelect";
+import Divider from "@mui/material/Divider";
 
-export default function CandidateProfile({ userId , isauth}) {
+export default function CandidateProfile({ userId, isauth }) {
   const [userData, setUserData] = useState({});
   const [candidateData, setCandidateData] = useState({});
   const [educationData, setEducationData] = useState([]);
@@ -31,7 +36,6 @@ export default function CandidateProfile({ userId , isauth}) {
   const [candidateSkills, setCandidateSkills] = useState([]);
   const [file, setFile] = useState(null);
   const [resumePath, setResumePath] = useState(null);
-
 
   /*####################  apis  #####################*/
   const fetchUserData = async () => {
@@ -331,7 +335,7 @@ export default function CandidateProfile({ userId , isauth}) {
       return null;
     }
   };
-    /*####################  apis  #####################*/
+  /*####################  apis  #####################*/
 
   const removeSkill = async (skillToRemove) => {
     // Remove the skill from the array
@@ -347,6 +351,8 @@ export default function CandidateProfile({ userId , isauth}) {
   };
 
   const handleFilesSelected = async (selectedFile) => {
+    if (!selectedFile) return;
+    console.log(selectedFile);
     setFile(selectedFile);
     if (file) {
       const formDataToUpload = new FormData();
@@ -366,6 +372,7 @@ export default function CandidateProfile({ userId , isauth}) {
       console.log(result);
       const filePath = result.filePath;
       console.log("filePath", filePath);
+      setResumePath(filePath);
       updateCandidateData({ resume: filePath });
     }
   };
@@ -394,12 +401,6 @@ export default function CandidateProfile({ userId , isauth}) {
       <Navbar userId={userId} />
       <div className="profile">
         <div className="personal-data">
-          { isauth ? (<button onClick={togglePersonalModel} className="edit-button">
-            <FaPencilAlt /> Edit
-          </button>):(
-            <></>
-          ) 
-          }
           <div className="avatar">
             <img
               src={userData?.profileImage || "/user.png"}
@@ -407,25 +408,56 @@ export default function CandidateProfile({ userId , isauth}) {
               className="avatar-img"
             />
           </div>
+          {isauth ? (
+            <button className="edit-button">
+              <FaPencilAlt onClick={togglePersonalModel} />
+            </button>
+          ) : (
+            <></>
+          )}
+          <br></br>
           <div className="details">
             <div className="info-item">
-              <FaEnvelope />
-              <p>{userData?.emailAddress || "Email not available"}</p>
+              <div
+                className="user-name"
+                style={{
+                  fontSize:
+                    (userData?.firstName?.length || 0) +
+                      (userData?.lastName?.length || 0) >
+                    15
+                      ? "large"
+                      : "x-large",
+                }}
+              >
+                {userData.firstName} {userData.lastName}
+              </div>
             </div>
             <div className="info-item">
-              <FaPhone />
+              {/* <FaEnvelope className="icon" /> */}
+              <p
+                style={{
+                  color: "gray",
+                  marginTop: "-5px",
+                  marginBottom: "10px",
+                }}
+              >
+                {userData?.emailAddress || "Email not available"}
+              </p>
+            </div>
+            <div className="info-item">
+              <FaPhone className="icon" />
               <p>{candidateData?.contactNumber || "Phone not available"}</p>
             </div>
             <div className="info-item">
-              <FaMapMarkerAlt />
+              <FaMapMarkerAlt className="icon" />
               <p>{candidateData?.location || "Location not available"}</p>
             </div>
             <div className="social-links">
-              <p>Social Links:</p>
               <ul>
                 {candidateData?.socialLinks?.map((link, index) => (
-                  <li key={index}>
+                  <li key={index} className="social-chip">
                     <a
+                      className="chip-link"
                       href={
                         link.link.startsWith("https://")
                           ? link.link
@@ -434,7 +466,7 @@ export default function CandidateProfile({ userId , isauth}) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <FaExternalLinkAlt /> {link.platform}
+                      {link.platform}
                     </a>
                   </li>
                 ))}
@@ -444,62 +476,74 @@ export default function CandidateProfile({ userId , isauth}) {
         </div>
 
         <div className="main-profile">
-          <div className="education-section">
-            <div className="my-2">
-              <DragnDrop
-                onFilesSelected={handleFilesSelected}
-                resumePath={resumePath}
-                setResumePath={setResumePath}
-                width="100%"
-                height="200px"
-              />
-            </div>
-            <div className="flex flex-row justify-center"></div>
-            <div>
-              <label>Skills</label>
-             {
-              isauth?(
-                <SkillSet
+          <div className="resume">
+            <DragnDrop
+              isauth={isauth}
+              onFilesSelected={handleFilesSelected}
+              resumePath={resumePath}
+              setResumePath={setResumePath}
+              updateCandidateData={updateCandidateData}
+            />
+          </div>
+
+          <div className="skills">
+            {/* <label   className="labels">Skills</label> */}
+            <Divider
+              style={{
+                fontSize: "larger",
+                padding: "20px",
+                fontWeight: "500",
+              }}
+              textAlign="left"
+            >
+              Skills
+            </Divider>
+            {isauth ? (
+              <SkillSet
                 candidateSkills={candidateSkills}
                 setCandidateSkills={setCandidateSkills}
                 updateCandidateData={updateCandidateData}
               ></SkillSet>
-              ):(
-                <></>
-              )
-             }
+            ) : (
+              <></>
+            )}
+            <div className="skills-container">
               <div className="skills-list">
                 {candidateSkills && candidateSkills.length > 0 ? (
                   candidateSkills.map((skill, index) => (
-                    <div
-                      key={index}
-                      className="skill-item flex items-center space-x-2"
-                    >
+                    <div key={index} className="skill-chip">
                       <p>{skill}</p>
-                     {
-                      isauth?(
+                      {isauth ? (
                         <button
-                        onClick={() => removeSkill(skill)} // Trigger the remove function
-                        className="remove-skill-btn text-red-500"
-                      >
-                        <FaTimes />
-                      </button>
-                      ):(
-                        <></>
-                      )
-                     }
+                          onClick={() => removeSkill(skill)} // Trigger the remove function
+                          className="remove-skill-btn"
+                        >
+                          <FaTimes /> {/* Dustbin icon from react-icons */}
+                        </button>
+                      ) : null}
                     </div>
                   ))
                 ) : (
-                  <p>No skills available</p>
+                  <p className="err">No skills available</p>
                 )}
               </div>
             </div>
           </div>
-          <div className="education-section">
+          <div className="education">
+            <Divider
+              style={{
+                fontSize: "larger",
+                padding: "20px",
+                fontWeight: "500",
+              }}
+              textAlign="left"
+            >
+              Education Details
+            </Divider>
             {educationData?.length > 0 ? (
               <div>
-                <label>Education Details</label>
+                {/* <label>Education Details</label> */}
+
                 <EducationWrapper
                   isauth={isauth}
                   educationData={educationData}
@@ -509,26 +553,78 @@ export default function CandidateProfile({ userId , isauth}) {
                 />
               </div>
             ) : (
-              <p>No education data available.</p>
+              <p className="err">No education data available.</p>
             )}
-        {isauth?(      <p onClick={toggleEducationModel}>Add Education Details</p>):(<></>)}
+            {isauth ? (
+              <button
+                onClick={toggleEducationModel}
+                style={{
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  gap: "5px",
+                  color: "#fe4949",
+                  fontWeight: "500",
+                  padding: "20px 10px",
+                  // borderRadius: "25px",
+                  // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <FaPlus style={{ marginTop: "5px" }}></FaPlus> Add Education
+                Details...
+              </button>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="experience">
+            <Divider
+              style={{
+                fontSize: "larger",
+                padding: "20px",
+                fontWeight: "500",
+              }}
+              textAlign="left"
+            >
+              Experience Details
+            </Divider>
             {experienceData?.length > 0 ? (
               <div>
-                <label>Experience Details</label>
+                {/* <label>Experience Details</label> */}
+
                 <ExperienceWrapper
-                isauth={isauth}
+                  isauth={isauth}
                   experienceData={experienceData}
                   setExperienceData={setExperienceData}
                   deleteExperienceData={deleteExperienceData}
                   updateExperienceData={updateExperienceData}
-                  
                 />
               </div>
             ) : (
-              <p>No experience data available.</p>
+              <p className="err">No experience data available.</p>
             )}
 
-            {isauth? (<p onClick={toggleExperienceModel}>Add Experience Details</p>):(<></>)}
+            {isauth ? (
+              <button
+                onClick={toggleExperienceModel}
+                style={{
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  gap: "5px",
+                  color: "#fe4949",
+                  fontWeight: "500",
+                  padding: "20px 10px",
+                  // borderRadius: "25px",
+                  // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <FaPlus style={{ marginTop: "5px" }}></FaPlus> Add Experience
+                Details...
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 
@@ -583,6 +679,7 @@ export default function CandidateProfile({ userId , isauth}) {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 }

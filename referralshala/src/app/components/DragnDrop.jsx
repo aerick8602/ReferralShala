@@ -2,15 +2,29 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { GiCloudUpload } from "react-icons/gi";
 import { MdClear } from "react-icons/md";
+import "../styles/DragnDrop.css";
+import Divider from "@mui/material/Divider";
+import { FaExclamationCircle } from "react-icons/fa";
 
-const DragnDrop = ({ onFilesSelected, resumePath, setResumePath, width, height }) => {
+const DragnDrop = ({
+  isauth,
+  onFilesSelected,
+  resumePath,
+  setResumePath,
+  updateCandidateData,
+  width,
+  height,
+}) => {
   const [file, setFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Handle file change (either from browsing or drag & drop)
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       setFile(selectedFile);
+      simulateUpload(); // Simulate the upload process
     }
   };
 
@@ -20,18 +34,50 @@ const DragnDrop = ({ onFilesSelected, resumePath, setResumePath, width, height }
     const droppedFile = event.dataTransfer.files[0];
     if (droppedFile) {
       setFile(droppedFile);
+      simulateUpload(); // Simulate the upload process
     }
   };
 
-  // Remove the selected file
-  const handleRemoveFile = () => {
+  // Handle file removal
+  const handleRemoveFile = async () => {
+    const response = await fetch("/api/upload", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ filePath: resumePath }),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log("File deleted successfully");
+    } else {
+      console.log("Error deleting file:", result.message);
+    }
     setFile(null);
-    setResumePath(null); // Clear the path in the parent component if file is removed
+    onFilesSelected(null);
+    setResumePath(null);
+    updateCandidateData({ resume: null });
+  };
+
+  // Simulate upload progress
+  const simulateUpload = () => {
+    setIsUploading(true);
+    const interval = setInterval(() => {
+      setUploadProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setIsUploading(false);
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 300);
   };
 
   // Notify the parent component of file selection
   useEffect(() => {
-    onFilesSelected(file); // Pass the file to the parent component
+    onFilesSelected(file);
   }, [file, onFilesSelected]);
 
   // Open the file (either from file input or resumePath)
@@ -41,59 +87,106 @@ const DragnDrop = ({ onFilesSelected, resumePath, setResumePath, width, height }
   };
 
   return (
-    <section className="bg-white border border-gray-300 rounded-xl p-3">
+    <section
+      className="dragn-drop-container"
+      style={{
+        height: height || "auto",
+        width: width || "100%",
+      }}
+    >
+      <div className="text-center mb-4">
+        <h2 className="text-lg font-semibold text-gray-800">
+          {isauth ? "Upload Your Resume" : "View Resume"}
+        </h2>
+        <p className="text-sm text-gray-500">
+          Max size: 15MB | Supported formats: .PDF, .DOCX, .PPTX, .TXT, .XLSX
+        </p>
+      </div>
+
       <div
-        className="border-dashed border-2 border-sky-500 bg-blue-50 p-2 flex flex-col items-center justify-center rounded-lg cursor-pointer"
+        className={`drag-area ${
+          isUploading ? "border-[#f75858]" : "border-[#f75858]"
+        }`}
         onDrop={handleDrop}
         onDragOver={(event) => event.preventDefault()}
+        style={{ minHeight: "170px" }}
       >
-        {/* Check if resumePath is provided, if yes, show file name, otherwise show upload instructions */}
-        {resumePath || file ? (
-          <div className="flex flex-col gap-2 w-full mt-2 overflow-y-auto">
-            <div className="flex justify-between items-center p-1 border border-gray-300 rounded-lg">
+        {resumePath ? (
+          <div className="file-info flex flex-col items-center gap-3 w-11/12 mt-2">
+            <GiCloudUpload className="text-6xl text-[#f75858] opacity-25" />
+            <div className="file-info-box flex justify-between items-center p-3">
               <div
-                className="flex flex-col flex-1 cursor-pointer text-sky-500 hover:underline"
+                className="file-name text-green-600 font-medium text-sm truncate cursor-pointer hover:underline"
                 onClick={openFile}
               >
-                <p className="text-sm font-semibold">
-                  {file ? file.name : resumePath.split("/").pop()}
-                </p>
+                {file ? file.name : resumePath.split("/").pop()}
               </div>
-              <div className="cursor-pointer" onClick={handleRemoveFile}>
-                <MdClear className="text-lg text-gray-600 hover:text-red-500" />
-              </div>
+              {isauth && (
+                <button className="remove-btn" onClick={handleRemoveFile}>
+                  <MdClear className="text-xl" />
+                </button>
+              )}
             </div>
-            <div className="flex items-center text-green-500 mt-0.5">
-              <AiOutlineCheckCircle className="text-green-500 mr-1" />
-              <p className="text-sm font-semibold">File ready to view</p>
+            <div className="flex items-center text-green-500">
+              <AiOutlineCheckCircle className="text-lg mr-1" />
+              <span className="text-sm">File is ready to view</span>
             </div>
           </div>
         ) : (
           <>
-            <div className="flex flex-col items-center mb-1">
-              <GiCloudUpload className="text-6xl mb-4 text-sky-500" />
-              <div>
-                <p className="text-base font-semibold font-sans text-center">
-                  Drag and drop your file here
-                </p>
-                <p className="text-xs font-sans">
-                  Limit 15MB per file. Supported files: .PDF, .DOCX, .PPTX, .TXT, .XLSX
+            {isUploading ? (
+              <div className="upload-progress">
+                <div className="progress-bar">
+                  <div
+                    className="progress-bar-fill"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm text-gray-600 mt-2">
+                  Uploading... {uploadProgress}%
                 </p>
               </div>
-            </div>
-            <input
-              type="file"
-              className="hidden"
-              id="browse"
-              onChange={handleFileChange}
-              accept=".pdf,.docx,.pptx,.txt,.xlsx"
-            />
-            <label
-              htmlFor="browse"
-              className="text-sm flex items-center justify-center px-3 py-1 border border-gray-300 rounded-xl cursor-pointer bg-sky-500 text-white transition duration-300 hover:bg-transparent hover:text-sky-500"
-            >
-              Browse file
-            </label>
+            ) : (
+              <>
+                {isauth ? (
+                  <>
+                    <GiCloudUpload className="text-6xl text-[#fe4949] mb-4" />
+                    <p className="text-base font-medium text-gray-800 text-center">
+                      Drag and drop your resume here
+                    </p>
+                    <p className="text-xs text-gray-500 mb-2">
+                      Or click the button below to browse
+                    </p>
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="browse"
+                      onChange={handleFileChange}
+                      accept=".pdf,.docx,.pptx,.txt,.xlsx"
+                    />
+                    <label htmlFor="browse" className="browse-btn">
+                      Browse File
+                    </label>
+                  </>
+                ) : (
+                  <p
+                    className="text-gray-500"
+                    style={{
+                      display: "flex",
+                      fontSize: "large",
+                      alignContent: "center",
+                      gap: "10px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FaExclamationCircle
+                      style={{ color: "#f44b4b", fontSize: "xx-large" }}
+                    ></FaExclamationCircle>{" "}
+                    Resume not uploaded yet.
+                  </p>
+                )}
+              </>
+            )}
           </>
         )}
       </div>

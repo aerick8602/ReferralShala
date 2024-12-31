@@ -14,103 +14,101 @@ datasource db {
 }
 
 model User {
-  userId          Int         @id @default(autoincrement())
-  Id              String      @unique
-  userType        String      @default("guest")
-  userData        Json?
-  createdAt       DateTime    @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime    @updatedAt @db.Timestamp(0)
+  userId    Int      @id @default(autoincrement())
+  Id        String   @unique
+  userType  String   @default("guest")
+  userData  Json?
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @db.Timestamp(0)
 
-  candidate       Candidate?  @relation("UserToCandidate")
-  employer        Employer?   @relation("UserToEmployer")
-  educations      Education[]
-  experiences     Experience[]
-  referrals       Referral[]  
+  candidate   Candidate?   @relation("UserToCandidate")
+  employer    Employer?    @relation("UserToEmployer")
+  educations  Education[]
+  experiences Experience[]
+  referrals   Referral[]
 
   @@index([Id], name: "idx_user_id")
 }
 
-
 model Candidate {
-  candidateId     Int         @id @default(autoincrement())
-  userId          Int         @unique @map("user_id")
-  skills          String[]
-  socialLinks     Json?        @map("social_links")
-  resume          String?
-  contactNumber   String?      @map("contact_number") @db.VarChar(15)
-  location        String?      @db.VarChar(255)
-  createdAt       DateTime?   @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime?   @updatedAt @db.Timestamp(0)
+  candidateId   Int       @id @default(autoincrement())
+  userId        Int       @unique @map("user_id")
+  skills        String[]
+  socialLinks   Json?     @map("social_links")
+  resume        String?
+  contactNumber String?   @map("contact_number") @db.VarChar(15)
+  location      String?   @db.VarChar(255)
+  createdAt     DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(0)
 
-  user            User        @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
+  user User @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId], name: "idx_candidate_userId")
 }
 
 model Employer {
-  employerId      Int         @id @default(autoincrement())
-  userId          Int         @unique @map("user_id")
-  companyName     String?     @map("company_name") @db.VarChar(255)
-  jobRole         String?     @map("job_role") @db.VarChar(255)
-  location        String?     @db.VarChar(255)
-  contactNumber   String?     @map("contact_number") @db.VarChar(15)
-  createdAt       DateTime?   @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime?   @updatedAt @db.Timestamp(0)
+  employerId    Int       @id @default(autoincrement())
+  userId        Int       @unique @map("user_id")
+  companyName   String?   @map("company_name") @db.VarChar(255)
+  jobRole       String?   @map("job_role") @db.VarChar(255)
+  location      String?   @db.VarChar(255)
+  contactNumber String?   @map("contact_number") @db.VarChar(15)
+  socialLinks   Json?     @map("social_links")
+  createdAt     DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(0)
 
-  user            User        @relation("UserToEmployer", fields: [userId], references: [userId], onDelete: Cascade)
+  user User @relation("UserToEmployer", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId], name: "idx_employer_userId")
 }
 
-
 model Education {
-  educationId     Int       @id @default(autoincrement())
-  userId          Int       @map("user_id")
-  instituteName   String    @map("institute_name") @db.VarChar(255)
-  degree          String    @db.VarChar(255)
-  stream          String    @db.VarChar(255)
-  startYear       Int
-  endYear         Int?
-  isCurrentlyEducating Boolean  @map("is_currently_educating") @default(false)
-  grade           Json      @db.Json 
-  createdAt       DateTime  @default(now()) @db.Timestamp(0)
+  educationId          Int      @id @default(autoincrement())
+  userId               Int      @map("user_id")
+  instituteName        String   @map("institute_name") @db.VarChar(255)
+  degree               String   @db.VarChar(255)
+  stream               String   @db.VarChar(255)
+  startYear            Int
+  endYear              Int?
+  isCurrentlyEducating Boolean  @default(false) @map("is_currently_educating")
+  grade                Json     @db.Json
+  createdAt            DateTime @default(now()) @db.Timestamp(0)
 
-  user            User       @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId], name: "idx_education_userId")
 }
 
 model Experience {
-  experienceId    Int       @id @default(autoincrement())
-  userId          Int       @map("user_id")
-  companyName     String    @map("company_name") @db.VarChar(255)
-  role            String    @db.VarChar(255)
-  location        String
-  startYear       Int
-  endYear         Int?
-  isCurrentlyEmployed Boolean  @map("is_currently_employed") @default(false) 
-  description     String?
-  createdAt       DateTime  @default(now()) @db.Timestamp(0)
+  experienceId        Int      @id @default(autoincrement())
+  userId              Int      @map("user_id")
+  companyName         String   @map("company_name") @db.VarChar(255)
+  role                String   @db.VarChar(255)
+  location            String
+  startYear           Int
+  endYear             Int?
+  isCurrentlyEmployed Boolean  @default(false) @map("is_currently_employed")
+  description         String?
+  createdAt           DateTime @default(now()) @db.Timestamp(0)
 
-  user            User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId], name: "idx_experience_userId")
 }
 
 model Referral {
-  referralId      Int         @id @default(autoincrement())
-  userId          Int         @map("user_id")
-  companyName     String      @map("company_name") @db.VarChar(255)
-  jobTitle        String      @map("job_title") @db.VarChar(255)
-  jobDescription  String?     @map("job_description")
-  jobLink         String?     @map("job_link")
-  location        String?     @db.VarChar(255)
-  postedAt        DateTime    @default(now()) @db.Timestamp(0)
-  updatedAt       DateTime?   @updatedAt @db.Timestamp(0)
+  referralId     Int       @id @default(autoincrement())
+  userId         Int       @map("user_id")
+  companyName    String    @map("company_name") @db.VarChar(255)
+  jobTitle       String    @map("job_title") @db.VarChar(255)
+  jobDescription String?   @map("job_description")
+  jobLink        String?   @map("job_link")
+  location       String?   @db.VarChar(255)
+  postedAt       DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt      DateTime? @updatedAt @db.Timestamp(0)
 
-  user            User        @relation(fields: [userId], references: [userId], onDelete: Cascade) // One-to-one relation to User
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade) // One-to-one relation to User
 
   @@index([jobTitle], name: "idx_job_title")
   @@index([userId], name: "idx_referral_userId")
 }
-

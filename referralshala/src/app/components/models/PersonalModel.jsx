@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/PersonalCard.css";
-import { FaPlus, FaTrashAlt, FaTimes, FaCamera } from "react-icons/fa";
+import { FaPlus, FaTrashAlt, FaCamera } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 
 const PersonalCard = ({
   userData,
@@ -92,15 +93,22 @@ const PersonalCard = ({
         lastName: formData.lastName,
         profileImage: null,
       }));
-      
     }
-    updateUserData(formData.firstName, formData.lastName, formData.profileImage);
-    setCandidateData((prevData)=>({
-      location:formData.location,
-      contactNumber:formData.contactNumber,
-      socialLinks:formData.socialLinks
+    updateUserData(
+      formData.firstName,
+      formData.lastName,
+      formData.profileImage
+    );
+    setCandidateData((prevData) => ({
+      location: formData.location,
+      contactNumber: formData.contactNumber,
+      socialLinks: formData.socialLinks,
     }));
-    updateCandidateData({location:formData.location,contactNumber:formData.contactNumber,socialLinks:formData.socialLinks});
+    updateCandidateData({
+      location: formData.location,
+      contactNumber: formData.contactNumber,
+      socialLinks: formData.socialLinks,
+    });
 
     togglePersonalModel();
   };
@@ -130,7 +138,7 @@ const PersonalCard = ({
           className="edu-close-button"
           onClick={togglePersonalModel}
         >
-          <FaTimes size={18} />
+          <IoClose size={24} />
         </button>
         <h2 className="personal-title">Personal Details</h2>
 
