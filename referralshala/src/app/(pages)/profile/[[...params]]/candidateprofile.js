@@ -18,6 +18,7 @@ import {
   FaTimes,
   FaTrashAlt,
   FaPlus,
+  FaStar,
 } from "react-icons/fa";
 import "../../../styles/Profile.css";
 import { HashLoader } from "react-spinners";
@@ -399,6 +400,22 @@ export default function CandidateProfile({ userId, isauth }) {
   return (
     <>
       <Navbar userId={userId} />
+      <h1
+        style={{
+          marginTop: "110px",
+          marginBottom: "40px",
+          width: "100%",
+          fontSize: "35px",
+          fontWeight: "600",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          opacity: "0.7",
+          // marginLeft: "110px",
+        }}
+      >
+        Profile
+      </h1>
       <div className="profile">
         <div className="personal-data">
           <div className="avatar">
@@ -476,6 +493,23 @@ export default function CandidateProfile({ userId, isauth }) {
         </div>
 
         <div className="main-profile">
+          <p
+            style={{
+              color: "white",
+              backgroundColor: "#fe5757",
+              width: "100%",
+              padding: "5px",
+              borderTopRightRadius: "10px",
+              borderTopLeftRadius: "10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "14px",
+            }}
+          >
+            <FaStar></FaStar>&nbsp; Double-check your resume - it&apos;s what
+            employers will see when you apply.&nbsp;<FaStar></FaStar>
+          </p>
           <div className="resume">
             <DragnDrop
               isauth={isauth}

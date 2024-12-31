@@ -1,6 +1,6 @@
 .profile{
     width: 86vw;
-    margin-top: 70px;
+    /* margin-top: 70px; */
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -12,7 +12,7 @@
     justify-content: flex-start;
     /* align-items: center; */
     width:35%;
-    margin: 50px 50px 50px 180px;
+    margin: 0px 50px 50px 180px;
     height: 65vh;
     border-radius: 10px;
     border:.5px solid rgba(255, 207, 207, 0.9);
@@ -117,7 +117,7 @@
     align-items: center;
     /* justify-content: center; */
     width:100%;
-    margin: 50px 50px 50px 0px;
+    margin: 0px 50px 50px 0px;
     border-radius: 10px;
     /* height: 150vh; */
     border:.5px solid rgba(255, 207, 207, 0.9);
@@ -190,7 +190,7 @@
   }
 
   .err{
-    color: #5e5e5e;
+     color: #5e5e5e;
     font-size: 1rem;
     font-weight: 400;
   }
