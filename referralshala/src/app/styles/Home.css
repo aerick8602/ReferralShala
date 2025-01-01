@@ -1,55 +1,109 @@
-
 .loader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    margin: 50px;
-    height: 60vh;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  .Home.blur-slight {
-    filter: blur(1px);
-    transition: filter 0.3s ease-in-out;
-  }
-  
-  
-  .content{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    height: 500px;
-  }
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  padding: 20px;
+}
 
-  .about{
-    width: 80%;
-  }
-  .home-text {
-    font-size: 1.25rem;
-  }
-  
+.backgroundImage {
+  margin-top: -25px;
+  width: 100vw;
+  height: auto;
+  object-fit: cover;
+  background: linear-gradient(135deg, #fbeeee, #f9f2f2);
+}
 
-  
+.Home.blur-slight {
+  filter: blur(1px);
+  transition: filter 0.3s ease-in-out;
+}
 
-  .greet{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color:#4B2F31;
-  }
+.greet {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #4b2f31;
+  text-align: center;
+}
 
-  .greet h1{
-    font-size:3rem;
-    font-weight: bolder;
+.greet h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.greet p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.logos-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+/* First Row: Moves left to right */
+.logos-row-1 .logos-slide {
+  animation-name: slide-left; /* Move left to right */
+}
+
+/* Second Row: Moves right to left */
+.logos-row-2 .logos-slide {
+  animation-name: slide-right; /* Move right to left */
+}
+
+/* Slide from left to right (First Row) */
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
   }
-  .greet p{
-    font-size: 1.2rem;
+  100% {
+    transform: translateX(100%); /* Move logos from left to right */
   }
+}
+
+/* Slide from right to left (Second Row) */
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%); /* Move logos from right to left */
+  }
+}
+
+/* Adjust the wrapper for logos for seamless looping */
+.logos-slide {
+  display: flex;
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform; /* Optimize performance */
+}
+
+/* Ensure logos are visible and have a smooth transition */
+.logos-slide img {
+  height: 60px;
+  margin: 0 15px;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.logos-slide img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}

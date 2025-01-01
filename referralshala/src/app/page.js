@@ -6,7 +6,7 @@ import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import axios from "axios"; // Make sure axios is imported
+import axios from "axios";
 
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
@@ -44,6 +44,7 @@ export default function Home() {
     <>
       <Navbar userId={userData.userId} userType={userData.userType} />
       <div className="Home">
+        <img className="backgroundImage" src="/bg.png" alt="Background" />
         <div className="main-content">
           {isSignedIn ? (
             <div className="main-content" style={{ marginTop: "90px" }}>
@@ -52,7 +53,8 @@ export default function Home() {
                   Hii, {user?.firstName} {"🙌"}
                 </h1>
                 <p>
-                  Your gateway to trusted referrals and career opportunities.
+                  Discover your path to success with trusted referrals and
+                  valuable connections.
                 </p>
               </section>
             </div>
@@ -66,6 +68,51 @@ export default function Home() {
               </section>
             </div>
           )}
+          <div className="logos-wrapper">
+            <div className="logos logos-row-1">
+              <div className="logos-slide">
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+
+                {/* Duplicate for looping */}
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+              </div>
+            </div>
+            <div className="logos logos-row-2">
+              <div className="logos-slide">
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                {/* Duplicate for looping */}
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+                <img src="/logo.png" />
+              </div>
+            </div>
+          </div>
         </div>
         <Footer />
       </div>

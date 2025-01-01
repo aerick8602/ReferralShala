@@ -495,7 +495,7 @@ export default function CandidateProfile({ userId, isauth }) {
         <div className="main-profile">
           <p
             style={{
-              color: "white",
+              // color: "white",
               backgroundColor: "#fe5753",
               width: "100%",
               padding: "5px",
@@ -505,7 +505,7 @@ export default function CandidateProfile({ userId, isauth }) {
               justifyContent: "center",
               alignItems: "center",
               fontSize: "14px",
-              opacity: ".5",
+              // opacity: ".5",
             }}
           >
             <FaStar></FaStar>&nbsp; Double-check your resume - it&apos;s what
