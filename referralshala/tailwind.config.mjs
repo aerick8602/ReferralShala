@@ -8,11 +8,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'custom-red': '#fc6969',
+        "custom-red": "#fc6969",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
     },
   },
+
   plugins: [],
 };

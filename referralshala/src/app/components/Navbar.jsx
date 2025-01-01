@@ -1,34 +1,46 @@
-'use client';
-import Link from 'next/link';
-import { SignedIn, SignedOut, SignIn } from '@clerk/nextjs';
-import { useEffect, useState } from 'react';
+"use client";
+import Link from "next/link";
+import { SignedIn, SignedOut, SignIn } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import "../styles/Navbar.css";
-import Menu from './Menu';
-import { redirect } from 'next/navigation';
+import Menu from "./Menu";
+import { redirect } from "next/navigation";
 
-
-export default function Navbar({userId,userType}) {
+export default function Navbar({ userId, userType }) {
   const [showSignIn, setShowSignIn] = useState(false);
 
   return (
     <>
       {showSignIn && (
-        <div
-          className="overlay"
-          onClick={() => setShowSignIn(false)}
-        >
+        <div className="overlay" onClick={() => setShowSignIn(false)}>
           <div className="sign-in-modal" onClick={(e) => e.stopPropagation()}>
-            <SignIn routing='hash'/>
+            <SignIn routing="hash" />
           </div>
         </div>
       )}
 
       <div className="strip-message">
-        Get exclusive job referrals from industry professionals!! Sign up now and boost your career with ReferralShala....
+        {userId ? (
+          <p>
+            Welcome back!! Explore personalized job referrals and boost your
+            career today!
+          </p>
+        ) : (
+          <p>
+            Get exclusive job referrals from industry professionals!! Sign up
+            now and boost your career with ReferralShala!!
+          </p>
+        )}
       </div>
       <div className="nav-main">
         <div className="brand-icon">
-          <img onClick={() => { redirect('/'); }} src="/logo.png" alt="Brand Logo" />
+          <img
+            onClick={() => {
+              redirect("/");
+            }}
+            src="/logo.png"
+            alt="Brand Logo"
+          />
         </div>
         <div>
           <SignedIn>
@@ -38,7 +50,7 @@ export default function Navbar({userId,userType}) {
             <div className="button-group">
               <button
                 className="login-button"
-                onClick={() => setShowSignIn(true)} 
+                onClick={() => setShowSignIn(true)}
               >
                 Login
               </button>

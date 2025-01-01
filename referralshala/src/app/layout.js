@@ -1,11 +1,11 @@
-
 import { Geist, Geist_Mono } from "next/font/google";
-import {
-  ClerkLoaded,
-  ClerkLoading,
-  ClerkProvider,
-} from '@clerk/nextjs'
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import "./globals.css";
+
+import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
+
 import { HashLoader } from "react-spinners";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,10 +21,9 @@ export const metadata = {
   title: "ReferralShala",
   description: "Connections That Lead to Opportunities",
   icons: {
-    icon: "/favicon.png", 
+    icon: "/favicon.png",
   },
 };
-
 
 export default function RootLayout({ children }) {
   return (
@@ -34,15 +33,9 @@ export default function RootLayout({ children }) {
           <ClerkLoading>
             <HashLoader />
           </ClerkLoading>
-          <ClerkLoaded>
-            {children}
-          </ClerkLoaded>
+          <ClerkLoaded>{children}</ClerkLoaded>
         </body>
       </html>
     </ClerkProvider>
   );
 }
-
-
-
-
