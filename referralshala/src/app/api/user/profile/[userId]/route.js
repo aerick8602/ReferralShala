@@ -2,11 +2,10 @@ import { NextResponse } from "next/server";
 import client from "../../../../../connection/prisma";
 import formatUserData from "../../../../utils/formatedata";
 
-
 export async function GET(req, { params }) {
   const { userId } = await params;
   // console.log("userId:", userId);
-  
+
   try {
     const profile = await client.user.findUnique({
       where: { userId: parseInt(userId) },
@@ -26,12 +25,14 @@ export async function GET(req, { params }) {
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: `Error fetching profile with userId ${userId}.` },
+      {
+        success: false,
+        message: `Error fetching profile with userId ${userId}.`,
+      },
       { status: 500 }
     );
   }
 }
-
 
 export async function PATCH(req, { params }) {
   const { userId } = params;
@@ -73,13 +74,20 @@ export async function PATCH(req, { params }) {
     });
 
     return NextResponse.json(
-      { success: true, message: "User profile updated successfully.", data: updatedProfile },
+      {
+        success: true,
+        message: "User profile updated successfully.",
+        data: updatedProfile,
+      },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error updating profile:", error);
     return NextResponse.json(
-      { success: false, message: `Error updating profile with userId ${userId}.` },
+      {
+        success: false,
+        message: `Error updating profile with userId ${userId}.`,
+      },
       { status: 500 }
     );
   }

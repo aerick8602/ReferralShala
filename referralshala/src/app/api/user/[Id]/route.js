@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import formatUserData from "../../../utils/formatedata"
+import formatUserData from "../../../utils/formatedata";
 import client from "../../../../connection/prisma";
 
 export async function GET(req, { params }) {
@@ -15,10 +15,7 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     }
-    return NextResponse.json(
-      { success: true, data:user},
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true, data: user }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: `Error fetching user with ID ${Id}.` },
@@ -26,6 +23,3 @@ export async function GET(req, { params }) {
     );
   }
 }
-
-
-
