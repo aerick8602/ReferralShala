@@ -1,0 +1,15 @@
+/* dashboard.css */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.dashboard-text {
+  font-size: 1.25rem; /* Equivalent to text-xl in Tailwind */
+  font-weight: normal;
+}

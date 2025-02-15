@@ -5,31 +5,35 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { HashLoader } from "react-spinners";
+import "../../styles/dashboard.css";
 import axios from "axios";
 
 export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
-  const [Loading, setLoading] = useState(true);
-
-  const fetchUserId = async () => {
-    try {
-      const response = await axios.get(`/api/user/${user.id}`);
-      setUserData(response.data.data);
-    } catch (err) {
-    } finally {
-      console.log(userData);
-      setLoading(false);
-    }
-  };
+  const [loading, setLoading] = useState(true); // Use lowercase for consistency
 
   useEffect(() => {
-    fetchUserId();
-  }, []);
+    const fetchUserId = async () => {
+      if (!user?.id) return; // Ensure user is available before making API call
 
-  if (!isLoaded || !isSignedIn || Loading) {
+      try {
+        const response = await axios.get(`/api/user/${user.id}`);
+        setUserData(response.data.data);
+        console.log("Fetched user data:", response.data.data);
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserId();
+  }, [user]); // Depend on user so it re-runs when user changes
+
+  if (!isLoaded || !isSignedIn || loading) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="loader-container">
         <HashLoader size={35} color="#fe5757" />
       </div>
     );
@@ -37,14 +41,14 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar userId={userData.userId} userType={userData.userType} />
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <p className="text-xl">
+      <Navbar userId={userData?.userId} userType={userData?.userType} />
+      <div className="dashboard-container">
+        <p className="dashboard-text">
           Hello {user?.firstName || "User"}. Here's your Dashboard. You are a{" "}
-          {userData.userType}.
+          {userData?.userType || "Unknown"}.
         </p>
       </div>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 }

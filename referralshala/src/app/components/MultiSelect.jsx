@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { MultiSelect } from "primereact/multiselect";
 import { FaPlus } from "react-icons/fa";
-import Select from "react-select";
+import "../styles/Select.css";
 
-// Define the skillset options
-const skillset = [
+const allSkills = [
   "JavaScript",
   "Python",
   "TypeScript",
@@ -13,7 +13,6 @@ const skillset = [
   "MongoDB",
   "SQL",
   "Git",
-  "Tailwind CSS",
   "Docker",
   "Kubernetes",
   "AWS",
@@ -66,147 +65,55 @@ const skillset = [
   "Kafka",
 ];
 
-const options = skillset.map((skill) => ({ value: skill, label: skill }));
-
 const SkillSet = ({
   candidateSkills,
   setCandidateSkills,
   updateCandidateData,
 }) => {
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter and sort skills based on the search query
-  const availableSkills = options
-    .filter(
-      (skill) =>
-        !candidateSkills.includes(skill.value) &&
-        skill.label.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => {
-      const aMatchIndex = a.label
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase());
-      const bMatchIndex = b.label
-        .toLowerCase()
-        .indexOf(searchTerm.toLowerCase());
+  const availableSkills = allSkills.filter(
+    (skill) => !candidateSkills.includes(skill)
+  );
 
-      if (aMatchIndex === bMatchIndex) {
-        return a.label.localeCompare(b.label);
-      }
-      return aMatchIndex - bMatchIndex;
-    });
-
-  const handleChange = (selectedOptions) => {
-    setSelectedSkills(selectedOptions || []);
+  const handleChange = (e) => {
+    setSelectedSkills(e.value);
   };
 
-  const handleDelete = (skillToDelete) => {
-    setSelectedSkills((prev) =>
-      prev.filter((skill) => skill.value !== skillToDelete.value)
-    );
-  };
+  const handleAddSkills = () => {
+    if (selectedSkills.length === 0) return;
 
-  const handleSkills = async () => {
-    const updatedSkills = [
-      ...candidateSkills,
-      ...selectedSkills.map((s) => s.value),
-    ];
-    updateCandidateData({ skills: updatedSkills });
+    const updatedSkills = [...new Set([...candidateSkills, ...selectedSkills])];
     setCandidateSkills(updatedSkills);
-    setSelectedSkills([]); // Clear selected skills after submission
+    updateCandidateData({ skills: updatedSkills });
+    setSelectedSkills([]);
   };
 
   return (
-    <div className="pb-5 pl-5 pr-5  bg-white  w-full max-w-3xl ">
-      {/* React Select multi-select component with enhanced styling */}
-      <div className="flex space-x-4 items-center">
-        <div className="w-4/5">
-          <Select
-            isMulti
-            name="skills"
-            options={availableSkills}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            onChange={handleChange}
-            value={selectedSkills}
-            placeholder="Select skills"
-            onInputChange={(newValue) => setSearchTerm(newValue)}
-            styles={{
-              control: (base) => ({
-                ...base,
-                padding: "5px 5px",
-                borderRadius: "8px",
-                borderColor: "#fe4949",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-              }),
-              multiValue: (base) => ({
-                ...base,
-                backgroundColor: "#fd7171",
-                borderRadius: "20px",
-                padding: "1px",
-                margin: "3px 3px",
-              }),
-              multiValueLabel: (base) => ({
-                ...base,
-                display: "flex",
-                alignContent: "center",
-                color: "white",
-                fontSize: "13px",
-                fontWeight: "500",
-              }),
-              multiValueRemove: (base) => ({
-                ...base,
-                color: "white",
-                cursor: "pointer",
-                paddingTop: "1px",
-                scale: "1.2",
-                ":hover": {
-                  // color: "black",
-                },
-              }),
-            }}
-          />
-        </div>
+    <div className="skillset-container">
+      <MultiSelect
+        value={selectedSkills}
+        options={availableSkills.map((skill) => ({
+          label: skill,
+          value: skill,
+        }))}
+        onChange={handleChange}
+        optionLabel="label"
+        placeholder="Select Skills"
+        display="chip"
+        filter
+        className="multiselect-dropdown"
+        disabled={availableSkills.length === 0}
+      />
 
-        {/* Button to update the skills in the candidate's profile */}
-        <div className="w-1/5">
-          <button
-            onClick={handleSkills}
-            style={{
-              display: "flex",
-              alignContent: "center",
-              justifyContent: "center",
-              gap: "5px",
-              color: "#fe4949",
-              fontWeight: "500",
-              padding: "10px 15px",
-              borderRadius: "25px",
-              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <FaPlus style={{ marginTop: "5px" }}></FaPlus> Add Skills
-          </button>
-        </div>
-      </div>
-
-      {/* Display selected skills with delete option */}
-      {/* <div className="flex flex-wrap space-x-2 mt-4">
-        {selectedSkills.map((skill) => (
-          <div
-            key={skill.value}
-            className="flex items-center justify-between bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
-          >
-            <span>{skill.label}</span>
-            <button
-              onClick={() => handleDelete(skill)}
-              className="ml-2 text-red-500 hover:text-red-700 transition duration-200"
-            >
-              &times;
-            </button>
-          </div>
-        ))}
-      </div> */}
+      <button
+        className="add-skills-btn"
+        onClick={handleAddSkills}
+        disabled={selectedSkills.length === 0}
+      >
+        <FaPlus className="icon" />
+        <span>Add Skills</span>
+      </button>
     </div>
   );
 };

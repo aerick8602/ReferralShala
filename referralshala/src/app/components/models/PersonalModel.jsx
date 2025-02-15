@@ -91,7 +91,6 @@ const PersonalCard = ({
         ...prevData,
         firstName: formData.firstName,
         lastName: formData.lastName,
-        profileImage: null,
       }));
     }
     updateUserData(
@@ -162,7 +161,7 @@ const PersonalCard = ({
                   <button
                     type="button"
                     onClick={removeProfileImage}
-                    className="remove-btn"
+                    className="personal-remove-btn"
                     style={{ marginTop: "-3px", fontSize: "14px" }}
                   >
                     Remove
@@ -260,15 +259,16 @@ const PersonalCard = ({
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <label>Social Links</label>
             <button
               type="button"
               onClick={addSocialLink}
-              style={{ color: "#4b5563" }}
+              className="personal-add-button"
             >
-              <FaPlus size={20} />
+              <FaPlus className="icon" size={20} />
             </button>
           </div>
 
@@ -318,10 +318,10 @@ const PersonalCard = ({
                 </div>
                 <button
                   type="button"
-                  className="remove-btn"
+                  className="delete-btn"
                   onClick={() => removeSocialLink(index)}
                 >
-                  <FaTrashAlt size={14} />
+                  <FaTrashAlt size={15} />
                 </button>
               </div>
             </div>

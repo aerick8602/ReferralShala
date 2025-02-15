@@ -35,7 +35,7 @@ model Candidate {
   userId        Int       @unique @map("user_id")
   skills        String[]
   socialLinks   Json?     @map("social_links")
-  resume        String?
+  resume        Json?     @map("resume")
   contactNumber String?   @map("contact_number") @db.VarChar(15)
   location      String?   @db.VarChar(255)
   createdAt     DateTime? @default(now()) @db.Timestamp(0)

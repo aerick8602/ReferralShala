@@ -35,7 +35,7 @@ export async function GET(req, { params }) {
 }
 
 export async function PATCH(req, { params }) {
-  const { userId } = params;
+  const { userId } = await params;
   const body = await req.json();
   console.log(body);
 

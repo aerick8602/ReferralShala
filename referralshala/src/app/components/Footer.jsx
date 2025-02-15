@@ -3,6 +3,7 @@ import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import "../styles/Footer.css";
 import { redirect } from "next/navigation";
+import Divider from "@mui/material/Divider";
 
 const Footer = () => {
   return (
@@ -74,8 +75,8 @@ const Footer = () => {
 
           
         </div>
-        <br></br>
-        <strong><hr></hr><hr></hr></strong>
+        {/* <strong><hr></hr></strong> */}
+        <Divider/>
         <div className="bottom-section">
           <div className="footer-links-bottom">
             <a href="/about_us">About us</a>
@@ -93,9 +94,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <p className="footer-text">
+        <div className="footer-text">
           &copy; 2024 ReferraShala. All Rights Reserved.
-        </p>
+        </div>
       </footer>
     </div>
   );

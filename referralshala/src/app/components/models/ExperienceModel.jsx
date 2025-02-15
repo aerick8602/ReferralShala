@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import '../../styles/ExperienceModel.css';
-import { IoClose } from 'react-icons/io5';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useState } from "react";
+import "../../styles/ExperienceModel.css";
+import { IoClose } from "react-icons/io5";
+import { v4 as uuidv4 } from "uuid";
 
-const ExperienceModel = ({ 
-  currentExperience, 
-  experienceData, 
-  setExperienceData, 
-  addExperienceData, 
+const ExperienceModel = ({
+  currentExperience,
+  experienceData,
+  setExperienceData,
+  addExperienceData,
   updateExperienceData,
-  toggleExperienceModel, 
+  toggleExperienceModel,
 }) => {
   const [formData, setFormData] = useState({
-    companyName: currentExperience?.companyName || '',
-    role: currentExperience?.role || '',
-    location: currentExperience?.location || '',
-    startYear: currentExperience?.startYear || '',
-    endYear: currentExperience?.endYear || '',
+    companyName: currentExperience?.companyName || "",
+    role: currentExperience?.role || "",
+    location: currentExperience?.location || "",
+    startYear: currentExperience?.startYear || "",
+    endYear: currentExperience?.endYear || "",
     isCurrentlyEmployed: currentExperience?.isCurrentlyEmployed || false,
-    description: currentExperience?.description || '',
+    description: currentExperience?.description || "",
   });
 
   const currentYear = new Date().getFullYear();
@@ -28,41 +28,45 @@ const ExperienceModel = ({
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleSaveOrUpdate = async (e) => {
     e.preventDefault();
-  
+
     if (
       !formData.companyName ||
       !formData.role ||
       !formData.location ||
-      !formData.startYear 
+      !formData.startYear
     ) {
-      alert('Please fill all required fields.');
+      alert("Please fill all required fields.");
       return;
     }
-  
+
     const newExperienceData = {
       experienceId: currentExperience?.experienceId || uuidv4(),
-      companyName: formData?.companyName || '',
-      role: formData?.role || '',
-      location: formData?.location || '',
-      startYear: parseInt(formData?.startYear) || '',
+      companyName: formData?.companyName || "",
+      role: formData?.role || "",
+      location: formData?.location || "",
+      startYear: parseInt(formData?.startYear) || "",
       endYear: parseInt(formData?.endYear) || null,
       isCurrentlyEmployed: formData?.isCurrentlyEmployed || false,
-      description: formData?.description || null
+      description: formData?.description || null,
     };
-  
+
     // Ensure experienceData is always an array
-    const updatedExperienceData = Array.isArray(experienceData) ? [...experienceData] : [];
-  
+    const updatedExperienceData = Array.isArray(experienceData)
+      ? [...experienceData]
+      : [];
+
     if (currentExperience) {
       // Update existing experience
       const updatedData = updatedExperienceData.map((exp) =>
-        exp.experienceId === newExperienceData.experienceId ? newExperienceData : exp
+        exp.experienceId === newExperienceData.experienceId
+          ? newExperienceData
+          : exp
       );
       setExperienceData(updatedData);
       toggleExperienceModel();
@@ -74,26 +78,29 @@ const ExperienceModel = ({
       toggleExperienceModel();
       if (addExperienceData) {
         const response = await addExperienceData(newExperienceData); // Assuming this returns a response with the actual experienceId
-          console.log(response.data);
-  
-          // If the response contains the actual experienceId, update the experience data
-          if (response.data?.experienceId) {
-            const updatedDataWithId = newData.map((exp) =>
-              exp.experienceId === newExperienceData.experienceId
-                ? { ...exp, experienceId: response.data.experienceId }
-                : exp
-            );
-            setExperienceData(updatedDataWithId);
-          }
+        console.log(response.data);
+
+        // If the response contains the actual experienceId, update the experience data
+        if (response.data?.experienceId) {
+          const updatedDataWithId = newData.map((exp) =>
+            exp.experienceId === newExperienceData.experienceId
+              ? { ...exp, experienceId: response.data.experienceId }
+              : exp
+          );
+          setExperienceData(updatedDataWithId);
+        }
       }
     }
   };
-  
 
   return (
     <div className="exp-model">
       <div className="exp-card">
-        <button type="button" className="edu-close-button" onClick={toggleExperienceModel}>
+        <button
+          type="button"
+          className="edu-close-button"
+          onClick={toggleExperienceModel}
+        >
           <IoClose size={24} />
         </button>
         <h2 className="exp-title">Work Experience Details</h2>
@@ -137,11 +144,18 @@ const ExperienceModel = ({
             />
           </div>
 
-          <div className="exp-form-row" style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+          <div
+            className="exp-form-row"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
             <div className="exp-form-group">
               <label htmlFor="startYear">Start Year</label>
               <input
-                style={{ width: '240px' }}
+                style={{ width: "240px" }}
                 type="number"
                 id="startYear"
                 name="startYear"
@@ -158,7 +172,7 @@ const ExperienceModel = ({
               <div className="exp-form-group">
                 <label htmlFor="endYear">End Year (Optional)</label>
                 <input
-                  style={{ width: '240px' }}
+                  style={{ width: "240px" }}
                   type="number"
                   id="endYear"
                   name="endYear"
@@ -173,10 +187,13 @@ const ExperienceModel = ({
             )}
           </div>
 
-          <div className="exp-form-group exp-checkbox-group" style={{ display: 'flex', flexDirection: 'row', fontSize: '12px' }}>
+          <div
+            className="exp-form-group exp-checkbox-group"
+            style={{ display: "flex", flexDirection: "row", fontSize: "12px" }}
+          >
             <label htmlFor="isCurrentlyEmployed">Currently working here</label>
             <input
-              style={{ marginTop: '3px' }}
+              style={{ marginTop: "3px" }}
               type="checkbox"
               id="isCurrentlyEmployed"
               name="isCurrentlyEmployed"
@@ -198,11 +215,12 @@ const ExperienceModel = ({
           </div>
 
           <p className="exp-help-text">
-            Example: Describe key responsibilities, technologies used, and achievements during your role.
+            Example: Describe key responsibilities, technologies used, and
+            achievements during your role.
           </p>
 
           <button type="submit" className="exp-update-button">
-            {currentExperience ? "Update" : "Save"} 
+            {currentExperience ? "Update" : "Save"}
           </button>
         </form>
       </div>

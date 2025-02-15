@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import EducationWrapper from "../../../components/wrappers/EducationWrapper";
 import ExperienceWrapper from "../../../components/wrappers/ExperienceWrapper";
@@ -8,6 +8,8 @@ import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
 import DragnDrop from "../../../components/DragnDrop";
 import Footer from "../../../components/Footer";
+import TemplateDemo from "../../../components/TemplateDemo";
+import { Toast } from "primereact/toast";
 
 import {
   FaPencilAlt,
@@ -24,6 +26,7 @@ import "../../../styles/Profile.css";
 import { HashLoader } from "react-spinners";
 import SkillSet from "../../../components/MultiSelect";
 import Divider from "@mui/material/Divider";
+import { Button } from "primereact/button";
 
 export default function CandidateProfile({ userId, isauth }) {
   const [userData, setUserData] = useState({});
@@ -35,8 +38,13 @@ export default function CandidateProfile({ userId, isauth }) {
   const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Single loader state
   const [candidateSkills, setCandidateSkills] = useState([]);
-  const [file, setFile] = useState(null);
-  const [resumePath, setResumePath] = useState(null);
+  const [resume, setResume] = useState([]);
+  // const [resumePath, setResumePath] = useState(null);
+  const toast = useRef(null); // Toast reference
+
+  const showToast = (severity, summary, detail) => {
+    toast.current.show({ severity, summary, detail });
+  };
 
   /*####################  apis  #####################*/
   const fetchUserData = async () => {
@@ -118,7 +126,7 @@ export default function CandidateProfile({ userId, isauth }) {
       setUserData(userData);
       setCandidateData(candidateData);
       setCandidateSkills(candidateData.skills);
-      setResumePath(candidateData.resume);
+      setResume(candidateData.resume);
       setEducationData(educationData);
       setExperienceData(experienceData);
     } catch (error) {
@@ -146,6 +154,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("Update successful:", data);
+      showToast("success", "Added", "Education data added successfully!");
       return data;
     } catch (error) {
       console.error("Error updating education data:", error);
@@ -168,6 +177,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
+      showToast("info", "Updated", "Education data updated successfully!");
       console.log("Update successful:", data);
     } catch (error) {
       console.error("Error updating candidate:", error);
@@ -189,6 +199,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("Deletion successful:", data);
+      showToast("error", "Deleted", "Education data deleted successfully!");
     } catch (error) {
       console.error("Error deleting education data:", error);
     }
@@ -210,6 +221,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
+      showToast("success", "Added", "Experience added successfully!");
       console.log("Update successful:", data);
       return data;
     } catch (error) {
@@ -239,6 +251,7 @@ export default function CandidateProfile({ userId, isauth }) {
         "Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh",
         data
       );
+      showToast("info", "Updated", "Experience updated successfully!");
       return data;
     } catch (error) {
       console.log("Error updating EXP", error);
@@ -263,6 +276,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("delete successful: deleteeeeeeeeeeeeee", data);
+      showToast("error", "Deleted", "Experience deleted successfully!");
       return data;
     } catch (error) {
       console.log("Error deleting candidate:", error);
@@ -284,6 +298,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
+      showToast("info", "Updated", "User data updated successfully!");
       console.log("Update successful:", data);
       return data;
     } catch (error) {
@@ -291,26 +306,26 @@ export default function CandidateProfile({ userId, isauth }) {
       return null;
     }
   };
-  const updateCandidateData = async (experienceData) => {
+  const updateCandidateData = async (CandidateData) => {
     try {
-      if (typeof experienceData !== "object" || experienceData === null) {
+      if (typeof CandidateData !== "object" || CandidateData === null) {
         throw new Error("experienceData must be a non-null object.");
       }
       const requestBody = {
-        ...(experienceData.skills !== undefined && {
-          skills: experienceData.skills,
+        ...(CandidateData.skills !== undefined && {
+          skills: CandidateData.skills,
         }),
-        ...(experienceData.resume !== undefined && {
-          resume: experienceData.resume,
+        ...(CandidateData.resume !== undefined && {
+          resume: CandidateData.resume,
         }),
-        ...(experienceData.location !== undefined && {
-          location: experienceData.location,
+        ...(CandidateData.location !== undefined && {
+          location: CandidateData.location,
         }),
-        ...(experienceData.contactNumber !== undefined && {
-          contactNumber: experienceData.contactNumber,
+        ...(CandidateData.contactNumber !== undefined && {
+          contactNumber: CandidateData.contactNumber,
         }),
-        ...(experienceData.socialLinks !== undefined && {
-          socialLinks: experienceData.socialLinks,
+        ...(CandidateData.socialLinks !== undefined && {
+          socialLinks: CandidateData.socialLinks,
         }),
       };
 
@@ -329,7 +344,9 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
+      // showToast("info", "Updated", "User data updated successfully!");
       console.log("Update successful:", data);
+      // showToast("info", "Updated", "Data updated successfully!");
       return data;
     } catch (error) {
       console.log("Error updating candidate:", error);
@@ -351,31 +368,39 @@ export default function CandidateProfile({ userId, isauth }) {
     updateCandidateData({ skills: updatedSkills });
   };
 
-  const handleFilesSelected = async (selectedFile) => {
-    if (!selectedFile) return;
-    console.log(selectedFile);
-    setFile(selectedFile);
-    if (file) {
-      const formDataToUpload = new FormData();
-      formDataToUpload.append("file", file);
-      console.log(formDataToUpload);
+  // const handleFilesSelected = async (selectedFile) => {
+  //   if (!selectedFile) return;
+  //   console.log(selectedFile);
+  //   setFile(selectedFile);
+  //   if (file) {
+  //     const formDataToUpload = new FormData();
+  //     formDataToUpload.append("file", file);
+  //     console.log(formDataToUpload);
 
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formDataToUpload,
-      });
+  //     const response = await fetch("/api/upload", {
+  //       method: "POST",
+  //       body: formDataToUpload,
+  //     });
 
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Failed to upload image");
+  //     }
 
-      const result = await response.json();
-      console.log(result);
-      const filePath = result.filePath;
-      console.log("filePath", filePath);
-      setResumePath(filePath);
-      updateCandidateData({ resume: filePath });
-    }
+  //     const result = await response.json();
+  //     console.log(result);
+  //     const filePath = result.filePath;
+  //     console.log("filePath", filePath);
+  //     // setResumePath(filePath);
+  //     updateCandidateData({ resume: filePath });
+  //   }
+  // };
+
+  const handleDeleteResume = (index) => {
+    setResume((prev) => {
+      const updatedResume = prev.filter((_, i) => i !== index);
+      updateCandidateData({ resume: updatedResume });
+      return updatedResume;
+    });
   };
 
   const togglePersonalModel = () =>
@@ -391,33 +416,18 @@ export default function CandidateProfile({ userId, isauth }) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="loader-container">
         <HashLoader size={35} color="#fe5757" />
       </div>
     );
   }
-
   return (
     <>
+      <Toast ref={toast} />
       <Navbar userId={userId} />
-      <h1
-        style={{
-          marginTop: "110px",
-          marginBottom: "40px",
-          width: "100%",
-          fontSize: "35px",
-          fontWeight: "600",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          opacity: "0.7",
-          // marginLeft: "110px",
-        }}
-      >
-        Profile
-      </h1>
+      <h1 className="profile-header">Profile</h1>
       <div className="profile">
-        <div className="personal-data">
+        <div className="profile-personal-data">
           <div className="avatar">
             <img
               src={userData?.profileImage || "/user.png"}
@@ -451,24 +461,19 @@ export default function CandidateProfile({ userId, isauth }) {
             </div>
             <div className="info-item">
               {/* <FaEnvelope className="icon" /> */}
-              <p
-                style={{
-                  color: "gray",
-                  marginTop: "-5px",
-                  marginBottom: "10px",
-                }}
-              >
+              <div className="profile-email">
                 {userData?.emailAddress || "Email not available"}
-              </p>
+              </div>
             </div>
             <div className="info-item">
               <FaPhone className="icon" />
-              <p>{candidateData?.contactNumber || "Phone not available"}</p>
+              <div>{candidateData?.contactNumber || "Phone not available"}</div>
             </div>
             <div className="info-item">
               <FaMapMarkerAlt className="icon" />
-              <p>{candidateData?.location || "Location not available"}</p>
+              <div>{candidateData?.location || "Location not available"}</div>
             </div>
+
             <div className="social-links">
               <ul>
                 {candidateData?.socialLinks?.map((link, index) => (
@@ -493,46 +498,106 @@ export default function CandidateProfile({ userId, isauth }) {
         </div>
 
         <div className="main-profile">
-          <p
-            style={{
-              // color: "white",
-              backgroundColor: "#fe5753",
-              width: "100%",
-              padding: "5px",
-              borderTopRightRadius: "10px",
-              borderTopLeftRadius: "10px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "14px",
-              // opacity: ".5",
-            }}
-          >
-            <FaStar></FaStar>&nbsp; Double-check your resume - it&apos;s what
-            employers will see when you apply.&nbsp;<FaStar></FaStar>
-          </p>
+          <div className="profile-note">
+            <FaStar className="star-icon" />
+            &nbsp; Double-check your profile - it&apos;s what employers will see
+            when you apply.&nbsp;
+            <FaStar className="star-icon" />
+          </div>
+          <br />
           <div className="resume">
-            <DragnDrop
+            {/* <DragnDrop
               isauth={isauth}
               onFilesSelected={handleFilesSelected}
               resumePath={resumePath}
               setResumePath={setResumePath}
               updateCandidateData={updateCandidateData}
-            />
+            /> */}
+            {isauth && (
+              <TemplateDemo
+                resume={resume}
+                setResume={setResume}
+                updateCandidateData={updateCandidateData}
+              />
+            )}
+
+            <div>
+              <br />
+              <Divider className="profile-divider" textAlign="left">
+                <i className="pi pi-file mr-2"></i>
+                &nbsp;Resume
+              </Divider>
+
+              {Array.isArray(resume) && resume.length > 0 ? (
+                <div style={{ marginTop: "12px" }}>
+                  <ul style={{ listStyle: "none", padding: "0" }}>
+                    {resume.map((file, index) => (
+                      <li className="profile-resume" key={index}>
+                        {/* File Link */}
+                        <a
+                          href={file.fileURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            textDecoration: "none",
+                            color: "#626161",
+                            fontWeight: "500",
+                            transition: "color 0.3s",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {file.fileName}
+                          {/* {file.fileName.split(".").slice(0, -1).join(".")} */}
+                        </a>
+
+                        {/* Delete Button */}
+                        {/* <button
+                          onClick={() => handleDelete(edu.educationId)}
+                          className="delete-btn"
+                          title="Delete Education"
+                        >
+                          <FaTrashAlt />
+                        </button> */}
+                        <Button
+                          icon="pi pi-trash"
+                          className="p-button-rounded p-button-text p-button-danger"
+                          onClick={() => handleDeleteResume(index)}
+                          tooltipOptions={{ position: "left" }}
+                          style={{
+                            border: "none",
+                            background: "transparent",
+                            color: "red",
+                            cursor: "pointer",
+                            fontSize: "10px !important",
+                            transition: "color 0.3s",
+                            padding: "0px",
+                          }}
+                          onMouseEnter={(e) =>
+                            (e.currentTarget.style.color = "#b30000")
+                          }
+                          onMouseLeave={(e) =>
+                            (e.currentTarget.style.color = "red")
+                          }
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p className="err">No resume found. Please upload a file.</p>
+              )}
+            </div>
           </div>
 
           <div className="skills">
             {/* <label   className="labels">Skills</label> */}
-            <Divider
-              style={{
-                fontSize: "larger",
-                padding: "20px",
-                fontWeight: "500",
-              }}
-              textAlign="left"
-            >
-              Skills
+            <Divider className="profile-divider" textAlign="left">
+              <i className="pi pi-star mr-2"></i>
+              &nbsp;Skills
             </Divider>
+
             {isauth ? (
               <SkillSet
                 candidateSkills={candidateSkills}
@@ -542,12 +607,13 @@ export default function CandidateProfile({ userId, isauth }) {
             ) : (
               <></>
             )}
+            <br />
             <div className="skills-container">
               <div className="skills-list">
                 {candidateSkills && candidateSkills.length > 0 ? (
                   candidateSkills.map((skill, index) => (
                     <div key={index} className="skill-chip">
-                      <p>{skill}</p>
+                      <div>{skill}</div>
                       {isauth ? (
                         <button
                           onClick={() => removeSkill(skill)} // Trigger the remove function
@@ -563,17 +629,13 @@ export default function CandidateProfile({ userId, isauth }) {
                 )}
               </div>
             </div>
+            <br />
           </div>
+
           <div className="education">
-            <Divider
-              style={{
-                fontSize: "larger",
-                padding: "20px",
-                fontWeight: "500",
-              }}
-              textAlign="left"
-            >
-              Education Details
+            <Divider className="profile-divider" textAlign="left">
+              <i className="pi pi-book mr-2"></i>
+              &nbsp;Education Details
             </Divider>
             {educationData?.length > 0 ? (
               <div>
@@ -591,37 +653,17 @@ export default function CandidateProfile({ userId, isauth }) {
               <p className="err">No education data available.</p>
             )}
             {isauth ? (
-              <button
-                onClick={toggleEducationModel}
-                style={{
-                  display: "flex",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  gap: "5px",
-                  color: "#fe4949",
-                  fontWeight: "500",
-                  padding: "20px 10px",
-                  // borderRadius: "25px",
-                  // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <FaPlus style={{ marginTop: "5px" }}></FaPlus> Add Education
-                Details...
+              <button className="add-details" onClick={toggleEducationModel}>
+                <FaPlus className="icon" /> Add Education Details...
               </button>
             ) : (
               <></>
             )}
           </div>
           <div className="experience">
-            <Divider
-              style={{
-                fontSize: "larger",
-                padding: "20px",
-                fontWeight: "500",
-              }}
-              textAlign="left"
-            >
-              Experience Details
+            <Divider className="profile-divider" textAlign="left">
+              <i className="pi pi-briefcase mr-2"></i>
+              &nbsp;Experience Details
             </Divider>
             {experienceData?.length > 0 ? (
               <div>
@@ -640,22 +682,8 @@ export default function CandidateProfile({ userId, isauth }) {
             )}
 
             {isauth ? (
-              <button
-                onClick={toggleExperienceModel}
-                style={{
-                  display: "flex",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  gap: "5px",
-                  color: "#fe4949",
-                  fontWeight: "500",
-                  padding: "20px 10px",
-                  // borderRadius: "25px",
-                  // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                }}
-              >
-                <FaPlus style={{ marginTop: "5px" }}></FaPlus> Add Experience
-                Details...
+              <button className="add-details" onClick={toggleExperienceModel}>
+                <FaPlus className="icon" /> Add Experience Details...
               </button>
             ) : (
               <></>
