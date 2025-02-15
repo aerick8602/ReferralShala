@@ -31,7 +31,7 @@ export default function AccountMenu({ userId, userType, clerkID }) {
     return (
       <div
         style={{
-          // position: "fixed",
+          position: "fixed",
           top: 0,
           left: 0,
           bottom: 5,
