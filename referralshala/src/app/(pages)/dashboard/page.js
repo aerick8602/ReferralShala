@@ -41,7 +41,11 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar userId={userData?.userId} userType={userData?.userType} />
+      <Navbar
+        userId={userData.userId}
+        userType={userData.userType}
+        clerkID={user?.id.replace("user_", "")}
+      />
       <div className="dashboard-container">
         <p className="dashboard-text">
           Hello {user?.firstName || "User"}. Here's your Dashboard. You are a{" "}

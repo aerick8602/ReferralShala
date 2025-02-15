@@ -16,7 +16,7 @@ datasource db {
 model User {
   userId    Int      @id @default(autoincrement())
   Id        String   @unique
-  userType  String   @default("guest")
+  userType  String   @default("candidate")
   userData  Json?
   createdAt DateTime @default(now()) @db.Timestamp(0)
   updatedAt DateTime @updatedAt @db.Timestamp(0)

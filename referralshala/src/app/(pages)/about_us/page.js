@@ -1,75 +1,113 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import "../../styles/AboutPage.css"; // Import the CSS file
 
 export default function Page() {
   return (
     <>
       <Navbar />
-      <div className="px-8 py-16 max-w-5xl mx-auto mt-10">
-      <h1 className="text-lg font-bold mb-6 text-center">About Us</h1>
-        <div className="text-center bg-white shadow-md rounded-xl p-8 mb-10">
-          <h1 className="text-4xl font-bold text-primary  mb-8">The Bridge to New Opportunities</h1>
-          <p className="text-base text-gray-700 mb-6">
-            Welcome to <strong>Referral Shala</strong>, your gateway to endless career opportunities! At Referral Shala, we aim to
-            connect talented individuals with the right opportunities through trusted referrals. Our platform is designed to simplify
-            the referral process, making it easier for professionals to discover their next big role.
+      <div className="about-page-container">
+        <h1 className="about-page-title">About Referral Shala</h1>
+        <div className="about-page-card">
+          <h1 className="about-page-heading">Your Gateway to Career Success</h1>
+          <p className="about-page-text">
+            At <strong>Referral Shala</strong>, we believe that the right
+            connection can transform your career. Our platform is designed to
+            bridge the gap between talented professionals and top-tier companies
+            through the power of trusted referrals. Whether you're seeking your
+            dream job or looking to expand your professional network, Referral
+            Shala is here to help you every step of the way.
+          </p>
+          <p className="about-page-text">
+            We understand that finding the right opportunity can be challenging.
+            That's why we've created a seamless, referral-based ecosystem that
+            connects you with exclusive job openings and industry leaders. Join
+            us and take the first step toward a brighter future.
           </p>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-8 mb-10">
-          <h2 className="text-2xl text-center font-semibold text-primary mb-6">Our Mission</h2>
-          <p className="text-base text-center text-gray-700 mb-6">
-            Our mission is to foster a community of skilled candidates and forward-thinking recruiters who share the same goal:
-            growth. By using the power of referrals, we create a dynamic ecosystem where professionals can thrive, grow, and connect.
+        <div className="about-page-card">
+          <h2 className="about-page-subheading">Our Mission</h2>
+          <p className="about-page-text">
+            Our mission is simple: to empower professionals by creating
+            meaningful connections that drive growth. We aim to build a
+            community where talent meets opportunity, and where every referral
+            can lead to a life-changing career move.
           </p>
-          <p className="text-base text-center text-gray-700 mb-6">
-            Whether you're looking to land your dream job, expand your professional network, or help someone else succeed, Referral Shala
-            makes it possible. We believe that the right connections can transform careers and build successful futures.
+          <p className="about-page-text">
+            By leveraging the power of referrals, we ensure that candidates are
+            matched with roles that align with their skills, passions, and
+            career goals. At the same time, we help companies discover top
+            talent through trusted recommendations.
           </p>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-8 mb-10">
-          <h2 className="text-2xl text-center font-semibold text-primary mb-6">Our Core Values</h2>
-          <ul className="list-disc list-inside text-base text-gray-700">
-            <li>🌟 <strong>Empowerment</strong> - Providing a platform where users can access exclusive opportunities and career resources.</li>
-            <li>🤝 <strong>Collaboration</strong> - Building a network of professionals who can share and benefit from referrals.</li>
-            <li>🎯 <strong>Success</strong> - Rewarding individuals who contribute to the growth of others by referring talented candidates.</li>
+        <div className="about-page-card">
+          <h2 className="about-page-subheading">Our Core Values</h2>
+          <ul className="about-page-list">
+            <li>
+              🌟 <strong>Empowerment:</strong> We provide the tools and
+              resources you need to take control of your career.
+            </li>
+            <li>
+              🤝 <strong>Collaboration:</strong> We believe in the power of
+              community and working together to achieve success.
+            </li>
+            <li>
+              🎯 <strong>Excellence:</strong> We strive to deliver the best
+              experience for both candidates and employers.
+            </li>
+            <li>
+              💡 <strong>Innovation:</strong> We continuously evolve to meet the
+              changing needs of the job market.
+            </li>
           </ul>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-8 mb-10">
-          <h2 className="text-2xl text-center font-semibold text-primary mb-6">What We Offer</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            <div className="shadow-md rounded-xl p-6">
-              <h3 className="text-base font-semibold text-primary mb-4">Exclusive Job Opportunities</h3>
-              <p className="text-gray-700">
-                Discover roles that match your skills and experience, and get access to job openings that are available through referrals.
+        <div className="about-page-card">
+          <h2 className="about-page-subheading">What We Offer</h2>
+          <div className="about-page-grid">
+            <div className="about-page-grid-item">
+              <h3 className="about-page-grid-title">
+                Exclusive Job Opportunities
+              </h3>
+              <p className="about-page-grid-text">
+                Gain access to hidden job openings that are only available
+                through referrals. We connect you with roles that match your
+                skills and aspirations.
               </p>
             </div>
-            <div className="shadow-md rounded-xl p-6">
-              <h3 className="text-base font-semibold text-primary mb-4">Network Growth</h3>
-              <p className="text-gray-700">
-                Build valuable connections with professionals in your industry and grow your network with the help of trusted referrals.
+            <div className="about-page-grid-item">
+              <h3 className="about-page-grid-title">Professional Networking</h3>
+              <p className="about-page-grid-text">
+                Build meaningful connections with industry leaders and
+                like-minded professionals. Expand your network and unlock new
+                opportunities.
               </p>
             </div>
-            <div className="shadow-md rounded-xl p-6">
-              <h3 className="text-base font-semibold text-primary mb-4">Referral Rewards</h3>
-              <p className="text-gray-700">
-                Receive recognition and rewards for referring top candidates to the right roles, making your network work for you.
+            <div className="about-page-grid-item">
+              <h3 className="about-page-grid-title">Career Guidance</h3>
+              <p className="about-page-grid-text">
+                Get personalized advice and resources to help you navigate your
+                career path. From resume reviews to interview tips, we've got
+                you covered.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white shadow-md rounded-xl p-8">
-          <h2 className="text-2xl text-center font-semibold text-primary mb-6">Join Our Community</h2>
-          <p className="text-base text-gray-700 mb-6 text-center">
-            Ready to take your career to the next level? Join Referral Shala today and begin exploring the vast opportunities available to you
-            through referrals. Whether you're a candidate seeking new challenges or a professional eager to make a difference in someone’s
-            career, we’re here to help you succeed.
+        <div className="about-page-card">
+          <h2 className="about-page-subheading">Join Our Community</h2>
+          <p className="about-page-text">
+            Ready to take the next step in your career? Join Referral Shala
+            today and become part of a thriving community of professionals who
+            are shaping the future of work. Whether you're a job seeker, a
+            recruiter, or someone looking to make a difference, we welcome you
+            to our platform.
           </p>
-          <p className="text-base text-gray-700 text-center">
-            Together, we can reshape the way professional connections are made. Let’s grow, connect, and succeed together.
+          <p className="about-page-text">
+            Together, we can redefine the way careers are built. Let's connect,
+            grow, and succeed together.
           </p>
         </div>
       </div>

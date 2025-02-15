@@ -35,7 +35,7 @@
   align-items: center;
   color: white;
   font-size: 13px;
-  font-stretch:extra-expanded;
+  font-stretch: extra-expanded;
   font-weight: 500;
   top: 0;
   left: 0;
@@ -75,6 +75,7 @@
   text-decoration: none;
   font-weight: 500;
   color: white;
+  background: transparent;
   transition: background-color 0.3s ease;
 }
 
@@ -95,5 +96,5 @@
 
 .signup-button:hover {
   color: #fe5757;
-  background-color: white;
+  background: transparent;
 }

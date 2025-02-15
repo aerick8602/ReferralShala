@@ -81,6 +81,7 @@ export default function AccountMenu({ userId, userType, clerkID }) {
                 border: "2px solid #FE5757",
                 fontSize: "16px",
                 fontWeight: "bold",
+                background: "transparent",
               }}
             >
               {Name}
