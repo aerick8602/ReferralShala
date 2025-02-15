@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
     "userId" SERIAL NOT NULL,
     "Id" TEXT NOT NULL,
-    "userType" TEXT NOT NULL DEFAULT 'guest',
+    "userType" TEXT NOT NULL DEFAULT 'candidate',
     "userData" JSONB,
     "createdAt" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(0) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE "Candidate" (
     "user_id" INTEGER NOT NULL,
     "skills" TEXT[],
     "social_links" JSONB,
-    "resume" TEXT,
+    "resume" JSONB,
     "contact_number" VARCHAR(15),
     "location" VARCHAR(255),
     "createdAt" TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
@@ -33,6 +33,7 @@ CREATE TABLE "Employer" (
     "job_role" VARCHAR(255),
     "location" VARCHAR(255),
     "contact_number" VARCHAR(15),
+    "social_links" JSONB,
     "createdAt" TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(0),
 
