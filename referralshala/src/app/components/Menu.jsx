@@ -10,7 +10,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { SignOutButton, UserProfile, useUser } from "@clerk/nextjs";
 
 export default function AccountMenu({ userId, userType, clerkID }) {
@@ -19,6 +19,9 @@ export default function AccountMenu({ userId, userType, clerkID }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isSettingOpen, setSettingOpen] = React.useState(false);
   const open = Boolean(anchorEl);
+
+  const pathname = usePathname(); // Get current route
+  const isHomePage = pathname === "/"; // Check if on "/"
 
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -116,12 +119,14 @@ export default function AccountMenu({ userId, userType, clerkID }) {
         <MenuItem onClick={() => redirect("/dashboard")}>Dashboard</MenuItem>
         <Divider />
 
-        <MenuItem onClick={openSettings}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+        {isHomePage && (
+          <MenuItem onClick={openSettings}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+        )}
         <MenuItem onClick={handleClose}>
           <SignOutButton>
             <button

@@ -126,7 +126,7 @@ export default function CandidateProfile({ userId, isauth }) {
       setUserData(userData);
       setCandidateData(candidateData);
       setCandidateSkills(candidateData.skills);
-      setResume(candidateData.resume);
+      setResume(candidateData.resume || []);
       setEducationData(educationData);
       setExperienceData(experienceData);
     } catch (error) {
