@@ -63,20 +63,22 @@ const ExperienceWrapper = ({
           )}
 
           {isauth && (
-            <div className="experience-actions">
+            <div className="education-actions">
               <button
                 onClick={() => handleEdit(exp.experienceId)}
                 className="edit-btn"
                 title="Edit Experience"
               >
-                <FaPencilAlt />
+                {/* <FaPencilAlt /> */}
+                <i className="pi pi-pencil"></i>
               </button>
               <button
                 onClick={() => confirmDelete(exp.experienceId)}
                 className="delete-btn"
                 title="Delete Experience"
               >
-                <FaTrashAlt />
+                {/* <FaDeleteAlt /> */}
+                <i className="pi pi-trash"></i>
               </button>
             </div>
           )}
