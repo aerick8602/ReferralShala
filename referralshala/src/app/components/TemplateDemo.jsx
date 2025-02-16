@@ -101,7 +101,7 @@ export default function TemplateDemo({
             border: "2px dashed var(--primary-color)",
             padding: "15px",
             transition: "all 0.3s ease-in-out",
-            cursor: "pointer",
+            // cursor: "pointer",
             opacity: "0.6",
           }}
           onMouseEnter={(e) =>

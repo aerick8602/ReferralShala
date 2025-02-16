@@ -419,8 +419,17 @@ export default function CandidateProfile({ userId, clerkID }) {
             />
           </div>
           {isauth ? (
-            <button className="edit-button">
-              <FaPencilAlt onClick={togglePersonalModel} />
+            // <button className="edit-button">
+            //   <FaPencilAlt onClick={togglePersonalModel} />
+            // </button>
+            <button
+              onClick={togglePersonalModel}
+              className="edit-btn edit-button"
+              title="Edit Profile"
+              style={{ width: "35px", height: "55px" }}
+            >
+              {/* <FaPencilAlt /> */}
+              <i className="pi pi-pencil"></i>
             </button>
           ) : (
             <></>
@@ -531,27 +540,35 @@ export default function CandidateProfile({ userId, clerkID }) {
                         </a>
 
                         {isauth && (
-                          <Button
-                            icon="pi pi-trash"
-                            className="p-button-rounded p-button-text p-button-danger"
+                          <button
                             onClick={() => confirmDelete(index)}
-                            tooltipOptions={{ position: "left" }}
-                            style={{
-                              border: "none",
-                              background: "transparent",
-                              color: "red",
-                              cursor: "pointer",
-                              fontSize: "10px !important",
-                              transition: "color 0.3s",
-                              padding: "0px",
-                            }}
-                            onMouseEnter={(e) =>
-                              (e.currentTarget.style.color = "#b30000")
-                            }
-                            onMouseLeave={(e) =>
-                              (e.currentTarget.style.color = "red")
-                            }
-                          />
+                            className="delete-btn"
+                            title="Remove Resume"
+                          >
+                            {/* <FaDeleteAlt /> */}
+                            <i className="pi pi-trash"></i>
+                          </button>
+                          // <Button
+                          //   icon="pi pi-trash"
+                          //   className="p-button-rounded p-button-text p-button-danger"
+                          //   onClick={() => confirmDelete(index)}
+                          //   tooltipOptions={{ position: "left" }}
+                          //   style={{
+                          //     border: "none",
+                          //     background: "transparent",
+                          //     color: "red",
+                          //     cursor: "pointer",
+                          //     fontSize: "10px !important",
+                          //     transition: "color 0.3s",
+                          //     padding: "0px",
+                          //   }}
+                          //   onMouseEnter={(e) =>
+                          //     (e.currentTarget.style.color = "#b30000")
+                          //   }
+                          //   onMouseLeave={(e) =>
+                          //     (e.currentTarget.style.color = "red")
+                          //   }
+                          // />
                         )}
                       </li>
                     ))}

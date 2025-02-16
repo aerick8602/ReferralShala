@@ -70,14 +70,16 @@ const EducationWrapper = ({
                 className="edit-btn"
                 title="Edit Education"
               >
-                <FaPencilAlt />
+                {/* <FaPencilAlt /> */}
+                <i className="pi pi-pencil"></i>
               </button>
               <button
                 onClick={() => confirmDelete(edu.educationId)}
                 className="delete-btn"
                 title="Delete Education"
               >
-                <FaTrashAlt />
+                {/* <FaDeleteAlt /> */}
+                <i className="pi pi-trash"></i>
               </button>
             </div>
           )}

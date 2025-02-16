@@ -38,7 +38,7 @@
 
 .education-stream {
   font-weight: 500;
-  color:#fe5757;
+  color: #fe5757;
 }
 
 .education-label {
@@ -56,6 +56,7 @@
 
 .edit-btn,
 .delete-btn {
+  background: transparent;
   padding: 8px;
   border: none;
   border-radius: 50%;
@@ -68,21 +69,25 @@
 }
 
 .edit-btn {
-  background-color: #e0f2ff;
+  /* background-color: #e0f2ff; */
   color: #0077cc;
 }
 
+.edit-btn:focus {
+  border: 1px solid #0077cc;
+}
+
 .edit-btn:hover {
-  background-color: #b3e0ff;
-  transform: scale(1.1);
+  background-color: #e7f1f8;
+  transform: scale(1.05);
 }
 
 .delete-btn {
-  background-color: #ffe0e0;
-  color: #cc0000;
+  /* background-color: #ffe0e0; */
+  color: #f54c4c;
 }
 
 .delete-btn:hover {
-  background-color: #ffb3b3;
-  transform: scale(1.1);
+  background-color: #f7e9e9;
+  transform: scale(1.05);
 }
