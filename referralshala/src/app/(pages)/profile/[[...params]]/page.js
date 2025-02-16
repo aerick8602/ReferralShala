@@ -11,14 +11,13 @@ export default function ProfilePage() {
   const userType = params.params[0];
   const userId = params.params[1];
   const clerkID = params.params[2];
-  const isauth = "user_" + clerkID == user.id;
 
   return (
     <>
       {userType === "candidate" ? (
-        <CandidateProfile userId={userId} isauth={isauth} />
+        <CandidateProfile userId={userId} clerkID={clerkID} />
       ) : (
-        <EmployerProfile userId={userId} isauth={isauth} />
+        <EmployerProfile userId={userId} clerkID={clerkID} />
       )}
     </>
   );

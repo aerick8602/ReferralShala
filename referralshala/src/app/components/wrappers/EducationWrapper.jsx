@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import EducationModal from "../../components/models/EducationModel";
 import "../../styles/EducationWrapper.css";
 
@@ -13,7 +14,8 @@ const EducationWrapper = ({
   const [currentEducation, setCurrentEducation] = useState(null);
   const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
 
-  const toggleEducationModel = () => setIsEducationModalOpen(!isEducationModalOpen);
+  const toggleEducationModel = () =>
+    setIsEducationModalOpen(!isEducationModalOpen);
 
   const handleEdit = (educationId) => {
     const selectedEducation = educationData.find(
@@ -23,23 +25,33 @@ const EducationWrapper = ({
     toggleEducationModel();
   };
 
+  const confirmDelete = (educationId) => {
+    confirmDialog({
+      message: "Are you sure you want to delete this education entry?",
+      header: "Confirm Deletion",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => handleDelete(educationId),
+    });
+  };
+
   const handleDelete = async (educationId) => {
-    if (window.confirm("Are you sure you want to delete this entry?")) {
-      const updatedEducationData = educationData.filter(
-        (edu) => edu.educationId !== educationId
-      );
-      setEducationData(updatedEducationData);
-      await deleteEducationData(educationId);
-    }
+    const updatedEducationData = educationData.filter(
+      (edu) => edu.educationId !== educationId
+    );
+    setEducationData(updatedEducationData);
+    await deleteEducationData(educationId);
   };
 
   return (
     <div className="education-wrapper">
+      <ConfirmDialog />
       {educationData.map((edu) => (
         <div key={edu.educationId} className="education-card">
           <div className="education-title">{edu.instituteName}</div>
           <p className="education-details">
-            {edu.degree} in <span className="education-stream">{edu.stream}</span>
+            {edu.degree} in{" "}
+            <span className="education-stream">{edu.stream}</span>
           </p>
           <p className="education-details">
             <span className="education-label">Years:</span> {edu.startYear} -{" "}
@@ -61,7 +73,7 @@ const EducationWrapper = ({
                 <FaPencilAlt />
               </button>
               <button
-                onClick={() => handleDelete(edu.educationId)}
+                onClick={() => confirmDelete(edu.educationId)}
                 className="delete-btn"
                 title="Delete Education"
               >

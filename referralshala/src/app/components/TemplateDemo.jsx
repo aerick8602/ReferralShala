@@ -61,7 +61,7 @@ export default function TemplateDemo({
       }
 
       toast.current?.show({
-        severity: "success",
+        severity: "secondary",
         summary: "Upload Successful",
         detail: "Files uploaded successfully!",
       });

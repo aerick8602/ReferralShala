@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
+import { confirmDialog } from "primereact/confirmdialog";
 import ExperienceModel from "../models/ExperienceModel";
 import "../../styles/ExperienceWrapper.css";
 
@@ -24,14 +25,22 @@ const ExperienceWrapper = ({
     toggleExperienceModel();
   };
 
+  const confirmDelete = (experienceId) => {
+    confirmDialog({
+      message: "Are you sure you want to delete this experience entry?",
+      header: "Confirm Deletion",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => handleDelete(experienceId),
+    });
+  };
+
   const handleDelete = async (experienceId) => {
-    if (window.confirm("Are you sure you want to delete this entry?")) {
-      const updatedExperienceData = experienceData.filter(
-        (exp) => exp.experienceId !== experienceId
-      );
-      setExperienceData(updatedExperienceData);
-      await deleteExperienceData(experienceId);
-    }
+    const updatedExperienceData = experienceData.filter(
+      (exp) => exp.experienceId !== experienceId
+    );
+    setExperienceData(updatedExperienceData);
+    await deleteExperienceData(experienceId);
   };
 
   return (
@@ -46,10 +55,12 @@ const ExperienceWrapper = ({
             <span className="experience-label">Location:</span> {exp.location}
           </p>
           <p className="experience-details">
-            <span className="experience-label">Duration:</span> {exp.startYear} -{" "}
-            {exp.endYear || (exp.isCurrentlyEmployed ? "Present" : "N/A")}
+            <span className="experience-label">Duration:</span> {exp.startYear}{" "}
+            - {exp.endYear || (exp.isCurrentlyEmployed ? "Present" : "N/A")}
           </p>
-          {exp.description && <p className="experience-description">{exp.description}</p>}
+          {exp.description && (
+            <p className="experience-description">{exp.description}</p>
+          )}
 
           {isauth && (
             <div className="experience-actions">
@@ -61,7 +72,7 @@ const ExperienceWrapper = ({
                 <FaPencilAlt />
               </button>
               <button
-                onClick={() => handleDelete(exp.experienceId)}
+                onClick={() => confirmDelete(exp.experienceId)}
                 className="delete-btn"
                 title="Delete Experience"
               >

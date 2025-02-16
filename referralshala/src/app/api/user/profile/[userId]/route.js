@@ -16,8 +16,9 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     }
-    //  console.log('route.js',profile);
+    // console.log("route.js", profile);
     const userDetails = formatUserData(profile);
+    console.log(userDetails);
 
     return NextResponse.json(
       { success: true, data: userDetails },
