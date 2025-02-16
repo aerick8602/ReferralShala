@@ -1,16 +1,15 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../../../components/Navbar";
+import { confirmDialog } from "primereact/confirmdialog";
 import EducationWrapper from "../../../components/wrappers/EducationWrapper";
 import ExperienceWrapper from "../../../components/wrappers/ExperienceWrapper";
 import PersonalCard from "../../../components/models/PersonalModel";
 import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
-import DragnDrop from "../../../components/DragnDrop";
 import Footer from "../../../components/Footer";
 import TemplateDemo from "../../../components/TemplateDemo";
 import { Toast } from "primereact/toast";
-
 import {
   FaPencilAlt,
   FaEnvelope,
@@ -28,7 +27,7 @@ import SkillSet from "../../../components/MultiSelect";
 import Divider from "@mui/material/Divider";
 import { Button } from "primereact/button";
 
-export default function CandidateProfile({ userId, isauth }) {
+export default function CandidateProfile({ userId, clerkID }) {
   const [userData, setUserData] = useState({});
   const [candidateData, setCandidateData] = useState({});
   const [educationData, setEducationData] = useState([]);
@@ -39,12 +38,11 @@ export default function CandidateProfile({ userId, isauth }) {
   const [isLoading, setIsLoading] = useState(false); // Single loader state
   const [candidateSkills, setCandidateSkills] = useState([]);
   const [resume, setResume] = useState([]);
-  // const [resumePath, setResumePath] = useState(null);
-  const toast = useRef(null); // Toast reference
-
+  const toast = useRef(null);
   const showToast = (severity, summary, detail) => {
     toast.current.show({ severity, summary, detail });
   };
+  const [isauth, setIsAuth] = useState(false);
 
   /*####################  apis  #####################*/
   const fetchUserData = async () => {
@@ -110,7 +108,6 @@ export default function CandidateProfile({ userId, isauth }) {
       return null;
     }
   };
-  // Main function to fetch all data
   const fetchData = async () => {
     console.log("UserId :", userId);
     setIsLoading(true);
@@ -154,7 +151,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("Update successful:", data);
-      showToast("success", "Added", "Education data added successfully!");
+      showToast("secondary", "Added", "Education data added successfully!");
       return data;
     } catch (error) {
       console.error("Error updating education data:", error);
@@ -177,7 +174,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
-      showToast("info", "Updated", "Education data updated successfully!");
+      showToast("secondary", "Updated", "Education data updated successfully!");
       console.log("Update successful:", data);
     } catch (error) {
       console.error("Error updating candidate:", error);
@@ -199,7 +196,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("Deletion successful:", data);
-      showToast("error", "Deleted", "Education data deleted successfully!");
+      showToast("secondary", "Deleted", "Education data deleted successfully!");
     } catch (error) {
       console.error("Error deleting education data:", error);
     }
@@ -221,7 +218,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
-      showToast("success", "Added", "Experience added successfully!");
+      showToast("secondary", "Added", "Experience added successfully!");
       console.log("Update successful:", data);
       return data;
     } catch (error) {
@@ -251,7 +248,7 @@ export default function CandidateProfile({ userId, isauth }) {
         "Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh",
         data
       );
-      showToast("info", "Updated", "Experience updated successfully!");
+      showToast("secondary", "Updated", "Experience updated successfully!");
       return data;
     } catch (error) {
       console.log("Error updating EXP", error);
@@ -276,7 +273,7 @@ export default function CandidateProfile({ userId, isauth }) {
 
       const data = await response.json();
       console.log("delete successful: deleteeeeeeeeeeeeee", data);
-      showToast("error", "Deleted", "Experience deleted successfully!");
+      showToast("secondary", "Deleted", "Experience deleted successfully!");
       return data;
     } catch (error) {
       console.log("Error deleting candidate:", error);
@@ -298,7 +295,7 @@ export default function CandidateProfile({ userId, isauth }) {
       }
 
       const data = await response.json();
-      showToast("info", "Updated", "User data updated successfully!");
+      // showToast("secondary", "Updated", "User data updated successfully!");
       console.log("Update successful:", data);
       return data;
     } catch (error) {
@@ -306,6 +303,7 @@ export default function CandidateProfile({ userId, isauth }) {
       return null;
     }
   };
+
   const updateCandidateData = async (CandidateData) => {
     try {
       if (typeof CandidateData !== "object" || CandidateData === null) {
@@ -342,11 +340,11 @@ export default function CandidateProfile({ userId, isauth }) {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+      showToast("secondary", "Updated", "Data updated successfully!");
       const data = await response.json();
       // showToast("info", "Updated", "User data updated successfully!");
       console.log("Update successful:", data);
-      // showToast("info", "Updated", "Data updated successfully!");
+
       return data;
     } catch (error) {
       console.log("Error updating candidate:", error);
@@ -356,50 +354,28 @@ export default function CandidateProfile({ userId, isauth }) {
   /*####################  apis  #####################*/
 
   const removeSkill = async (skillToRemove) => {
-    // Remove the skill from the array
     const updatedSkills = candidateSkills.filter(
       (skill) => skill !== skillToRemove
     );
-
-    // Update the state with the new skill set
     setCandidateSkills(updatedSkills);
-
-    // Update the backend with the new skill set
     updateCandidateData({ skills: updatedSkills });
   };
-
-  // const handleFilesSelected = async (selectedFile) => {
-  //   if (!selectedFile) return;
-  //   console.log(selectedFile);
-  //   setFile(selectedFile);
-  //   if (file) {
-  //     const formDataToUpload = new FormData();
-  //     formDataToUpload.append("file", file);
-  //     console.log(formDataToUpload);
-
-  //     const response = await fetch("/api/upload", {
-  //       method: "POST",
-  //       body: formDataToUpload,
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to upload image");
-  //     }
-
-  //     const result = await response.json();
-  //     console.log(result);
-  //     const filePath = result.filePath;
-  //     console.log("filePath", filePath);
-  //     // setResumePath(filePath);
-  //     updateCandidateData({ resume: filePath });
-  //   }
-  // };
 
   const handleDeleteResume = (index) => {
     setResume((prev) => {
       const updatedResume = prev.filter((_, i) => i !== index);
       updateCandidateData({ resume: updatedResume });
       return updatedResume;
+    });
+  };
+
+  const confirmDelete = (index) => {
+    confirmDialog({
+      message: "Are you sure you want to delete this resume ?",
+      header: "Confirm Deletion",
+      icon: "pi pi-exclamation-triangle",
+      acceptClassName: "p-button-danger",
+      accept: () => handleDeleteResume(index),
     });
   };
 
@@ -414,6 +390,13 @@ export default function CandidateProfile({ userId, isauth }) {
     fetchData();
   }, [userId]);
 
+  useEffect(() => {
+    console.log(userData.id);
+    console.log(clerkID);
+    setIsAuth(userData.id == "user_" + clerkID);
+    console.log("isauth ", isauth);
+  }, [isLoading]);
+
   if (isLoading) {
     return (
       <div className="loader-container">
@@ -424,7 +407,7 @@ export default function CandidateProfile({ userId, isauth }) {
   return (
     <>
       <Toast ref={toast} />
-      <Navbar userId={userId} />
+      <Navbar userId={userId} clerkID={clerkID} userType={userData.userType} />
       <h1 className="profile-header">Profile</h1>
       <div className="profile">
         <div className="profile-personal-data">
@@ -506,13 +489,6 @@ export default function CandidateProfile({ userId, isauth }) {
           </div>
           <br />
           <div className="resume">
-            {/* <DragnDrop
-              isauth={isauth}
-              onFilesSelected={handleFilesSelected}
-              resumePath={resumePath}
-              setResumePath={setResumePath}
-              updateCandidateData={updateCandidateData}
-            /> */}
             {isauth && (
               <TemplateDemo
                 resume={resume}
@@ -529,11 +505,14 @@ export default function CandidateProfile({ userId, isauth }) {
               </Divider>
 
               {Array.isArray(resume) && resume.length > 0 ? (
-                <div style={{ marginTop: "12px" }}>
-                  <ul style={{ listStyle: "none", padding: "0" }}>
+                <div style={{ marginTop: "12px", marginBottom: "-15px" }}>
+                  <ul style={{ listStyle: "none", padding: "20px" }}>
                     {resume.map((file, index) => (
-                      <li className="profile-resume" key={index}>
-                        {/* File Link */}
+                      <li
+                        className="profile-resume"
+                        key={index}
+                        style={{ height: "18px" }}
+                      >
                         <a
                           href={file.fileURL}
                           target="_blank"
@@ -549,44 +528,41 @@ export default function CandidateProfile({ userId, isauth }) {
                           }}
                         >
                           {file.fileName}
-                          {/* {file.fileName.split(".").slice(0, -1).join(".")} */}
                         </a>
 
-                        {/* Delete Button */}
-                        {/* <button
-                          onClick={() => handleDelete(edu.educationId)}
-                          className="delete-btn"
-                          title="Delete Education"
-                        >
-                          <FaTrashAlt />
-                        </button> */}
-                        <Button
-                          icon="pi pi-trash"
-                          className="p-button-rounded p-button-text p-button-danger"
-                          onClick={() => handleDeleteResume(index)}
-                          tooltipOptions={{ position: "left" }}
-                          style={{
-                            border: "none",
-                            background: "transparent",
-                            color: "red",
-                            cursor: "pointer",
-                            fontSize: "10px !important",
-                            transition: "color 0.3s",
-                            padding: "0px",
-                          }}
-                          onMouseEnter={(e) =>
-                            (e.currentTarget.style.color = "#b30000")
-                          }
-                          onMouseLeave={(e) =>
-                            (e.currentTarget.style.color = "red")
-                          }
-                        />
+                        {isauth && (
+                          <Button
+                            icon="pi pi-trash"
+                            className="p-button-rounded p-button-text p-button-danger"
+                            onClick={() => confirmDelete(index)}
+                            tooltipOptions={{ position: "left" }}
+                            style={{
+                              border: "none",
+                              background: "transparent",
+                              color: "red",
+                              cursor: "pointer",
+                              fontSize: "10px !important",
+                              transition: "color 0.3s",
+                              padding: "0px",
+                            }}
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.color = "#b30000")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.color = "red")
+                            }
+                          />
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
               ) : (
-                <p className="err">No resume found. Please upload a file.</p>
+                <div>
+                  <br />
+                  <p className="err">No resume found. Please upload a file.</p>
+                  <br />
+                </div>
               )}
             </div>
           </div>
@@ -607,8 +583,9 @@ export default function CandidateProfile({ userId, isauth }) {
             ) : (
               <></>
             )}
-            <br />
+
             <div className="skills-container">
+              <br />
               <div className="skills-list">
                 {candidateSkills && candidateSkills.length > 0 ? (
                   candidateSkills.map((skill, index) => (
@@ -650,7 +627,11 @@ export default function CandidateProfile({ userId, isauth }) {
                 />
               </div>
             ) : (
-              <p className="err">No education data available.</p>
+              <div>
+                <br />
+                <p className="err">No education data available.</p>
+                <br />
+              </div>
             )}
             {isauth ? (
               <button className="add-details" onClick={toggleEducationModel}>
@@ -678,7 +659,11 @@ export default function CandidateProfile({ userId, isauth }) {
                 />
               </div>
             ) : (
-              <p className="err">No experience data available.</p>
+              <div>
+                <br />
+                <p className="err">No experience data available.</p>
+                <br />
+              </div>
             )}
 
             {isauth ? (
