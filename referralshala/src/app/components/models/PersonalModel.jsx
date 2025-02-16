@@ -4,26 +4,30 @@ import { FaPlus, FaTrashAlt, FaCamera } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
 const PersonalCard = ({
+  userType,
   userData,
-  candidateData,
+  data,
   setUserData,
-  setCandidateData,
+  setData,
   togglePersonalModel,
   updateUserData,
-  updateCandidateData,
+  updateData,
 }) => {
   useEffect(() => {
     console.log(userData);
-    console.log(candidateData);
+    console.log(data);
   }, []);
 
   const [formData, setFormData] = useState({
     firstName: userData.firstName || "",
     lastName: userData.lastName || "",
-    contactNumber: candidateData.contactNumber || "",
-    location: candidateData.location || "",
-    socialLinks: candidateData.socialLinks || [], // Make sure it's an empty array by default
+    contactNumber: data.contactNumber || "",
+    location: data.location || "",
+    socialLinks: data.socialLinks || [], // Make sure it's an empty array by default
     profileImage: userData.profileImage || "",
+
+    jobRole: data.jobRole || "",
+    companyName: data.companyName || "",
   });
 
   const handleInputChange = (e) => {
@@ -98,15 +102,19 @@ const PersonalCard = ({
       formData.lastName,
       formData.profileImage
     );
-    setCandidateData((prevData) => ({
+    setData((prevData) => ({
       location: formData.location,
       contactNumber: formData.contactNumber,
       socialLinks: formData.socialLinks,
+      jobRole: formData.jobRole,
+      companyName: formData.companyName,
     }));
-    updateCandidateData({
+    updateData({
       location: formData.location,
       contactNumber: formData.contactNumber,
       socialLinks: formData.socialLinks,
+      jobRole: formData.jobRole,
+      companyName: formData.companyName,
     });
 
     togglePersonalModel();
@@ -225,6 +233,35 @@ const PersonalCard = ({
             </div>
           </div>
 
+          {userType === "employer" && (
+            <div className="personal-form-group">
+              <label htmlFor="companyName">Company Name</label>
+              <input
+                type="text"
+                id="companyName"
+                name="companyName"
+                value={formData.companyName}
+                onChange={handleInputChange}
+                placeholder="Enter your company name"
+                required
+              />
+            </div>
+          )}
+
+          {userType === "employer" && (
+            <div className="personal-form-group">
+              <label htmlFor="jobRole">Job Role</label>
+              <input
+                type="text"
+                id="jobRole"
+                name="jobRole"
+                value={formData.jobRole}
+                onChange={handleInputChange}
+                placeholder="Enter your job role"
+                required
+              />
+            </div>
+          )}
           <div className="personal-form-group">
             <label htmlFor="contactNumber">Contact Number</label>
             <input

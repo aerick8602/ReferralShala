@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { confirmDialog } from "primereact/confirmdialog";
 import ExperienceModel from "../models/ExperienceModel";
 import "../../styles/ExperienceWrapper.css";
@@ -69,7 +68,6 @@ const ExperienceWrapper = ({
                 className="edit-btn"
                 title="Edit Experience"
               >
-                {/* <FaPencilAlt /> */}
                 <i className="pi pi-pencil"></i>
               </button>
               <button
@@ -77,7 +75,6 @@ const ExperienceWrapper = ({
                 className="delete-btn"
                 title="Delete Experience"
               >
-                {/* <FaDeleteAlt /> */}
                 <i className="pi pi-trash"></i>
               </button>
             </div>

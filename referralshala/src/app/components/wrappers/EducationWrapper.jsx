@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import EducationModal from "../../components/models/EducationModel";
 import "../../styles/EducationWrapper.css";
@@ -46,7 +45,7 @@ const EducationWrapper = ({
   return (
     <div className="education-wrapper">
       <ConfirmDialog />
-      {educationData.map((edu) => (
+      {educationData?.map((edu) => (
         <div key={edu.educationId} className="education-card">
           <div className="education-title">{edu.instituteName}</div>
           <p className="education-details">
@@ -70,7 +69,6 @@ const EducationWrapper = ({
                 className="edit-btn"
                 title="Edit Education"
               >
-                {/* <FaPencilAlt /> */}
                 <i className="pi pi-pencil"></i>
               </button>
               <button
@@ -78,7 +76,6 @@ const EducationWrapper = ({
                 className="delete-btn"
                 title="Delete Education"
               >
-                {/* <FaDeleteAlt /> */}
                 <i className="pi pi-trash"></i>
               </button>
             </div>

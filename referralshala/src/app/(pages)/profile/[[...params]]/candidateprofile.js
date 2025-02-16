@@ -10,24 +10,14 @@ import EducationModel from "../../../components/models/EducationModel";
 import Footer from "../../../components/Footer";
 import TemplateDemo from "../../../components/TemplateDemo";
 import { Toast } from "primereact/toast";
-import {
-  FaPencilAlt,
-  FaEnvelope,
-  FaPhone,
-  FaMapMarkerAlt,
-  FaExternalLinkAlt,
-  FaTimes,
-  FaTrashAlt,
-  FaPlus,
-  FaStar,
-} from "react-icons/fa";
-import "../../../styles/Profile.css";
+import { FaTimes, FaPlus } from "react-icons/fa";
 import { HashLoader } from "react-spinners";
 import SkillSet from "../../../components/MultiSelect";
 import Divider from "@mui/material/Divider";
-import { Button } from "primereact/button";
+import "../../../styles/Profile.css";
 
 export default function CandidateProfile({ userId, clerkID }) {
+  const [isauth, setIsAuth] = useState(false);
   const [userData, setUserData] = useState({});
   const [candidateData, setCandidateData] = useState({});
   const [educationData, setEducationData] = useState([]);
@@ -35,14 +25,13 @@ export default function CandidateProfile({ userId, clerkID }) {
   const [isPersonalModalOpen, setIsPersonalModalOpen] = useState(false);
   const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
   const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Single loader state
+  const [isLoading, setIsLoading] = useState(false);
   const [candidateSkills, setCandidateSkills] = useState([]);
   const [resume, setResume] = useState([]);
   const toast = useRef(null);
   const showToast = (severity, summary, detail) => {
     toast.current.show({ severity, summary, detail });
   };
-  const [isauth, setIsAuth] = useState(false);
 
   /*####################  apis  #####################*/
   const fetchUserData = async () => {
@@ -124,8 +113,8 @@ export default function CandidateProfile({ userId, clerkID }) {
       setCandidateData(candidateData);
       setCandidateSkills(candidateData.skills);
       setResume(candidateData.resume || []);
-      setEducationData(educationData);
-      setExperienceData(experienceData);
+      setEducationData(educationData || []);
+      setExperienceData(experienceData || []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -202,7 +191,6 @@ export default function CandidateProfile({ userId, clerkID }) {
     }
   };
   const addExperienceData = async (experienceData) => {
-    console.log("heloooo");
     console.log(experienceData);
     try {
       const response = await fetch(`/api/user/profile/${userId}/experience`, {
@@ -244,10 +232,7 @@ export default function CandidateProfile({ userId, clerkID }) {
       }
 
       const data = await response.json();
-      console.log(
-        "Update EXP successful: yeahhhhhhhhhhhhhhhhhhhhhhhhhhh",
-        data
-      );
+      console.log("Update EXP successful:", data);
       showToast("secondary", "Updated", "Experience updated successfully!");
       return data;
     } catch (error) {
@@ -272,7 +257,7 @@ export default function CandidateProfile({ userId, clerkID }) {
       }
 
       const data = await response.json();
-      console.log("delete successful: deleteeeeeeeeeeeeee", data);
+      console.log("delete successful:", data);
       showToast("secondary", "Deleted", "Experience deleted successfully!");
       return data;
     } catch (error) {
@@ -295,7 +280,6 @@ export default function CandidateProfile({ userId, clerkID }) {
       }
 
       const data = await response.json();
-      // showToast("secondary", "Updated", "User data updated successfully!");
       console.log("Update successful:", data);
       return data;
     } catch (error) {
@@ -307,7 +291,7 @@ export default function CandidateProfile({ userId, clerkID }) {
   const updateCandidateData = async (CandidateData) => {
     try {
       if (typeof CandidateData !== "object" || CandidateData === null) {
-        throw new Error("experienceData must be a non-null object.");
+        throw new Error("Data must be a non-null object.");
       }
       const requestBody = {
         ...(CandidateData.skills !== undefined && {
@@ -342,7 +326,7 @@ export default function CandidateProfile({ userId, clerkID }) {
       }
       showToast("secondary", "Updated", "Data updated successfully!");
       const data = await response.json();
-      // showToast("info", "Updated", "User data updated successfully!");
+
       console.log("Update successful:", data);
 
       return data;
@@ -391,10 +375,7 @@ export default function CandidateProfile({ userId, clerkID }) {
   }, [userId]);
 
   useEffect(() => {
-    console.log(userData.id);
-    console.log(clerkID);
     setIsAuth(userData.id == "user_" + clerkID);
-    console.log("isauth ", isauth);
   }, [isLoading]);
 
   if (isLoading) {
@@ -404,6 +385,7 @@ export default function CandidateProfile({ userId, clerkID }) {
       </div>
     );
   }
+
   return (
     <>
       <Toast ref={toast} />
@@ -419,16 +401,12 @@ export default function CandidateProfile({ userId, clerkID }) {
             />
           </div>
           {isauth ? (
-            // <button className="edit-button">
-            //   <FaPencilAlt onClick={togglePersonalModel} />
-            // </button>
             <button
               onClick={togglePersonalModel}
               className="edit-btn edit-button"
               title="Edit Profile"
               style={{ width: "35px", height: "55px" }}
             >
-              {/* <FaPencilAlt /> */}
               <i className="pi pi-pencil"></i>
             </button>
           ) : (
@@ -448,21 +426,26 @@ export default function CandidateProfile({ userId, clerkID }) {
                       : "x-large",
                 }}
               >
-                {userData.firstName} {userData.lastName}
+                {`${userData?.firstName
+                  ?.charAt(0)
+                  .toUpperCase()}${userData?.firstName?.slice(1).toLowerCase()} 
+    ${userData?.lastName?.charAt(0).toUpperCase()}${userData?.lastName
+                  ?.slice(1)
+                  .toLowerCase()}`}
               </div>
             </div>
             <div className="info-item">
-              {/* <FaEnvelope className="icon" /> */}
               <div className="profile-email">
                 {userData?.emailAddress || "Email not available"}
               </div>
             </div>
-            <div className="info-item">
-              <FaPhone className="icon" />
+            <div className="info-item" style={{ fontSize: "small" }}>
+              <i className="pi pi-phone"></i>
+
               <div>{candidateData?.contactNumber || "Phone not available"}</div>
             </div>
-            <div className="info-item">
-              <FaMapMarkerAlt className="icon" />
+            <div className="info-item" style={{ fontSize: "small" }}>
+              <i className="pi pi-map-marker"></i>
               <div>{candidateData?.location || "Location not available"}</div>
             </div>
 
@@ -491,10 +474,10 @@ export default function CandidateProfile({ userId, clerkID }) {
 
         <div className="main-profile">
           <div className="profile-note">
-            <FaStar className="star-icon" />
+            <i className="pi pi-star"></i>
             &nbsp; Double-check your profile - it&apos;s what employers will see
             when you apply.&nbsp;
-            <FaStar className="star-icon" />
+            <i className="pi pi-star"></i>
           </div>
           <br />
           <div className="resume">
@@ -545,30 +528,8 @@ export default function CandidateProfile({ userId, clerkID }) {
                             className="delete-btn"
                             title="Remove Resume"
                           >
-                            {/* <FaDeleteAlt /> */}
                             <i className="pi pi-trash"></i>
                           </button>
-                          // <Button
-                          //   icon="pi pi-trash"
-                          //   className="p-button-rounded p-button-text p-button-danger"
-                          //   onClick={() => confirmDelete(index)}
-                          //   tooltipOptions={{ position: "left" }}
-                          //   style={{
-                          //     border: "none",
-                          //     background: "transparent",
-                          //     color: "red",
-                          //     cursor: "pointer",
-                          //     fontSize: "10px !important",
-                          //     transition: "color 0.3s",
-                          //     padding: "0px",
-                          //   }}
-                          //   onMouseEnter={(e) =>
-                          //     (e.currentTarget.style.color = "#b30000")
-                          //   }
-                          //   onMouseLeave={(e) =>
-                          //     (e.currentTarget.style.color = "red")
-                          //   }
-                          // />
                         )}
                       </li>
                     ))}
@@ -585,7 +546,6 @@ export default function CandidateProfile({ userId, clerkID }) {
           </div>
 
           <div className="skills">
-            {/* <label   className="labels">Skills</label> */}
             <Divider className="profile-divider" textAlign="left">
               <i className="pi pi-star mr-2"></i>
               &nbsp;Skills
@@ -610,10 +570,10 @@ export default function CandidateProfile({ userId, clerkID }) {
                       <div>{skill}</div>
                       {isauth ? (
                         <button
-                          onClick={() => removeSkill(skill)} // Trigger the remove function
+                          onClick={() => removeSkill(skill)}
                           className="remove-skill-btn"
                         >
-                          <FaTimes /> {/* Dustbin icon from react-icons */}
+                          <FaTimes />
                         </button>
                       ) : null}
                     </div>
@@ -626,6 +586,7 @@ export default function CandidateProfile({ userId, clerkID }) {
             <br />
           </div>
 
+          {/* <label>Education Details</label> */}
           <div className="education">
             <Divider className="profile-divider" textAlign="left">
               <i className="pi pi-book mr-2"></i>
@@ -633,8 +594,6 @@ export default function CandidateProfile({ userId, clerkID }) {
             </Divider>
             {educationData?.length > 0 ? (
               <div>
-                {/* <label>Education Details</label> */}
-
                 <EducationWrapper
                   isauth={isauth}
                   educationData={educationData}
@@ -658,15 +617,15 @@ export default function CandidateProfile({ userId, clerkID }) {
               <></>
             )}
           </div>
-          <div className="experience">
+
+          {/* <label>Experience Details</label> */}
+          <div className="candidate-experience">
             <Divider className="profile-divider" textAlign="left">
               <i className="pi pi-briefcase mr-2"></i>
               &nbsp;Experience Details
             </Divider>
             {experienceData?.length > 0 ? (
               <div>
-                {/* <label>Experience Details</label> */}
-
                 <ExperienceWrapper
                   isauth={isauth}
                   experienceData={experienceData}
@@ -700,13 +659,14 @@ export default function CandidateProfile({ userId, clerkID }) {
               onClick={(e) => e.stopPropagation()}
             >
               <PersonalCard
+                userType={userData.userType}
                 userData={userData}
-                candidateData={candidateData}
+                data={candidateData}
                 setUserData={setUserData}
-                setCandidateData={setCandidateData}
+                setData={setCandidateData}
                 togglePersonalModel={togglePersonalModel}
                 updateUserData={updateUserData}
-                updateCandidateData={updateCandidateData}
+                updateData={updateCandidateData}
               />
             </div>
           </div>

@@ -11,12 +11,16 @@ import axios from "axios";
 export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    setLoading(true);
     try {
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
+      console.log("Fetched User Data:", response.data.data);
     } catch (err) {
       console.error("Error fetching user data", err);
     } finally {
@@ -25,16 +29,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (isLoaded && isSignedIn && user) {
+    if (isSignedIn) {
       fetchUserId();
-    } else {
-      setLoading(false);
     }
-  }, []);
-
-  if (isSignedIn && (!isLoaded || Loading)) {
+  }, [isSignedIn]);
+  if (isSignedIn && (loading || !userData.userId || !userData.userType)) {
     return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="loader-container">
         <HashLoader size={35} color="#fe5757" />
       </div>
     );
