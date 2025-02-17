@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import { confirmDialog } from "primereact/confirmdialog";
 import EducationWrapper from "../../../components/wrappers/EducationWrapper";
@@ -9,335 +8,41 @@ import ExperienceModel from "../../../components/models/ExperienceModel";
 import EducationModel from "../../../components/models/EducationModel";
 import Footer from "../../../components/Footer";
 import TemplateDemo from "../../../components/TemplateDemo";
-import { Toast } from "primereact/toast";
 import { FaTimes, FaPlus } from "react-icons/fa";
-import { HashLoader } from "react-spinners";
 import SkillSet from "../../../components/MultiSelect";
 import Divider from "@mui/material/Divider";
 import "../../../styles/Profile.css";
 
-export default function CandidateProfile({ userId, clerkID }) {
-  const [isauth, setIsAuth] = useState(false);
-  const [userData, setUserData] = useState({});
-  const [candidateData, setCandidateData] = useState({});
-  const [educationData, setEducationData] = useState([]);
-  const [experienceData, setExperienceData] = useState([]);
-  const [isPersonalModalOpen, setIsPersonalModalOpen] = useState(false);
-  const [isEducationModalOpen, setIsEducationModalOpen] = useState(false);
-  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [candidateSkills, setCandidateSkills] = useState([]);
-  const [resume, setResume] = useState([]);
-  const toast = useRef(null);
-  const showToast = (severity, summary, detail) => {
-    toast.current.show({ severity, summary, detail });
-  };
-
-  /*####################  apis  #####################*/
-  const fetchUserData = async () => {
-    try {
-      const res = await fetch(`/api/user/profile/${userId}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      console.log("User Data :", data.data);
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return null;
-    }
-  };
-  const fetchCandidateData = async (userId) => {
-    try {
-      const res = await fetch(`/api/user/profile/${userId}/candidate`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      console.log("Candidate Data :", data.data);
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching candidate data:", error);
-      return null;
-    }
-  };
-  const fetchEducationData = async (userId) => {
-    try {
-      const res = await fetch(`/api/user/profile/${userId}/education`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      // if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      console.log("Education Data :", data.data);
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching education data:", error);
-      return null;
-    }
-  };
-  const fetchExperienceData = async (userId) => {
-    try {
-      const res = await fetch(`/api/user/profile/${userId}/experience`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      console.log("Experinece Data :", data.data);
-      return data.data;
-    } catch (error) {
-      console.error("Error fetching experience data:", error);
-      return null;
-    }
-  };
-  const fetchData = async () => {
-    console.log("UserId :", userId);
-    setIsLoading(true);
-    try {
-      const [userData, candidateData, educationData, experienceData] =
-        await Promise.all([
-          fetchUserData(userId),
-          fetchCandidateData(userId),
-          fetchEducationData(userId),
-          fetchExperienceData(userId),
-        ]);
-
-      setUserData(userData);
-      setCandidateData(candidateData);
-      setCandidateSkills(candidateData.skills);
-      setResume(candidateData.resume || []);
-      setEducationData(educationData || []);
-      setExperienceData(experienceData || []);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const addEducationData = async (educationData) => {
-    try {
-      if (!userId) {
-        console.error("User ID is missing");
-        return;
-      }
-
-      const response = await fetch(`/api/user/profile/${userId}/education`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(educationData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Update successful:", data);
-      showToast("secondary", "Added", "Education data added successfully!");
-      return data;
-    } catch (error) {
-      console.error("Error updating education data:", error);
-    }
-  };
-  const updateEducationData = async (educationData) => {
-    console.log(educationData);
-    try {
-      const response = await fetch(
-        `/api/user/profile/${userId}/education/${educationData.educationId}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(educationData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      showToast("secondary", "Updated", "Education data updated successfully!");
-      console.log("Update successful:", data);
-    } catch (error) {
-      console.error("Error updating candidate:", error);
-    }
-  };
-  const deleteEducationData = async (educationId) => {
-    try {
-      const response = await fetch(
-        `/api/user/profile/${userId}/education/${educationId}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Deletion successful:", data);
-      showToast("secondary", "Deleted", "Education data deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting education data:", error);
-    }
-  };
-  const addExperienceData = async (experienceData) => {
-    console.log(experienceData);
-    try {
-      const response = await fetch(`/api/user/profile/${userId}/experience`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(experienceData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      showToast("secondary", "Added", "Experience added successfully!");
-      console.log("Update successful:", data);
-      return data;
-    } catch (error) {
-      console.log("error adding exp", error);
-    }
-  };
-  const updateExperienceData = async (experienceData) => {
-    console.log(experienceData);
-    try {
-      const response = await fetch(
-        `/api/user/profile/${userId}/experience/${experienceData.experienceId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(experienceData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Update EXP successful:", data);
-      showToast("secondary", "Updated", "Experience updated successfully!");
-      return data;
-    } catch (error) {
-      console.log("Error updating EXP", error);
-      return null;
-    }
-  };
-  const deleteExperienceData = async (experienceId) => {
-    try {
-      const response = await fetch(
-        `/api/user/profile/${userId}/experience/${experienceId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("delete successful:", data);
-      showToast("secondary", "Deleted", "Experience deleted successfully!");
-      return data;
-    } catch (error) {
-      console.log("Error deleting candidate:", error);
-      return null;
-    }
-  };
-  const updateUserData = async (firstname, lastname, imageurl) => {
-    try {
-      const response = await fetch(`/api/user/profile/${userId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ firstname, lastname, imageurl }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Update successful:", data);
-      return data;
-    } catch (error) {
-      console.log("Error updating candidate:", error);
-      return null;
-    }
-  };
-
-  const updateCandidateData = async (CandidateData) => {
-    try {
-      if (typeof CandidateData !== "object" || CandidateData === null) {
-        throw new Error("Data must be a non-null object.");
-      }
-      const requestBody = {
-        ...(CandidateData.skills !== undefined && {
-          skills: CandidateData.skills,
-        }),
-        ...(CandidateData.resume !== undefined && {
-          resume: CandidateData.resume,
-        }),
-        ...(CandidateData.location !== undefined && {
-          location: CandidateData.location,
-        }),
-        ...(CandidateData.contactNumber !== undefined && {
-          contactNumber: CandidateData.contactNumber,
-        }),
-        ...(CandidateData.socialLinks !== undefined && {
-          socialLinks: CandidateData.socialLinks,
-        }),
-      };
-
-      console.log("RequestBody:", requestBody);
-
-      const response = await fetch(`/api/user/profile/${userId}/candidate`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      showToast("secondary", "Updated", "Data updated successfully!");
-      const data = await response.json();
-
-      console.log("Update successful:", data);
-
-      return data;
-    } catch (error) {
-      console.log("Error updating candidate:", error);
-      return null;
-    }
-  };
-  /*####################  apis  #####################*/
-
+export default function CandidateProfile({
+  userId,
+  isauth,
+  userData,
+  setUserData,
+  candidateData,
+  setCandidateData,
+  educationData,
+  setEducationData,
+  experienceData,
+  setExperienceData,
+  isPersonalModalOpen,
+  isEducationModalOpen,
+  isExperienceModalOpen,
+  candidateSkills,
+  setCandidateSkills,
+  resume,
+  setResume,
+  addEducationData,
+  updateEducationData,
+  deleteEducationData,
+  addExperienceData,
+  updateExperienceData,
+  deleteExperienceData,
+  updateUserData,
+  updateCandidateData,
+  togglePersonalModel,
+  toggleEducationModel,
+  toggleExperienceModel,
+}) {
   const removeSkill = async (skillToRemove) => {
     const updatedSkills = candidateSkills.filter(
       (skill) => skill !== skillToRemove
@@ -364,33 +69,9 @@ export default function CandidateProfile({ userId, clerkID }) {
     });
   };
 
-  const togglePersonalModel = () =>
-    setIsPersonalModalOpen(!isPersonalModalOpen);
-  const toggleEducationModel = () =>
-    setIsEducationModalOpen(!isEducationModalOpen);
-  const toggleExperienceModel = () =>
-    setIsExperienceModalOpen(!isExperienceModalOpen);
-
-  useEffect(() => {
-    fetchData();
-  }, [userId]);
-
-  useEffect(() => {
-    setIsAuth(userData.id == "user_" + clerkID);
-  }, [isLoading]);
-
-  if (isLoading) {
-    return (
-      <div className="loader-container">
-        <HashLoader size={35} color="#fe5757" />
-      </div>
-    );
-  }
-
   return (
     <>
-      <Toast ref={toast} />
-      <Navbar userId={userId} clerkID={clerkID} userType={userData.userType} />
+      <Navbar userId={userId} />
       <h1 className="profile-header">Profile</h1>
       <div className="profile">
         <div className="profile-personal-data">

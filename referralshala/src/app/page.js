@@ -43,11 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar
-        userId={userData.userId}
-        userType={userData.userType}
-        clerkID={user?.id.replace("user_", "")}
-      />
+      <Navbar userId={userData.userId} />
       <div className="Home">
         <img className="backgroundImage" src="/bg.png" alt="Background" />
         <div className="main-content">
