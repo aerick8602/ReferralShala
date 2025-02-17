@@ -324,6 +324,7 @@ export default function CandidateProfile({ userId, clerkID }) {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
       showToast("secondary", "Updated", "Data updated successfully!");
       const data = await response.json();
 
@@ -405,7 +406,7 @@ export default function CandidateProfile({ userId, clerkID }) {
               onClick={togglePersonalModel}
               className="edit-btn edit-button"
               title="Edit Profile"
-              style={{ width: "35px", height: "55px" }}
+              style={{ width: "35px", height: "35px" }}
             >
               <i className="pi pi-pencil"></i>
             </button>
@@ -439,15 +440,19 @@ export default function CandidateProfile({ userId, clerkID }) {
                 {userData?.emailAddress || "Email not available"}
               </div>
             </div>
-            <div className="info-item" style={{ fontSize: "small" }}>
-              <i className="pi pi-phone"></i>
+            {candidateData?.contactNumber && (
+              <div className="info-item" style={{ fontSize: "small" }}>
+                <i className="pi pi-phone"></i>
+                <div>{candidateData.contactNumber}</div>
+              </div>
+            )}
 
-              <div>{candidateData?.contactNumber || "Phone not available"}</div>
-            </div>
-            <div className="info-item" style={{ fontSize: "small" }}>
-              <i className="pi pi-map-marker"></i>
-              <div>{candidateData?.location || "Location not available"}</div>
-            </div>
+            {candidateData?.location && (
+              <div className="info-item" style={{ fontSize: "small" }}>
+                <i className="pi pi-map-marker"></i>
+                <div>{candidateData.location}</div>
+              </div>
+            )}
 
             <div className="social-links">
               <ul>

@@ -93,8 +93,8 @@ export default function TemplateDemo({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: "120px",
-            height: "120px",
+            width: "100px",
+            height: "100px",
             borderRadius: "50%",
             backgroundColor: "var(--surface-b)",
             color: "var(--primary-color)",
@@ -114,12 +114,12 @@ export default function TemplateDemo({
 
         <div
           style={{
-            fontSize: "1.2em",
+            fontSize: "1em",
             color: "var(--text-color-secondary)",
             marginTop: "15px",
             marginBottom: "-15px",
           }}
-          className="my-5"
+          className="my-3"
         >
           Drag and Drop Resume Here
         </div>

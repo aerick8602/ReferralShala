@@ -40,14 +40,19 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* align-items: center; */
   width: 37%;
   margin: 0px 50px 50px 180px;
   height: 65vh;
   border-radius: 25px;
-  border: 0.3px solid rgba(255, 207, 207, 0.9);
+  border: 1px solid rgba(255, 207, 207, 0.6);
+  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+  backdrop-filter: blur(10px);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 1px 1px 1px rgba(255, 39, 39, 0.3);
+
+  /* Enhanced 3D Shadow */
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
 }
 
 .avatar {
@@ -111,6 +116,7 @@
 .profile-email {
   color: gray;
   margin-bottom: 10px;
+  font-size: 15px;
 }
 .user-name {
   display: flex;
@@ -120,7 +126,8 @@
 }
 
 .social-links {
-  margin: 15px 20px 15px 20px;
+  margin: 0px 20px 5px 20px;
+  flex-wrap: wrap;
 }
 
 .social-links ul {
@@ -162,7 +169,7 @@
 .profile-note {
   background: linear-gradient(to right, #fd4343, #fe5757, #fc6969);
   color: white;
-  width: 100.5%;
+  width: 100%;
   padding: 10px;
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;
@@ -186,9 +193,13 @@
   margin: 0px 50px 50px 0px;
   border-radius: 25px;
   /* height: 150vh; */
-  border: 0.3px solid rgba(255, 207, 207, 0.9);
+  border: 1px solid rgba(255, 207, 207, 0.6);
+  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 1px 1px 1px rgba(255, 39, 39, 0.3);
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
 }
 
 .employer-main-profile {
@@ -201,13 +212,17 @@
   /* margin: 0px 50px 50px 0px; */
   border-radius: 25px;
   /* height: 150vh; */
-  border: 0.3px solid rgba(255, 207, 207, 0.9);
+  border: 1px solid rgba(255, 207, 207, 0.6);
+  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 1px 1px 1px rgba(255, 39, 39, 0.3);
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
 }
 
 .profile-divider {
-  font-size: 20px;
+  font-size: 16px;
   display: flex;
   flex-direction: row;
   font-weight: 500;
@@ -352,7 +367,8 @@
 .profile-banner {
   width: 100%;
   height: 180px;
-  background: linear-gradient(to right, #fd4343, #fe5757, #fc6969);
+  background: linear-gradient(135deg, #f72326, #fb6060, #ff8a80);
+
   /* box-shadow: 2px 2px 2px rgba(255, 39, 39, 0.3); */
   position: relative;
 }

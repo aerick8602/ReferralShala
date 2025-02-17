@@ -426,40 +426,44 @@ export default function EmployerProfile({ userId, clerkID }) {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <div>
-                    <p className="profile-title">
-                      {employerData.jobRole} at {employerData.companyName}
-                    </p>
-                    <div
-                      className="info-item"
-                      style={{
-                        fontSize: "small",
-                        marginLeft: "0px",
-                        padding: "2px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <i className="pi pi-phone"></i>
+                    {employerData?.jobRole && employerData?.companyName && (
+                      <p className="profile-title">
+                        {employerData.jobRole} at {employerData.companyName}
+                      </p>
+                    )}
 
-                      <div>
-                        {employerData?.contactNumber || "Phone not available"}
+                    {employerData?.contactNumber && (
+                      <div
+                        className="info-item"
+                        style={{
+                          fontSize: "small",
+                          marginLeft: "0px",
+                          padding: "2px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <i className="pi pi-phone"></i>
+                        <div>{employerData.contactNumber}</div>
                       </div>
-                    </div>
-                    <div
-                      className="info-item"
-                      style={{
-                        fontSize: "small",
-                        marginLeft: "0px",
-                        padding: "2px",
-                      }}
-                    >
-                      <i className="pi pi-map-marker"></i>
-                      <div>
-                        {employerData?.location || "Location not available"}
+                    )}
+
+                    {employerData?.location && (
+                      <div
+                        className="info-item"
+                        style={{
+                          fontSize: "small",
+                          marginLeft: "0px",
+                          padding: "2px",
+                        }}
+                      >
+                        <i className="pi pi-map-marker"></i>
+                        <div>{employerData.location}</div>
                       </div>
-                    </div>
+                    )}
                   </div>
                   <div className="social-links">
                     <ul>
