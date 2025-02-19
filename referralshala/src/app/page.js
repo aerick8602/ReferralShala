@@ -79,7 +79,7 @@ export default function Home() {
                 {[
                   "/meta.png",
                   "/bloomberg.png",
-                  "/tcs.png",
+                  "/TCS.png",
                   "/accenture.png",
                   "/google.png",
                   "/microsoft.png",
@@ -90,7 +90,7 @@ export default function Home() {
                   .concat([
                     "/meta.png",
                     "/bloomberg.png",
-                    "/tcs.png",
+                    "/TCS.png",
                     "/accenture.png",
                     "/google.png",
                     "/microsoft.png",
@@ -114,7 +114,7 @@ export default function Home() {
                   "/microsoft.png",
                   "/google.png",
                   "/accenture.png",
-                  "/tcs.png",
+                  "/TCS.png",
                   "/bloomberg.png",
                   "/meta.png",
                 ]
@@ -125,7 +125,7 @@ export default function Home() {
                     "/microsoft.png",
                     "/google.png",
                     "/accenture.png",
-                    "/tcs.png",
+                    "/TCS.png",
                     "/bloomberg.png",
                     "/meta.png",
                   ]) // Duplicate logos
