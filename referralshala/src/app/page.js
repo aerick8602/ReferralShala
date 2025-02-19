@@ -2,6 +2,7 @@
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Courses from "./components/Courses";
 import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
 import { useUser } from "@clerk/nextjs";
@@ -69,51 +70,34 @@ export default function Home() {
               </section>
             </div>
           )}
-          <div className="logos-wrapper">
-            <div className="logos logos-row-1">
-              <div className="logos-slide">
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
+      <div className="logos-wrapper">
+  {/* First row moving left */}
+  <div className="logos logos-row-1">
+    <div className="logos-slide">
+      {[ "/meta.png", "/bloomberg.png", "/tcs.png", "/accenture.png", "/google.png", "/microsoft.png", "/netflix.png", "/amazon.png", "/logo.png" ]
+        .concat([ "/meta.png", "/bloomberg.png", "/tcs.png", "/accenture.png", "/google.png", "/microsoft.png", "/netflix.png", "/amazon.png", "/logo.png" ]) // Duplicate logos
+        .map((src, i) => (
+          <img key={i} src={src} alt="Logo" />
+        ))}
+    </div>
+  </div>
 
-                {/* Duplicate for looping */}
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-              </div>
-            </div>
-            <div className="logos logos-row-2">
-              <div className="logos-slide">
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                {/* Duplicate for looping */}
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-                <img src="/logo.png" />
-              </div>
-            </div>
-          </div>
+  {/* Second row moving right */}
+  <div className="logos logos-row-2">
+    <div className="logos-slide">
+      {[ "/logo.png", "/amazon.png", "/netflix.png", "/microsoft.png", "/google.png", "/accenture.png", "/tcs.png", "/bloomberg.png", "/meta.png" ]
+        .concat([ "/logo.png", "/amazon.png", "/netflix.png", "/microsoft.png", "/google.png", "/accenture.png", "/tcs.png", "/bloomberg.png", "/meta.png" ]) // Duplicate logos
+        .map((src, i) => (
+          <img key={i + 100} src={src} alt="Logo" />
+        ))}
+    </div>
+  </div>
+</div>
+
+      
+        </div>
+        <div>
+          <Courses />
         </div>
         <Footer />
       </div>

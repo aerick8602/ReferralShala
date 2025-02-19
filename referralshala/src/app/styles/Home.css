@@ -52,60 +52,64 @@ body{
   line-height: 1.5;
 }
 
+
 .logos-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   overflow: hidden;
-  margin: 20px 0;
+  padding: 10px 0;
 }
 
-/* First Row: Moves left to right */
-.logos-row-1 .logos-slide {
-  animation-name: slide-left; /* Move left to right */
+.logos {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
-/* Second Row: Moves right to left */
-.logos-row-2 .logos-slide {
-  animation-name: slide-right; /* Move right to left */
-}
-
-/* Slide from left to right (First Row) */
-@keyframes slide-left {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%); /* Move logos from left to right */
-  }
-}
-
-/* Slide from right to left (Second Row) */
-@keyframes slide-right {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%); /* Move logos from right to left */
-  }
-}
-
-/* Adjust the wrapper for logos for seamless looping */
 .logos-slide {
   display: flex;
-  animation-duration: 20s;
+  width: 100%; /* Ensures smooth looping */
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  will-change: transform; /* Optimize performance */
+  animation-duration: 30s; /* Speed of animation */
 }
 
-/* Ensure logos are visible and have a smooth transition */
+.logos-row-1 .logos-slide {
+  animation-name: slide-left;
+}
+
+.logos-row-2 .logos-slide {
+  animation-name: slide-right;
+}
+
+/* Infinite Scrolling Effect */
+@keyframes slide-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-20%);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    transform: translateX(-20%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Logo Styling */
 .logos-slide img {
   height: 60px;
   margin: 0 15px;
   flex-shrink: 0;
   opacity: 0.8;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: transform 0.6s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .logos-slide img:hover {
