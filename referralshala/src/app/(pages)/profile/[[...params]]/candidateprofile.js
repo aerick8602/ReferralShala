@@ -390,7 +390,7 @@ export default function CandidateProfile({
           </div>
         )}
       </div>
-      <Footer />
+      <Footer userId={userId} />
     </>
   );
 }

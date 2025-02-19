@@ -115,7 +115,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Footer />
+        <Footer userId={userData.userId} />
       </div>
     </>
   );

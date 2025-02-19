@@ -294,7 +294,7 @@ export default function EmployerProfile({
           </div>
         )}
       </div>
-      <Footer />
+      <Footer userId={userId} />
     </>
   );
 }
