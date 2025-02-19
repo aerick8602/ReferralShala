@@ -1,7 +1,7 @@
 /* Container Styles */
 .about-page-container {
   padding: 3rem 1rem;
-  max-width: 1200px;
+  max-width: 950px;
   margin: 2rem auto;
   font-family: "Arial", sans-serif;
 }
@@ -19,43 +19,29 @@
 .about-page-title::after {
   content: "";
   display: block;
-  width: 60px;
-  height: 4px;
+  width: 400px;
+  height: 8px;
   background-color: #fe5757;
   margin: 0.5rem auto 0;
+  clip-path: ellipse(50% 50% at 50% 50%);
 }
 
 /* Card Styles */
 .about-page-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  padding: 2.5rem;
-  margin-bottom: 2.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 
-.about-page-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Heading Styles */
-.about-page-heading {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #fe5757;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 /* Subheading Styles */
 .about-page-subheading {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
   position: relative;
 }
 
@@ -65,75 +51,66 @@
   width: 50px;
   height: 3px;
   background-color: #fe5757;
-  margin: 0.5rem auto 0;
+  margin-top: 0.3rem;
 }
 
-/* Text Styles */
+/* Paragraph Styles */
 .about-page-text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #555;
-  line-height: 1.8;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
 }
 
-/* List Styles */
 .about-page-list {
-  list-style-type: disc;
-  list-style-position: inside;
-  font-size: 1.1rem;
+  list-style-type: none; /* Removes the bullet points */
+  font-size: 1rem;
   color: #555;
-  line-height: 1.8;
-  padding-left: 1rem;
+  line-height: 1.4;
+  padding-left: 0; /* Optional: Removes extra indentation */
 }
 
 .about-page-list li {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Grid Styles */
+/* Grid Section Styles */
 .about-page-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-@media (min-width: 768px) {
-  .about-page-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .about-page-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Grid Item Styles */
 .about-page-grid-item {
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: #ffffff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(12, 12, 12, 0.1);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-page-grid-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .about-page-grid-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #fe5757;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.8rem;
 }
 
 .about-page-grid-text {
   font-size: 1rem;
   color: #555;
-  line-height: 1.6;
+  line-height: 1.4;
+}
+
+/* CTA Styles */
+.about-page-cta {
+  color: #fe5757;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-page-cta:hover {
+  color: #cc4545;
+  text-decoration: underline;
 }

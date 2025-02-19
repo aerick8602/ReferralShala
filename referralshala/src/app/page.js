@@ -72,6 +72,8 @@ export default function Home() {
           )}
           <div className="logos-wrapper">
             {/* First row moving left */}
+            <br />
+            <br />
             <div className="logos logos-row-1">
               <div className="logos-slide">
                 {[
@@ -83,7 +85,7 @@ export default function Home() {
                   "/microsoft.png",
                   "/netflix.png",
                   "/amazon.png",
-                  "/logo.png",
+                  "/park+.jpeg",
                 ]
                   .concat([
                     "/meta.png",
@@ -94,7 +96,7 @@ export default function Home() {
                     "/microsoft.png",
                     "/netflix.png",
                     "/amazon.png",
-                    "/logo.png",
+                    "/park+.jpeg",
                   ]) // Duplicate logos
                   .map((src, i) => (
                     <img key={i} src={src} alt="Logo" />
@@ -106,7 +108,7 @@ export default function Home() {
             <div className="logos logos-row-2">
               <div className="logos-slide">
                 {[
-                  "/logo.png",
+                  "/park+.jpeg",
                   "/amazon.png",
                   "/netflix.png",
                   "/microsoft.png",
@@ -117,7 +119,7 @@ export default function Home() {
                   "/meta.png",
                 ]
                   .concat([
-                    "/logo.png",
+                    "/park+.jpeg",
                     "/amazon.png",
                     "/netflix.png",
                     "/microsoft.png",
@@ -132,10 +134,14 @@ export default function Home() {
                   ))}
               </div>
             </div>
+            <br />
+
+            <br />
           </div>
         </div>
+
         <div>{/* <Courses /> */}</div>
-        <Footer />
+        <Footer userId={userData.userId} />
       </div>
     </>
   );

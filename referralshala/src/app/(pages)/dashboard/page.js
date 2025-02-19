@@ -52,7 +52,7 @@ export default function DashboardPage() {
           {userData?.userType || "Unknown"}.
         </p>
       </div>
-      <Footer />
+      <Footer userId={userId} />
     </>
   );
 }

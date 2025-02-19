@@ -1,40 +1,43 @@
+"use client";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import "../../styles/ContactUs.css";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
   return (
     <>
-      <Navbar />
-      <div className="p-6 max-w-6xl mx-auto mt-20">
-        <h1 className="text-lg font-bold mb-6 text-center">Contact Us</h1>
-        <p className="text-gray-700 mb-8 text-center">
-          We are here to assist you! Feel free to reach out to either of us using the contact details below.
+      <Navbar userId={userId} />
+      <div className="contact-container">
+        <h1 className="contact-title">Contact Us</h1>
+        <p className="contact-description">
+          We are here to assist you! Feel free to reach out to either of us
+          using the contact details below.
         </p>
-        <div className="flex flex-wrap justify-center gap-8">
-          <div className="w-full sm:w-80 bg-white shadow-lg rounded-lg p-6">
-            <div className="w-[130px] h-[130px] rounded-full mx-auto mt-4 mb-4 bg-custom-red flex items-center justify-center">
-              <img
-                src="/user.png"
-                alt="Profile"
-                className="w-[120px] h-[120px] rounded-full bg-custom-red"
-              />
+        <div className="contact-card-wrapper">
+          <div className="contact-card">
+            <div className="contact-image-wrapper">
+              <img src="/user.png" alt="Profile" className="contact-image" />
             </div>
-            <h2 className="text-xl font-semibold text-center mb-2">Ayush Katiyar</h2>
-            <p className="text-gray-600 text-center mb-4">NIT Bhopal</p>
-            <p className="text-gray-700 text-center mb-4 text-sm">
-              Hi, I&apos;m Ayush Katiyar. Feel free to reach out for any inquiries or collaborations!
+            <h2 className="contact-name">Ayush Katiyar</h2>
+            <p className="contact-institute">NIT Bhopal</p>
+            <p className="contact-bio">
+              Hi 👋, I&apos;m Ayush Katiyar. Feel free to reach out for any
+              inquiries or collaborations!
             </p>
-            <div className="flex justify-center space-x-4">
+            <div className="contact-links">
               <a
-                href="mailto:katiyarayush02@gmail.com.com"
-                className="text-primary underline font-medium hover:text-custom-red"
+                href="mailto:katiyarayush02@gmail.com"
+                className="contact-link"
               >
                 Email
               </a>
               <a
                 href="https://www.linkedin.com/in/ayush-katiyar-6a0935238/"
                 target="_blank"
-                className="text-primary underline font-medium hover:text-custom-red"
+                className="contact-link"
                 rel="noreferrer"
               >
                 LinkedIn
@@ -42,30 +45,27 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="w-full sm:w-80 bg-white shadow-lg rounded-lg p-6">
-            <div className="w-[130px] h-[130px] rounded-full mx-auto mt-4 mb-4 bg-custom-red flex items-center justify-center">
-              <img
-                src="/user.png"
-                alt="Profile"
-                className="w-[120px] h-[120px] rounded-full bg-custom-red"
-              />
+          <div className="contact-card">
+            <div className="contact-image-wrapper">
+              <img src="/user.png" alt="Profile" className="contact-image" />
             </div>
-            <h2 className="text-xl font-semibold text-center mb-2">Aditya Sawner</h2>
-            <p className="text-gray-600 text-center mb-4">LNCT Bhopal</p>
-            <p className="text-gray-700 text-center mb-4 text-sm">
-              Hi, I&apos;m Aditya Sawner. Let&apos;s connect and make amazing things together!
+            <h2 className="contact-name">Aditya Sawner</h2>
+            <p className="contact-institute">LNCT Bhopal</p>
+            <p className="contact-bio">
+              Hello , I&apos;m Aditya Sawner. Let&apos;s connect and make
+              amazing things together!
             </p>
-            <div className="flex justify-center space-x-4">
+            <div className="contact-links">
               <a
                 href="mailto:adityasawner19@gmail.com"
-                className="text-primary underline font-medium hover:text-custom-red"
+                className="contact-link"
               >
                 Email
               </a>
               <a
                 href="https://www.linkedin.com/in/aditya-sawner/"
                 target="_blank"
-                className="text-primary underline font-medium hover:text-custom-red"
+                className="contact-link"
                 rel="noreferrer"
               >
                 LinkedIn
@@ -74,7 +74,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer userId={userId} />
     </>
   );
 }

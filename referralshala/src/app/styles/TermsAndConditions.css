@@ -1,9 +1,5 @@
 /* Container Styles */
-
-.privacyPolicySubtext {
-  color: #555;
-}
-.privacyPolicyContainer {
+.termsContainer {
   padding: 3rem 1rem;
   max-width: 950px;
   margin: 2rem auto;
@@ -11,7 +7,7 @@
 }
 
 /* Title Styles */
-.privacyPolicyHeading {
+.termsHeading {
   font-size: 2.5rem;
   font-weight: 700;
   color: #333;
@@ -20,7 +16,7 @@
   position: relative;
 }
 
-.privacyPolicyHeading::after {
+.termsHeading::after {
   content: "";
   display: block;
   width: 400px;
@@ -30,16 +26,26 @@
   clip-path: ellipse(50% 50% at 50% 50%);
 }
 
-.privacyPolicySubheading::after {
+/* Subheading Styles */
+.termsSubheading {
+  font-size: 1.2rem;
+  font-weight: 600;
+
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.termsSubheading::after {
   content: "";
   display: block;
   width: 50px;
   height: 3px;
   background-color: #fe5757;
+  margin-top: 0.3rem;
 }
 
 /* Paragraph Styles */
-.privacyPolicyParagraph {
+.termsParagraph {
   font-size: 1rem;
   color: #555;
   line-height: 1.4;
@@ -47,22 +53,27 @@
 }
 
 /* List Styles */
-.privacyPolicyList {
+.termsList {
   list-style-type: disc;
   list-style-position: inside;
   font-size: 1rem;
   color: #555;
-  line-height: 1.4;
+  line-height: 1;
   padding-left: 1rem;
 }
 
-.privacyPolicyContactLink {
+.termsList li {
+  margin-bottom: 0.8rem;
+}
+
+/* Link Styles */
+.termsContactLink {
   color: #fe5757;
   font-weight: 600;
   text-decoration: none;
 }
 
-.privacyPolicyContactLink:hover {
+.termsContactLink:hover {
   color: #cc4545;
   text-decoration: underline;
 }

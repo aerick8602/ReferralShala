@@ -112,11 +112,17 @@ export default function AccountMenu({ userId, userType, clerkID }) {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem
-          // onClick={() => redirect(`/profile/${userType}/${userId}/${clerkID}`)}
-          onClick={() => redirect(`/profile/${userId}`)}
+          onClick={() => {
+            if (!userId) {
+              redirect("/");
+            } else {
+              redirect(`/profile/${userId}`);
+            }
+          }}
         >
           Profile
         </MenuItem>
+
         <MenuItem onClick={() => redirect("/dashboard")}>Dashboard</MenuItem>
         <Divider />
 

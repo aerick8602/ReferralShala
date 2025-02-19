@@ -1,15 +1,22 @@
+"use client";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import "../../styles/AboutPage.css"; // Import the CSS file
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
   return (
     <>
-      <Navbar />
+      <Navbar userId={userId} />
       <div className="about-page-container">
-        <h1 className="about-page-title">About Referral Shala</h1>
+        <h1 className="about-page-title">About ReferralShala</h1>
         <div className="about-page-card">
-          <h1 className="about-page-heading">Your Gateway to Career Success</h1>
+          <h2 className="about-page-subheading">
+            Your Gateway to Career Success
+          </h2>
           <p className="about-page-text">
             At <strong>Referral Shala</strong>, we believe that the right
             connection can transform your career. Our platform is designed to
@@ -27,7 +34,7 @@ export default function Page() {
         </div>
 
         <div className="about-page-card">
-          <h2 className="about-page-subheading">Our Mission</h2>
+          <h3 className="about-page-subheading">Our Mission</h3>
           <p className="about-page-text">
             Our mission is simple: to empower professionals by creating
             meaningful connections that drive growth. We aim to build a
@@ -43,29 +50,91 @@ export default function Page() {
         </div>
 
         <div className="about-page-card">
-          <h2 className="about-page-subheading">Our Core Values</h2>
-          <ul className="about-page-list">
-            <li>
-              🌟 <strong>Empowerment:</strong> We provide the tools and
-              resources you need to take control of your career.
+          <h3 className="about-page-subheading">Our Core Values</h3>
+          <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
+            <li
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <i
+                className="pi pi-star"
+                style={{
+                  color: "#facc15",
+                  fontSize: "1.2rem",
+                  marginRight: "8px",
+                }}
+              ></i>
+              <strong style={{ marginRight: "5px" }}>Empowerment:</strong>
+              <span style={{ color: "#4b5563" }}>
+                We provide the tools and resources you need to take control of
+                your career.
+              </span>
             </li>
-            <li>
-              🤝 <strong>Collaboration:</strong> We believe in the power of
-              community and working together to achieve success.
+            <li
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <i
+                className="pi pi-users"
+                style={{
+                  color: "#3b82f6",
+                  fontSize: "1.2rem",
+                  marginRight: "8px",
+                }}
+              ></i>
+              <strong style={{ marginRight: "5px" }}>Collaboration:</strong>
+              <span style={{ color: "#4b5563" }}>
+                We believe in the power of community and working together to
+                achieve success.
+              </span>
             </li>
-            <li>
-              🎯 <strong>Excellence:</strong> We strive to deliver the best
-              experience for both candidates and employers.
+            <li
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <i
+                className="pi pi-check-circle"
+                style={{
+                  color: "#22c55e",
+                  fontSize: "1.2rem",
+                  marginRight: "8px",
+                }}
+              ></i>
+              <strong style={{ marginRight: "5px" }}>Excellence:</strong>
+              <span style={{ color: "#4b5563" }}>
+                We strive to deliver the best experience for both candidates and
+                employers.
+              </span>
             </li>
-            <li>
-              💡 <strong>Innovation:</strong> We continuously evolve to meet the
-              changing needs of the job market.
+            <li style={{ display: "flex", alignItems: "center" }}>
+              <i
+                className="pi pi-lightbulb"
+                style={{
+                  color: "#f97316",
+                  fontSize: "1.2rem",
+                  marginRight: "8px",
+                }}
+              ></i>
+              <strong style={{ marginRight: "5px" }}>Innovation:</strong>
+              <span style={{ color: "#4b5563" }}>
+                We continuously evolve to meet the changing needs of the job
+                market.
+              </span>
             </li>
           </ul>
         </div>
 
         <div className="about-page-card">
-          <h2 className="about-page-subheading">What We Offer</h2>
+          <h3 className="about-page-subheading">What We Offer</h3>
           <div className="about-page-grid">
             <div className="about-page-grid-item">
               <h3 className="about-page-grid-title">
@@ -79,6 +148,7 @@ export default function Page() {
             </div>
             <div className="about-page-grid-item">
               <h3 className="about-page-grid-title">Professional Networking</h3>
+
               <p className="about-page-grid-text">
                 Build meaningful connections with industry leaders and
                 like-minded professionals. Expand your network and unlock new
@@ -97,7 +167,7 @@ export default function Page() {
         </div>
 
         <div className="about-page-card">
-          <h2 className="about-page-subheading">Join Our Community</h2>
+          <h3 className="about-page-subheading">Join Our Community</h3>
           <p className="about-page-text">
             Ready to take the next step in your career? Join Referral Shala
             today and become part of a thriving community of professionals who
@@ -107,11 +177,11 @@ export default function Page() {
           </p>
           <p className="about-page-text">
             Together, we can redefine the way careers are built. Let's connect,
-            grow, and succeed together.
+            grow, and succeed together ✨✨.
           </p>
         </div>
       </div>
-      <Footer />
+      <Footer userId={userId} />
     </>
   );
 }
