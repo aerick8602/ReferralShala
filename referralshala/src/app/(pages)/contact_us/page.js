@@ -19,7 +19,12 @@ export default function Page() {
         <div className="contact-card-wrapper">
           <div className="contact-card">
             <div className="contact-image-wrapper">
-              <img src="/user.png" alt="Profile" className="contact-image" />
+              {/* <img src="/user.png" alt="Profile" className="contact-image" /> */}
+              <img
+                src="/uploads/huehue.png"
+                alt="Profile"
+                className="contact-image"
+              />
             </div>
             <h2 className="contact-name">Ayush Katiyar</h2>
             <p className="contact-institute">NIT Bhopal</p>
@@ -47,7 +52,12 @@ export default function Page() {
 
           <div className="contact-card">
             <div className="contact-image-wrapper">
-              <img src="/user.png" alt="Profile" className="contact-image" />
+              {/* <img src="/user.png" alt="Profile" className="contact-image" /> */}
+              <img
+                src="/uploads/cheems.png"
+                alt="Profile"
+                className="contact-image"
+              />
             </div>
             <h2 className="contact-name">Aditya Sawner</h2>
             <p className="contact-institute">LNCT Bhopal</p>

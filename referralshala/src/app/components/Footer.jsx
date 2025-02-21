@@ -137,7 +137,7 @@ const Footer = ({ userId }) => {
             <a href={`/about_us?userId=${userId}`}>About us</a>
             <a href={`/privacy_policy?userId=${userId}`}>Privacy Policy</a>
             <a href={`/contact_us?userId=${userId}`}>Contact us</a>
-            <a href={`/terms_&_conditions?userId=${userId}`}>
+            <a href={`/terms&conditions?userId=${userId}`}>
               Terms & Conditions
             </a>
           </div>

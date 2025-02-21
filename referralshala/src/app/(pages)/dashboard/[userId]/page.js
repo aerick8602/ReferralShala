@@ -2,13 +2,17 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import { HashLoader } from "react-spinners";
-import "../../styles/dashboard.css";
+import "../../../styles/dashboard.css";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 export default function DashboardPage() {
+  const params = useParams();
+  const userId = params.params;
+
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true); // Use lowercase for consistency

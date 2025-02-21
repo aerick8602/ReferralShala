@@ -41,7 +41,8 @@ model Candidate {
   createdAt     DateTime? @default(now()) @db.Timestamp(0)
   updatedAt     DateTime? @updatedAt @db.Timestamp(0)
 
-  user User @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
+  user         User          @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
+  applications Application[] // Relationship to applications
 
   @@index([userId], name: "idx_candidate_userId")
 }
@@ -97,18 +98,40 @@ model Experience {
 }
 
 model Referral {
-  referralId     Int       @id @default(autoincrement())
-  userId         Int       @map("user_id")
-  companyName    String    @map("company_name") @db.VarChar(255)
-  jobTitle       String    @map("job_title") @db.VarChar(255)
-  jobDescription String?   @map("job_description")
-  jobLink        String?   @map("job_link")
-  location       String?   @db.VarChar(255)
-  postedAt       DateTime  @default(now()) @db.Timestamp(0)
-  updatedAt      DateTime? @updatedAt @db.Timestamp(0)
+  referralId         Int     @id @default(autoincrement())
+  userId             Int     @map("user_id")
+  companyName        String  @map("company_name") @db.VarChar(255)
+  jobCategory        String  @map("job_category")
+  jobTitle           String  @map("job_title") @db.VarChar(255)
+  jobDescription     String? @map("job_description")
+  jobLink            String? @map("job_link")
+  location           String? @db.VarChar(255)
+  experienceRequired Int?    @map("experience_required")
 
-  user User @relation(fields: [userId], references: [userId], onDelete: Cascade) // One-to-one relation to User
+  applicationCount Int @default(0) @map("application_count")
 
+  postedAt  DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @updatedAt @db.Timestamp(0)
+
+  user         User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  applications Application[]
+
+  @@index([companyName], name: "idx_company_name")
   @@index([jobTitle], name: "idx_job_title")
   @@index([userId], name: "idx_referral_userId")
+}
+
+model Application {
+  applicationId Int      @id @default(autoincrement())
+  candidateId   Int
+  referralId    Int
+  status        String   @default("Pending") // Example: "Pending", "Shortlisted", "Rejected", "Hired"
+  appliedAt     DateTime @default(now()) @db.Timestamp(0)
+
+  candidate Candidate @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade)
+  referral  Referral  @relation(fields: [referralId], references: [referralId], onDelete: Cascade)
+
+  @@unique([candidateId, referralId]) // Prevent duplicate applications for the same referral
+  @@index([candidateId], name: "idx_application_candidateId")
+  @@index([referralId], name: "idx_application_referralId")
 }

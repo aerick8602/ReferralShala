@@ -1,164 +1,129 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import Logout from "@mui/icons-material/Logout";
-import Settings from "@mui/icons-material/Settings";
+"use client";
 
-import { redirect, usePathname } from "next/navigation";
-import { SignOutButton, UserProfile, useUser } from "@clerk/nextjs";
+import React, { useState, useRef, useEffect } from "react";
+import { TieredMenu } from "primereact/tieredmenu";
+import { Avatar } from "primereact/avatar";
+import { useRouter } from "next/navigation";
+import { useClerk, useUser } from "@clerk/nextjs";
 
-export default function AccountMenu({ userId, userType, clerkID }) {
+export default function AccountMenu({ userId }) {
+  const { signOut } = useClerk();
+  const router = useRouter();
   const { user } = useUser();
   const Name = user?.firstName?.charAt(0).toUpperCase() || "?";
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isSettingOpen, setSettingOpen] = React.useState(false);
-  const open = Boolean(anchorEl);
 
-  const pathname = usePathname(); // Get current route
-  const isHomePage = pathname === "/"; // Check if on "/"
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef(null);
 
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
-  const openSettings = () => {
-    setSettingOpen(true);
-    handleClose();
-  };
+  const menuItems = [
+    {
+      label: "Home",
+      command: () => router.push("/"),
+    },
+    {
+      label: "Profile",
+      command: () => router.push(userId ? `/profile/${userId}` : "/"),
+    },
+    {
+      label: "Dashboard",
+      command: () => router.push(userId ? `/dashboard/${userId}` : "/"),
+    },
+    {
+      separator: true,
+    },
+    {
+      label: "More",
+      items: [
+        {
+          label: "About Us",
+          icon: "pi pi-info-circle",
+          command: () => router.push(`/about_us?userId=${userId}`),
+        },
+        {
+          label: "Privacy Policy",
+          icon: "pi pi-lock",
+          command: () => router.push(`/privacy_policy?userId=${userId}`),
+        },
+        {
+          label: "Contact Us",
+          icon: "pi pi-envelope",
+          command: () => router.push(`/contact_us?userId=${userId}`),
+        },
+        {
+          label: "Terms & Conditions",
+          icon: "pi pi-book",
+          command: () => router.push(`/terms&conditions?userId=${userId}`),
+        },
+      ],
+    },
+    {
+      label: "Logout",
+      icon: "pi pi-sign-out",
+      command: () => signOut({ redirectUrl: "/" }),
+    },
+  ];
 
-  if (isSettingOpen) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          bottom: 5,
-          width: "100vw",
-          height: "100vh",
-          background: "rgba(0, 0, 0, 0.4)",
-          backdropFilter: "blur(1px)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          zIndex: 1000, // Ensures it's above everything
-        }}
-        onClick={() => setSettingOpen(false)} // Close when clicking outside
-      >
-        <div onClick={(e) => e.stopPropagation()}>
-          <UserProfile />
-        </div>
-      </div>
-    );
-  }
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+    }
+
+    if (menuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuVisible]);
 
   return (
-    <React.Fragment>
-      <Box
+    <div
+      style={{ position: "relative", display: "flex", alignItems: "center" }}
+    >
+      {/* Avatar Button */}
+      <Avatar
+        label={Name}
+        shape="circle"
         style={{
+          width: "40px",
+          height: "40px",
+          border: "2px solid #FE5757",
+          color: "#FE5757",
+          fontSize: "17px",
+          fontWeight: "bold",
+          cursor: "pointer",
           display: "flex",
           alignItems: "center",
-          textAlign: "center",
-          width: "60px",
+          justifyContent: "center",
+          background: "transparent",
+          transition: "background 0.3s ease-in-out",
         }}
-      >
-        <Tooltip title="Account">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            style={{ marginLeft: "10px" }}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            <Avatar
-              style={{
-                width: "34px",
-                height: "34px",
-                backgroundColor: "white",
-                color: "#FE5757",
-                border: "2px solid #FE5757",
-                fontSize: "16px",
-                fontWeight: "bold",
-                background: "transparent",
-              }}
-            >
-              {Name}
-            </Avatar>
-          </IconButton>
-        </Tooltip>
-      </Box>
+        onClick={() => setMenuVisible(!menuVisible)}
+      />
 
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        disableScrollLock
-        PaperProps={{
-          style: {
-            overflow: "visible",
-            boxShadow: "0px 2px 8px rgba(0,0,0,0.32)",
-            marginTop: "10px",
-            borderRadius: "8px",
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem
-          onClick={() => {
-            if (!userId) {
-              redirect("/");
-            } else {
-              redirect(`/profile/${userId}`);
-            }
+      {/* Fixed Position Menu */}
+      {menuVisible && (
+        <div
+          ref={menuRef}
+          style={{
+            position: "fixed",
+            top: "55px", // Adjust this based on your navbar height
+            right: "45px",
+            zIndex: 1000,
+            background: "white",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            border: "1px solid #ddd",
+            width: "200px",
           }}
         >
-          Profile
-        </MenuItem>
-
-        <MenuItem onClick={() => redirect("/dashboard")}>Dashboard</MenuItem>
-        <Divider />
-
-        {isHomePage && (
-          <MenuItem onClick={openSettings}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-        )}
-        <MenuItem onClick={handleClose}>
-          <SignOutButton>
-            <button
-              onClick={() => (window.location.href = "/")}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                border: "none",
-                background: "transparent",
-                cursor: "pointer",
-                fontSize: "16px",
-                padding: "0px 0px",
-                width: "140%",
-                // textAlign: "left",
-              }}
-            >
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </button>
-          </SignOutButton>
-        </MenuItem>
-      </Menu>
-    </React.Fragment>
+          <TieredMenu model={menuItems} style={{ width: "100%" }} />
+        </div>
+      )}
+    </div>
   );
 }
