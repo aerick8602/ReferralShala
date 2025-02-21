@@ -10,7 +10,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import "../../../styles/Referrals.css";
 
-import ReferralCard from "../../../components/models/ReferralModel";
+import ReferralModel from "../../../components/models/ReferralModel";
 
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -296,7 +296,7 @@ export default function MyReferrals() {
       {isReferralModalOpen && (
         <div className="modal-backdrop" onClick={toggleReferralModel}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <ReferralCard
+            <ReferralModel
               toggleReferralModel={toggleReferralModel}
               userType={userData.userType}
               userData={userData}

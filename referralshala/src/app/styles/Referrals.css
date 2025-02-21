@@ -30,7 +30,8 @@
 }
 
 .add-details {
-  position: fixed;
+  margin-top: -10px;
+  position: absolute;
   right: 55px;
   display: flex;
   align-items: center;

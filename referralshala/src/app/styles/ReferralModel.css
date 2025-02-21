@@ -1,0 +1,157 @@
+/* General styles */
+.referral-model {
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(207, 207, 207, 0.5);
+  height: 100vh;
+  backdrop-filter: blur(1px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.edu-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.edu-close-button:hover {
+  transform: scale(1.1);
+}
+.referral-form-group {
+  margin-bottom: -12px;
+}
+
+.referral-form-group input,
+.referral-form-group select,
+.referral-form-group textarea {
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.exp-help-text {
+  font-size: 0.8rem;
+  margin-top: -5px;
+  color: #6b7280;
+  text-align: center;
+}
+.referral-card {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 42%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 300;
+}
+
+.referral-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+/* Form layout and structure */
+.referral-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.referral-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.referral-form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.referral-form-group input,
+.referral-form-group textarea {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 0.85rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.referral-form-group input:focus,
+.referral-form-group textarea:focus {
+  border-color: #fe5757;
+}
+
+/* Error input styling */
+.error-input {
+  border-color: #fe3c3c;
+}
+
+/* Error message styling */
+.error-message {
+  color: #fe3c3c;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+/* Textarea resizing */
+.referral-form-group textarea {
+  resize: vertical;
+  height: 90px;
+}
+
+/* Submit button styling */
+.referral-submit-button {
+  background-color: #fe5757;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.referral-submit-button:hover {
+  background-color: #fe3333;
+}
+
+/* Responsive styling */
+@media (max-width: 640px) {
+  .referral-card {
+    width: 90%;
+  }
+
+  .referral-submit-button {
+    width: 100%;
+  }
+}

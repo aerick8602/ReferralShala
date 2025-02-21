@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../../styles/ReferralCard.css";
+import "../../styles/ReferralModel.css";
 import { IoClose } from "react-icons/io5";
 
-const ReferralCard = ({ toggleReferralModel, referralData }) => {
+const ReferralModel = ({ toggleReferralModel, referralData }) => {
   const [referral, setReferral] = useState({
     jobTitle: referralData?.jobTitle || "",
     jobDescription: referralData?.jobDescription || "",
@@ -234,4 +234,4 @@ const ReferralCard = ({ toggleReferralModel, referralData }) => {
   );
 };
 
-export default ReferralCard;
+export default ReferralModel;

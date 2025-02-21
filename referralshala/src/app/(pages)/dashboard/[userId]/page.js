@@ -8,6 +8,7 @@ import { HashLoader } from "react-spinners";
 import "../../../styles/dashboard.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 
 export default function DashboardPage() {
   const params = useParams();
@@ -50,12 +51,11 @@ export default function DashboardPage() {
         userType={userData.userType}
         clerkID={user?.id.replace("user_", "")}
       />
-      <div className="dashboard-container">
-        <p className="dashboard-text">
-          Hello {user?.firstName || "User"}. Here's your Dashboard. You are a{" "}
-          {userData?.userType || "Unknown"}.
-        </p>
-      </div>
+      <h1 className="referrals-header">Job Referrals</h1>
+
+      <ReferralWrapper />
+      <br />
+      <br />
       <Footer userId={userData.userId} userType={userData.userType} />
     </>
   );
