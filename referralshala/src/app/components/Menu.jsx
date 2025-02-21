@@ -52,7 +52,7 @@ export default function AccountMenu({ userId }) {
         {
           label: "Terms & Conditions",
           icon: "pi pi-book",
-          command: () => router.push(`/terms&conditions?userId=${userId}`),
+          command: () => router.push(`/terms_&_conditions?userId=${userId}`),
         },
       ],
     },
