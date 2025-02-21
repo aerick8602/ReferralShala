@@ -7,9 +7,11 @@ import { useSearchParams } from "next/navigation";
 export default function PrivacyPolicy() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+  const userType = searchParams.get("userType");
+
   return (
     <>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} userType={userType} />
       <div className="privacyPolicyContainer">
         <h1 className="privacyPolicyHeading">Privacy and Policies</h1>
         <p className="privacyPolicySubtext">
@@ -97,7 +99,7 @@ export default function PrivacyPolicy() {
           </p>
         </section>
       </div>
-      <Footer userId={userId} />
+      <Footer userId={userId} userType={userType} />
     </>
   );
 }

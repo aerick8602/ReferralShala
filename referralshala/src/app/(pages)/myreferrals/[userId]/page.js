@@ -9,17 +9,17 @@ import "../../../styles/dashboard.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 
-export default function DashboardPage() {
+export default function MyReferrals() {
   const params = useParams();
   const userId = params.params;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true); // Use lowercase for consistency
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserId = async () => {
-      if (!user?.id) return; // Ensure user is available before making API call
+      if (!user?.id) return;
 
       try {
         const response = await axios.get(`/api/user/${user.id}`);
@@ -33,7 +33,7 @@ export default function DashboardPage() {
     };
 
     fetchUserId();
-  }, [user]); // Depend on user so it re-runs when user changes
+  }, [user]);
 
   if (!isLoaded || !isSignedIn || loading) {
     return (
@@ -52,8 +52,7 @@ export default function DashboardPage() {
       />
       <div className="dashboard-container">
         <p className="dashboard-text">
-          Hello {user?.firstName || "User"}. Here's your Dashboard. You are a{" "}
-          {userData?.userType || "Unknown"}.
+          Hello {user?.firstName || "User"}. Here's your Referrals.
         </p>
       </div>
       <Footer userId={userData.userId} userType={userData.userType} />

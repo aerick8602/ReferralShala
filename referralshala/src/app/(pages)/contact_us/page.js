@@ -7,9 +7,11 @@ import { useSearchParams } from "next/navigation";
 export default function Page() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+  const userType = searchParams.get("userType");
+
   return (
     <>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} userType={userType} />
       <div className="contact-container">
         <h1 className="contact-title">Contact Us</h1>
         <p className="contact-description">
@@ -84,7 +86,7 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <Footer userId={userId} />
+      <Footer userId={userId} userType={userType} />
     </>
   );
 }

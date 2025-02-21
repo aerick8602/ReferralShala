@@ -9,7 +9,7 @@ import "../../../styles/dashboard.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 
-export default function DashboardPage() {
+export default function MyApplications() {
   const params = useParams();
   const userId = params.params;
 
@@ -52,8 +52,7 @@ export default function DashboardPage() {
       />
       <div className="dashboard-container">
         <p className="dashboard-text">
-          Hello {user?.firstName || "User"}. Here's your Dashboard. You are a{" "}
-          {userData?.userType || "Unknown"}.
+          Hello {user?.firstName || "User"}. Here's your Applications.
         </p>
       </div>
       <Footer userId={userData.userId} userType={userData.userType} />

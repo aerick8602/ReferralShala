@@ -13,6 +13,7 @@ import "../../../styles/Profile.css";
 
 export default function EmployerProfile({
   userId,
+  userType,
   isauth,
   userData,
   setUserData,
@@ -39,7 +40,7 @@ export default function EmployerProfile({
 }) {
   return (
     <>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} userType={userType} />
       <h1 className="profile-header">Profile</h1>
       <div className="employer-profile">
         <div className="employer-main-profile">
@@ -294,7 +295,7 @@ export default function EmployerProfile({
           </div>
         )}
       </div>
-      <Footer userId={userId} />
+      <Footer userId={userId} userType={userType} />
     </>
   );
 }

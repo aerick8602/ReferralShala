@@ -440,6 +440,7 @@ export default function ProfilePage() {
       {userData.userType === "candidate" ? (
         <CandidateProfile
           userId={userId}
+          userType={userData.userType}
           isauth={isauth}
           userData={userData}
           setUserData={setUserData}
@@ -471,6 +472,7 @@ export default function ProfilePage() {
       ) : (
         <EmployerProfile
           userId={userId}
+          userType={userData.userType}
           isauth={isauth}
           userData={userData}
           setUserData={setUserData}

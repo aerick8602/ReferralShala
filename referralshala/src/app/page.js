@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar userId={userData.userId} />
+      <Navbar userId={userData.userId} userType={userData.userType} />
       <div className="Home">
         <img className="backgroundImage" src="/bg.png" alt="Background" />
         <div className="main-content">
@@ -141,7 +141,7 @@ export default function Home() {
         </div>
 
         <div>{/* <Courses /> */}</div>
-        <Footer userId={userData.userId} />
+        <Footer userId={userData.userId} userType={userData.userType} />
       </div>
     </>
   );

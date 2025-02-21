@@ -15,6 +15,7 @@ import "../../../styles/Profile.css";
 
 export default function CandidateProfile({
   userId,
+  userType,
   isauth,
   userData,
   setUserData,
@@ -71,7 +72,7 @@ export default function CandidateProfile({
 
   return (
     <>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} userType={userType} />
       <h1 className="profile-header">Profile</h1>
       <div className="profile">
         <div className="profile-personal-data">
@@ -390,7 +391,7 @@ export default function CandidateProfile({
           </div>
         )}
       </div>
-      <Footer userId={userId} />
+      <Footer userId={userId} userType={userType} />
     </>
   );
 }

@@ -21,11 +21,12 @@ model User {
   createdAt DateTime @default(now()) @db.Timestamp(0)
   updatedAt DateTime @updatedAt @db.Timestamp(0)
 
-  candidate   Candidate?   @relation("UserToCandidate")
-  employer    Employer?    @relation("UserToEmployer")
-  educations  Education[]
-  experiences Experience[]
-  referrals   Referral[]
+  candidate    Candidate?    @relation("UserToCandidate")
+  employer     Employer?     @relation("UserToEmployer")
+  educations   Education[]
+  experiences  Experience[]
+  referrals    Referral[]
+  applications Application[]
 
   @@index([Id], name: "idx_user_id")
 }
@@ -41,8 +42,7 @@ model Candidate {
   createdAt     DateTime? @default(now()) @db.Timestamp(0)
   updatedAt     DateTime? @updatedAt @db.Timestamp(0)
 
-  user         User          @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
-  applications Application[] // Relationship to applications
+  user User @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
 
   @@index([userId], name: "idx_candidate_userId")
 }
@@ -123,15 +123,15 @@ model Referral {
 
 model Application {
   applicationId Int      @id @default(autoincrement())
-  candidateId   Int
+  userId        Int
   referralId    Int
   status        String   @default("Pending") // Example: "Pending", "Shortlisted", "Rejected", "Hired"
   appliedAt     DateTime @default(now()) @db.Timestamp(0)
 
-  candidate Candidate @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade)
-  referral  Referral  @relation(fields: [referralId], references: [referralId], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  referral Referral @relation(fields: [referralId], references: [referralId], onDelete: Cascade)
 
-  @@unique([candidateId, referralId]) // Prevent duplicate applications for the same referral
-  @@index([candidateId], name: "idx_application_candidateId")
+  @@unique([userId, referralId]) // Prevent duplicate applications for the same referral
+  @@index([userId], name: "idx_application_userId")
   @@index([referralId], name: "idx_application_referralId")
 }

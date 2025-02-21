@@ -11,7 +11,7 @@ import "../styles/Footer.css";
 import { redirect } from "next/navigation";
 import Divider from "@mui/material/Divider";
 
-const Footer = ({ userId }) => {
+const Footer = ({ userId, userType }) => {
   return (
     <div className="footer">
       <div className="header">
@@ -134,10 +134,18 @@ const Footer = ({ userId }) => {
         <Divider />
         <div className="bottom-section">
           <div className="footer-links-bottom">
-            <a href={`/about_us?userId=${userId}`}>About us</a>
-            <a href={`/privacy_policy?userId=${userId}`}>Privacy Policy</a>
-            <a href={`/contact_us?userId=${userId}`}>Contact us</a>
-            <a href={`/terms_&_conditions?userId=${userId}`}>
+            <a href={`/about_us?userType=${userType}&userId=${userId}`}>
+              About us
+            </a>
+            <a href={`/privacy_policy?userType=${userType}&userId=${userId}`}>
+              Privacy Policy
+            </a>
+            <a href={`/contact_us?userType=${userType}&userId=${userId}`}>
+              Contact us
+            </a>
+            <a
+              href={`/terms_&_conditions?userType=${userType}&userId=${userId}`}
+            >
               Terms & Conditions
             </a>
           </div>

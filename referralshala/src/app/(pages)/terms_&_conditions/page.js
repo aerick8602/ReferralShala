@@ -7,9 +7,11 @@ import { useSearchParams } from "next/navigation";
 export default function TermsAndConditions() {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+  const userType = searchParams.get("userType");
+
   return (
     <>
-      <Navbar userId={userId} />
+      <Navbar userId={userId} userType={userType} />
       <div className="termsContainer">
         <h1 className="termsHeading">Terms & Conditions</h1>
 
@@ -113,7 +115,7 @@ export default function TermsAndConditions() {
           .
         </p>
       </div>
-      <Footer userId={userId} />
+      <Footer userId={userId} userType={userType} />
     </>
   );
 }
