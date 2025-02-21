@@ -13,11 +13,10 @@ export default function AccountMenu({ userId, userType }) {
   const Name = user?.firstName?.charAt(0).toUpperCase() || "?";
 
   const menuRef = useRef(null);
-  const menu = useRef(null);
+  const [menuVisible, setMenuVisible] = useState(false);
 
   const menuItems = [
     { label: "Home", command: () => router.push("/") },
-
     {
       label: "Profile",
       command: () => router.push(userId ? `/profile/${userId}` : "/"),
@@ -79,15 +78,18 @@ export default function AccountMenu({ userId, userType }) {
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        if (menu.current && menu.current.hide) {
-          menu.current.hide(); // Ensure `menu.current` is defined
-        }
+        setMenuVisible(false);
       }
     }
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+    if (menuVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuVisible]);
 
   return (
     <div ref={menuRef} className="relative flex items-center">
@@ -98,9 +100,9 @@ export default function AccountMenu({ userId, userType }) {
         style={{
           width: "40px",
           height: "40px",
-          border: "2px solid #FE5757",
+          border: "3px solid #FE5757",
           color: "#FE5757",
-          fontSize: "17px",
+          fontSize: "18px",
           fontWeight: "bold",
           cursor: "pointer",
           display: "flex",
@@ -109,22 +111,27 @@ export default function AccountMenu({ userId, userType }) {
           background: "transparent",
           transition: "background 0.3s ease-in-out",
         }}
-        onClick={(e) => menu.current.toggle(e)}
+        onClick={() => setMenuVisible((prev) => !prev)}
       />
 
       {/* Dropdown Menu */}
-      <TieredMenu
-        model={menuItems}
-        ref={(el) => (menu.current = el)}
-        popup
-        style={{
-          background: "white",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          borderRadius: "10px",
-          border: "1px solid #ddd",
-          width: "200px",
-        }}
-      />
+      {menuVisible && (
+        <div
+          style={{
+            position: "fixed",
+            top: "55px", // Adjust this based on your navbar height
+            right: "45px",
+            zIndex: 1000,
+            background: "white",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            borderRadius: "10px",
+            border: "1px solid #ddd",
+            width: "200px",
+          }}
+        >
+          <TieredMenu model={menuItems} style={{ width: "100%" }} />
+        </div>
+      )}
     </div>
   );
 }
