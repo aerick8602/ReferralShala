@@ -50,6 +50,9 @@
   outline: none;
   transition: border-color 0.3s ease;
 }
+.referral-form-group select {
+  padding: 0.4rem !important;
+}
 
 .exp-help-text {
   font-size: 0.8rem;
@@ -57,7 +60,7 @@
   color: #6b7280;
   text-align: center;
 }
-.referral-card {
+.referral-card-model {
   background-color: rgba(255, 255, 255, 1);
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -147,7 +150,7 @@
 
 /* Responsive styling */
 @media (max-width: 640px) {
-  .referral-card {
+  .referral-card-model {
     width: 90%;
   }
 

@@ -1,22 +1,18 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Accordion, AccordionTab } from "primereact/accordion";
+import { Avatar } from "primereact/avatar";
+import { Badge } from "primereact/badge";
+import { FaPlus } from "react-icons/fa";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import { HashLoader } from "react-spinners";
-import "../../../styles/dashboard.css";
-import axios from "axios";
-import { useParams } from "next/navigation";
-import "../../../styles/Referrals.css";
-
-import ReferralModel from "../../../components/models/ReferralModel";
-
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Button } from "primereact/button";
-import { FaPlus } from "react-icons/fa";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import "../../../styles/Referrals.css";
+import ReferralCard from "../../../components/models/ReferralModel";
+import { useParams } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 export default function MyReferrals() {
   const params = useParams();
@@ -26,6 +22,81 @@ export default function MyReferrals() {
   const [userData, setUserData] = useState({});
   const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentReferral, setCurrentReferral] = useState({});
+  const [referralData, setReferralData] = useState([
+    {
+      referralId: 1,
+      userId: 101,
+      companyName: "Google",
+      jobCategory: "Software Engineering",
+      jobTitle: "Frontend Developer",
+      jobDescription:
+        "Develop and maintain UI components using React.js and Next.js.",
+      jobLink: "https://careers.google.com/jobs/",
+      location: "San Francisco, CA",
+      experienceRequired: 2,
+      applicationCount: 5,
+      postedAt: "2024-02-10T08:30:00Z",
+      updatedAt: "2024-02-12T10:00:00Z",
+    },
+    {
+      referralId: 2,
+      userId: 102,
+      companyName: "Microsoft",
+      jobCategory: "Backend Engineering",
+      jobTitle: "Node.js Developer",
+      jobDescription: "Design scalable APIs using Express.js and MongoDB.",
+      jobLink: "https://careers.microsoft.com/",
+      location: "Seattle, WA",
+      experienceRequired: 3,
+      applicationCount: 8,
+      postedAt: "2024-01-15T09:45:00Z",
+      updatedAt: "2024-01-18T14:30:00Z",
+    },
+    {
+      referralId: 3,
+      userId: 103,
+      companyName: "Amazon",
+      jobCategory: "Cloud Computing",
+      jobTitle: "AWS DevOps Engineer",
+      jobDescription:
+        "Manage cloud infrastructure using AWS services and Terraform.",
+      jobLink: "https://www.amazon.jobs/",
+      location: "New York, NY",
+      experienceRequired: 4,
+      applicationCount: 12,
+      postedAt: "2024-03-01T11:00:00Z",
+      updatedAt: "2024-03-03T16:20:00Z",
+    },
+    {
+      referralId: 4,
+      userId: 104,
+      companyName: "Meta",
+      jobCategory: "Data Science",
+      jobTitle: "Data Analyst",
+      jobDescription: "Analyze user behavior using SQL, Python, and Power BI.",
+      jobLink: "https://www.metacareers.com/",
+      location: "Menlo Park, CA",
+      experienceRequired: 2,
+      applicationCount: 6,
+      postedAt: "2024-02-20T07:30:00Z",
+      updatedAt: "2024-02-22T12:15:00Z",
+    },
+    {
+      referralId: 5,
+      userId: 105,
+      companyName: "Tesla",
+      jobCategory: "Embedded Systems",
+      jobTitle: "Firmware Engineer",
+      jobDescription: "Develop embedded software for automotive applications.",
+      jobLink: "https://www.tesla.com/careers",
+      location: "Palo Alto, CA",
+      experienceRequired: 5,
+      applicationCount: 3,
+      postedAt: "2024-01-30T14:00:00Z",
+      updatedAt: "2024-02-02T09:50:00Z",
+    },
+  ]);
 
   const toggleReferralModel = () =>
     setIsReferralModalOpen(!isReferralModalOpen);
@@ -48,87 +119,35 @@ export default function MyReferrals() {
     fetchUserId();
   }, [user]);
 
-  // Dummy data for testing
-  const dummyReferrals = [
-    {
-      referralId: 1,
-      companyName: "Google",
-      jobCategory: "Software Engineering",
-      jobTitle: "Frontend Developer",
-      jobDescription: "Develop UI components with React.js",
-      jobLink: "https://careers.google.com/jobs/",
-      location: "San Francisco, CA",
-      experienceRequired: 2,
-    },
-    {
-      referralId: 2,
-      companyName: "Microsoft",
-      jobCategory: "Backend Engineering",
-      jobTitle: "Node.js Developer",
-      jobDescription: "Build scalable APIs with Express.js",
-      jobLink: "https://careers.microsoft.com/",
-      location: "Seattle, WA",
-      experienceRequired: 3,
-    },
-    {
-      referralId: 3,
-      companyName: "Amazon",
-      jobCategory: "Cloud Engineering",
-      jobTitle: "AWS Solutions Architect",
-      jobDescription: "Design and implement AWS cloud solutions",
-      jobLink: "https://www.amazon.jobs/",
-      location: "New York, NY",
-      experienceRequired: 5,
-    },
-    {
-      referralId: 4,
-      companyName: "Meta",
-      jobCategory: "Machine Learning",
-      jobTitle: "AI Research Engineer",
-      jobDescription: "Develop cutting-edge ML models for social media",
-      jobLink: "https://www.metacareers.com/jobs/",
-      location: "Menlo Park, CA",
-      experienceRequired: 4,
-    },
-    {
-      referralId: 5,
-      companyName: "Netflix",
-      jobCategory: "Data Science",
-      jobTitle: "Data Scientist",
-      jobDescription: "Analyze user behavior and optimize recommendations",
-      jobLink: "https://jobs.netflix.com/",
-      location: "Los Angeles, CA",
-      experienceRequired: 3,
-    },
-    {
-      referralId: 6,
-      companyName: "Tesla",
-      jobCategory: "Embedded Systems",
-      jobTitle: "Firmware Engineer",
-      jobDescription: "Develop software for electric vehicles",
-      jobLink: "https://www.tesla.com/careers",
-      location: "Austin, TX",
-      experienceRequired: 3,
-    },
-  ];
-
-  const handleEdit = (referral) => {
+  const handleAdd = () => {
     toggleReferralModel();
-    console.log("Editing:", referral);
   };
 
-  const confirmDelete = (referral) => {
+  const handleEdit = (referralId) => {
+    const selectedReferral = referralData.find(
+      (ref) => ref.referralId === referralId
+    );
+    setCurrentReferral(selectedReferral);
+    toggleReferralModel();
+    console.log("Editing:", referralId);
+  };
+
+  const confirmDelete = (referralId) => {
     confirmDialog({
       message: "Are you sure you want to delete this referral?",
       header: "Confirm Deletion",
       icon: "pi pi-exclamation-triangle",
       acceptClassName: "p-button-danger",
-      accept: () => handleDelete(referral),
+      accept: () => handleDelete(referralId),
     });
   };
 
-  const handleDelete = (referral) => {
-    console.log("Deleting:", referral);
+  const handleDelete = (referralId) => {
+    const updatedReferralData = referralData.filter(
+      (ref) => ref.referralId !== referralId
+    );
+    setReferralData(updatedReferralData);
+    console.log("Deleting:", referralId);
   };
 
   return (
@@ -140,170 +159,102 @@ export default function MyReferrals() {
         clerkID={user?.id.replace("user_", "")}
       />
 
+      <h1 className="referrals-header">My Referrals</h1>
       <div className="referrals-container">
-        {/* Add Referral Button */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "10px",
-          }}
-        ></div>
-
-        <h1 className="referrals-header">My Referrals</h1>
-        <button className="add-details" onClick={toggleReferralModel}>
-          <FaPlus className="icon" /> Add Referral
-        </button>
-        <br />
-        <div className="referrals-table">
-          <DataTable
-            value={dummyReferrals}
-            paginator
-            rows={10}
-            rowsPerPageOptions={[10, 25, 50]}
-            tableStyle={{ minWidth: "60rem" }}
-            emptyMessage="No referrals found"
-          >
-            <Column
-              field="companyName"
-              header="Company Name"
-              style={{ width: "15%" }}
-            />
-            <Column
-              field="jobCategory"
-              header="Job Category"
-              style={{ width: "15%" }}
-            />
-
-            {/* Job Title & Job Link Merged */}
-            <Column
-              header="Job Title"
-              body={(rowData) => (
-                <span
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <span>{rowData.jobTitle}</span>
-                  {rowData.jobLink && (
-                    <a
-                      href={rowData.jobLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
+        {referralData.length > 0 ? (
+          <Accordion>
+            {referralData.map((referral) => (
+              <AccordionTab
+                key={referral.referralId}
+                header={
+                  <div className="referral-header">
+                    <div
                       style={{
-                        color: "#3B82F6",
-                        textDecoration: "none",
-                        transition: "color 0.2s ease-in-out",
+                        display: "flex",
+                        gap: "10px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "10px",
                       }}
-                      onMouseOver={(e) =>
-                        (e.currentTarget.style.color = "#1E40AF")
-                      }
-                      onMouseOut={(e) =>
-                        (e.currentTarget.style.color = "#3B82F6")
-                      }
                     >
-                      <i
-                        className="pi pi-link"
-                        style={{ fontSize: "1rem" }}
-                      ></i>
-                    </a>
-                  )}
-                </span>
-              )}
-              style={{ width: "20%" }}
-            />
+                      <Avatar
+                        label={referral.companyName.charAt(0)}
+                        shape="circle"
+                      />
+                      {referral.companyName}
+                    </div>
 
-            <Column
-              field="location"
-              header="Location"
-              style={{ width: "20%" }}
-            />
-            <Column
-              field="experienceRequired"
-              header="Experience Required"
-              style={{ width: "5%" }}
-              bodyStyle={{ textAlign: "center" }}
-            />
-            <Column
-              field="applicationCount"
-              header="Number of Applicants"
-              style={{ width: "8%" }}
-              bodyStyle={{ textAlign: "center" }}
-            />
-            <Column
-              field="postedAt"
-              header="Posted On"
-              style={{ width: "10%" }}
-            />
-
-            {/* Edit & Delete Actions */}
-            <Column
-              header="Actions"
-              body={(rowData) => (
-                <span
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "25px",
-                  }}
-                >
-                  <i
-                    className="pi pi-pencil"
-                    style={{
-                      fontSize: "1rem",
-                      color: "#3B82F6",
-                      cursor: "pointer",
-                      transition: "color 0.2s ease-in-out",
-                    }}
-                    onMouseOver={(e) =>
-                      (e.currentTarget.style.color = "#1E40AF")
-                    }
-                    onMouseOut={(e) =>
-                      (e.currentTarget.style.color = "#3B82F6")
-                    }
-                    onClick={() => handleEdit(rowData)}
-                  ></i>
-
-                  <i
-                    className="pi pi-trash"
-                    style={{
-                      fontSize: "1rem",
-                      color: "#EF4444",
-                      cursor: "pointer",
-                      transition: "color 0.2s ease-in-out",
-                    }}
-                    onMouseOver={(e) =>
-                      (e.currentTarget.style.color = "#DC2626")
-                    }
-                    onMouseOut={(e) =>
-                      (e.currentTarget.style.color = "#EF4444")
-                    }
-                    onClick={() => confirmDelete(rowData)}
-                  ></i>
-                </span>
-              )}
-              style={{ width: "10%", textAlign: "center" }}
-            />
-          </DataTable>
-        </div>
+                    <Badge
+                      value={referral.applicationCount || 0}
+                      className="custom-badge"
+                    />
+                  </div>
+                }
+              >
+                <div className="referral-item">
+                  <div
+                    className="referral-actions"
+                    style={{ marginBottom: "-30px", marginTop: "-10px" }}
+                  >
+                    <i
+                      className="pi pi-pencil edit edit-btn"
+                      onClick={() => handleEdit(referral.referralId)}
+                    ></i>
+                    <i
+                      className="pi pi-trash delete delete-btn"
+                      onClick={() => confirmDelete(referral.referralId)}
+                    ></i>
+                  </div>
+                  <p className="job-category">{referral.jobCategory}</p>
+                  <h3 className="job-title">{referral.jobTitle}</h3>
+                  <p className="job-description">{referral.jobDescription}</p>
+                  <p className="job-location">
+                    <strong>Location:</strong> {referral.location}
+                  </p>
+                  <p className="experience">
+                    <strong>Experience Required:</strong>{" "}
+                    {referral.experienceRequired} years
+                  </p>
+                  <a
+                    href={referral.jobLink}
+                    className="apply-button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Job Link
+                  </a>
+                </div>
+              </AccordionTab>
+            ))}
+          </Accordion>
+        ) : (
+          <p
+            className="no-referrals-message"
+            style={{ textAlign: "center", padding: "20px", color: "#888" }}
+          >
+            No referrals available at the moment.
+          </p>
+        )}
+        <button className="add-details" onClick={handleAdd}>
+          <FaPlus className="icon" /> Add Referral...
+        </button>
       </div>
-
-      <br />
-      <br />
       {isReferralModalOpen && (
         <div className="modal-backdrop" onClick={toggleReferralModel}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <ReferralModel
+            <ReferralCard
               toggleReferralModel={toggleReferralModel}
               userType={userData.userType}
               userData={userData}
+              referralData={currentReferral}
+              setReferralData={setReferralData}
             />
           </div>
         </div>
       )}
+      <br />
+      <br />
+      <br />
       <Footer userId={userData.userId} userType={userData.userType} />
     </>
   );

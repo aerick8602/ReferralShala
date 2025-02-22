@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { HashLoader } from "react-spinners";
-import "../../../styles/dashboard.css";
+import "../../../styles/Dashboard.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
@@ -52,8 +52,11 @@ export default function DashboardPage() {
         clerkID={user?.id.replace("user_", "")}
       />
       <h1 className="referrals-header">Job Referrals</h1>
+      <div className="dashbaord">
+        <div className="filter">To be Done</div>
+        <ReferralWrapper />
+      </div>
 
-      <ReferralWrapper />
       <br />
       <br />
       <Footer userId={userData.userId} userType={userData.userType} />
