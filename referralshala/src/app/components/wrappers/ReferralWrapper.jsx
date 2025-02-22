@@ -17,14 +17,23 @@ const ReferralWrapper = ({ dummyReferrals }) => {
             <strong>Experience Required:</strong> {referral.experienceRequired}{" "}
             years
           </p>
-          <a
-            href={referral.jobLink}
-            className="apply-button"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Apply Now
-          </a>
+          <div className="button-container">
+            <a
+              href={referral.jobLink}
+              className="know-more-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Know More
+            </a>
+            <a
+              className="apply-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Apply Now
+            </a>
+          </div>
         </div>
       ))}
     </div>
