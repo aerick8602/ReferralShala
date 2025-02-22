@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { HashLoader } from "react-spinners";
-import "../../../styles/Dashboard.css";
+import "../../../styles/Referral.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
