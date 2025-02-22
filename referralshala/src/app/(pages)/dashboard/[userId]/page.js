@@ -266,7 +266,6 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* Apply Filters Button */}
           <button className="filter-button">Filter Jobs</button>
         </div>
 
