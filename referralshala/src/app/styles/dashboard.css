@@ -24,14 +24,96 @@
 .dashbaord {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  gap: 20px; /* Adds spacing between elements */
+  position: relative; /* Ensures proper layout */
 }
 
 .filter {
-  height: 600px;
-  width: 20%;
+  position: absolute; /* Keeps it fixed */
+  width: 20%; /* Adjust width as needed */
+  height: 455px; /* Full height */
+  top: 195px;
+  left: 240px; /* Adjust as needed */
+
+  padding: 20px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.referral-wrapper {
+  height: 750px; /* Full height */
+  width: 80%;
+  margin-top: -30px;
+  margin-left: 270px; /* Pushes it away from filter */
+  overflow-y: auto; /* Enables scrolling */
+  padding: 20px;
+  border-radius: 8px;
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.filter {
+  padding: 15px;
+  border-radius: 10px;
+  /* Enhanced 3D Shadow */
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.filter-title {
   display: flex;
-  border: 1px solid black;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
   justify-content: center;
+  align-items: center;
+}
+
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-subtitle {
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-checkbox {
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+  font-size: small;
+}
+
+.filter-button {
+  margin-top: 10px;
+  border: none;
+  display: inline-block;
+  background-color: #ff3f3f;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button:hover {
+  background-color: #ff3737;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
