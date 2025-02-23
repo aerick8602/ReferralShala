@@ -19,6 +19,7 @@ export default function Home() {
 
     setLoading(true);
     try {
+      console.log(user.id);
       const response = await axios.get(`/api/user/${user.id}`);
       setUserData(response.data.data);
       console.log("Fetched User Data:", response.data.data);

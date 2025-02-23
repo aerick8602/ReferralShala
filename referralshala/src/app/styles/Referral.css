@@ -16,8 +16,8 @@
   font-size: 35px;
   font-weight: 700;
   text-align: center;
-  opacity: 0.8;
-  color: #232323;
+  /* opacity: 0.8; */
+  color: #4b2f31;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -31,19 +31,21 @@
 .filter {
   position: absolute; /* Keeps it fixed */
   width: 20%; /* Adjust width as needed */
-  height: 455px; /* Full height */
-  top: 195px;
-  left: 240px; /* Adjust as needed */
 
+  top: 132px;
+  left: 260px; /* Adjust as needed */
+  /* background-color: white; */
   padding: 20px;
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  background: transparent;
+
+  /* box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);  */
 }
 
 .referral-wrapper {
   height: 750px; /* Full height */
-  width: 80%;
+  width: 100vw;
   margin-top: -30px;
-  margin-left: 270px; /* Pushes it away from filter */
+  padding-left: 250px !important; /* Pushes it away from filter */
   overflow-y: auto; /* Enables scrolling */
   padding: 20px;
   border-radius: 8px;
@@ -56,14 +58,15 @@
   padding: 15px;
   border-radius: 10px;
   /* Enhanced 3D Shadow */
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); */
 }
 
 .filter-title {
   display: flex;
-  font-size: 18px;
+  margin-bottom: 20px;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 5px;
+
   justify-content: center;
   align-items: center;
 }
@@ -116,4 +119,12 @@
   background-color: #ff3737;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
+}
+
+.filter {
+  pointer-events: none;
+}
+
+.filter * {
+  pointer-events: auto;
 }

@@ -11,7 +11,8 @@
 .contact-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #333;
+  /* opacity: 0.8; */
+  color: #4b2f31;
   margin-bottom: 1rem;
   position: relative;
 }

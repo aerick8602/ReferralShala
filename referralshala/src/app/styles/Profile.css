@@ -5,8 +5,8 @@
   font-size: 35px;
   font-weight: 700;
   text-align: center;
-  opacity: 0.8;
-  color: #232323;
+  /* opacity: 0.8; */
+  color: #4b2f31;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,7 +45,7 @@
   height: 65vh;
   border-radius: 25px;
   border: 1px solid rgba(255, 207, 207, 0.6);
-  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+  background-color: white;
   backdrop-filter: blur(10px);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 
@@ -194,7 +194,7 @@
   border-radius: 25px;
   /* height: 150vh; */
   border: 1px solid rgba(255, 207, 207, 0.6);
-  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+  background-color: white;
 
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),

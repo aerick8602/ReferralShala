@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import formatUserData from "../../../utils/formatedata";
 import client from "../../../../connection/prisma";
 
 export async function GET(req, { params }) {

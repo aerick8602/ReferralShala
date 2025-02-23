@@ -13,6 +13,7 @@ import ReferralCard from "../../../components/models/ReferralModel";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+import { Divider } from "primereact/divider";
 
 export default function MyReferrals() {
   const params = useParams();
@@ -161,6 +162,15 @@ export default function MyReferrals() {
 
       <h1 className="referrals-header">My Referrals</h1>
       <div className="referrals-container">
+        <p className="referrals-description">
+          #View and manage your referrals. Keep track of job applications and
+          help others find opportunities!
+        </p>
+        <button className="add-details" onClick={handleAdd}>
+          <FaPlus className="icon" /> Post Referral
+        </button>
+
+        <Divider />
         {referralData.length > 0 ? (
           <Accordion>
             {referralData.map((referral) => (
@@ -235,9 +245,6 @@ export default function MyReferrals() {
             No referrals available at the moment.
           </p>
         )}
-        <button className="add-details" onClick={handleAdd}>
-          <FaPlus className="icon" /> Add Referral...
-        </button>
       </div>
       {isReferralModalOpen && (
         <div className="modal-backdrop" onClick={toggleReferralModel}>
