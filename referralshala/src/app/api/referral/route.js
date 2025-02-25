@@ -13,17 +13,16 @@ export async function GET() {
     }
 
     const data = formatUserData(referrals);
-    console.log(data);
-    
+    console.log(referrals);
+
     return NextResponse.json(
       { success: true, data: referrals },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to fetch referrals." },
+      { success: false, message: error.message },
       { status: 500 }
     );
   }
 }
-
