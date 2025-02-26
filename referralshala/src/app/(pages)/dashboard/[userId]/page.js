@@ -13,6 +13,7 @@ import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 const dummyReferrals = [
   {
     referralId: 1,
+    userId: 2,
     companyName: "Google",
     jobCategory: "Software Engineering",
     jobTitle: "Frontend Developer",
@@ -24,6 +25,7 @@ const dummyReferrals = [
   },
   {
     referralId: 2,
+    userId: 1,
     companyName: "Microsoft",
     jobCategory: "Backend Engineering",
     jobTitle: "Node.js Developer",
@@ -35,6 +37,7 @@ const dummyReferrals = [
   },
   {
     referralId: 3,
+    userId: 3,
     companyName: "Amazon",
     jobCategory: "Cloud Engineering",
     jobTitle: "AWS Solutions Architect",
@@ -124,7 +127,7 @@ const dummyReferrals = [
 ];
 export default function DashboardPage() {
   const params = useParams();
-  const userId = params.params;
+  const userId = params.userId;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
@@ -162,23 +165,23 @@ export default function DashboardPage() {
     );
   });
 
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await axios.get(`/api/user/${user?.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUserId = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await axios.get(`/api/user/${user.id}`);
-        setUserData(response.data.data);
-        console.log("Fetched user data:", response.data.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserId();
-  }, [user]);
+  }, []);
 
   if (!isLoaded || !isSignedIn || loading) {
     return (
@@ -300,7 +303,10 @@ export default function DashboardPage() {
           >
             Unlock Exciting Career Opportunities with Fresh Job Referrals ✨
           </p>
-          <ReferralWrapper dummyReferrals={filteredReferrals} />
+          <ReferralWrapper
+            dummyReferrals={filteredReferrals}
+            candidateUserId={userId}
+          />
         </div>
       </div>
 

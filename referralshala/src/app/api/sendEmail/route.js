@@ -6,16 +6,30 @@ import nodemailer from "nodemailer";
 export async function POST(req) {
   try {
     const {
+      candidateUserId,
       candidateEmail,
       employerEmail,
       candidateName,
       employerName,
       jobTitle,
       companyName,
-      profileLink,
     } = await req.json();
 
-    // Read the email templates
+    const candidateProfileURL = `${process.env.BASE_URL}/profile/${candidateUserId}`;
+    const jobOpportunitiesLink = `${process.env.BASE_URL}/dashboard/${candidateUserId}`;
+
+    // Log received values for debugging
+    // console.log("Received Data:", {
+    //   candidateEmail,
+    //   employerEmail,
+    //   candidateName,
+    //   employerName,
+    //   jobTitle,
+    //   companyName,
+    //   candidateProfileURL,
+    //   jobOpportunitiesLink,
+    // });
+
     const candidateTemplatePath = path.join(
       process.cwd(),
       "src/app/templates/candidateEmail.html"
@@ -25,24 +39,48 @@ export async function POST(req) {
       "src/app/templates/employerEmail.html"
     );
 
-    let candidateHtml = fs.readFileSync(candidateTemplatePath, "utf8");
-    let employerHtml = fs.readFileSync(employerTemplatePath, "utf8");
+    let candidateHtml, employerHtml;
 
-    // Replace placeholders in the templates
-    candidateHtml = candidateHtml
-      .replace("{{candidateName}}", candidateName)
-      .replace("{{jobTitle}}", jobTitle)
-      .replace("{{companyName}}", companyName)
-      .replace("{{profileLink}}", profileLink);
+    try {
+      candidateHtml = fs.readFileSync(candidateTemplatePath, "utf8");
+      employerHtml = fs.readFileSync(employerTemplatePath, "utf8");
+      console.log("✅ Email templates loaded successfully.");
+    } catch (err) {
+      console.error("❌ Error loading email templates:", err);
+      return NextResponse.json(
+        { error: "Failed to load email templates" },
+        { status: 500 }
+      );
+    }
 
-    employerHtml = employerHtml
-      .replace("{{employerName}}", employerName)
-      .replace("{{candidateName}}", candidateName)
-      .replace("{{jobTitle}}", jobTitle)
-      .replace("{{companyName}}", companyName)
-      .replace("{{profileLink}}", profileLink);
+    // Replace placeholders in the email templates (ensuring global replacements)
+    const replacePlaceholders = (html, replacements) => {
+      return Object.entries(replacements).reduce(
+        (content, [key, value]) =>
+          content.replace(new RegExp(`{{${key}}}`, "g"), value),
+        html
+      );
+    };
 
-    // Nodemailer transport setup
+    candidateHtml = replacePlaceholders(candidateHtml, {
+      candidateName,
+      jobTitle,
+      companyName,
+      candidateProfileURL,
+      jobOpportunitiesLink,
+    });
+
+    employerHtml = replacePlaceholders(employerHtml, {
+      employerName,
+      candidateName,
+      jobTitle,
+      companyName,
+      candidateProfileURL,
+    });
+
+    // console.log("✅ Email templates processed with user data.");
+
+    // Nodemailer transport configuration
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -51,28 +89,44 @@ export async function POST(req) {
       },
     });
 
+    // console.log("✅ Nodemailer transporter configured.");
+
+    // Log the final processed email content for debugging
+    // console.log("🔹 Final Processed Candidate Email HTML:\n", candidateHtml);
+    // console.log("🔹 Final Processed Employer Email HTML:\n", employerHtml);
+
     // Send email to candidate
-    await transporter.sendMail({
-      from: `ReferralShala ${process.env.EMAIL_USER}`,
+    const candidateMailResponse = await transporter.sendMail({
+      from: `ReferralShala <${process.env.EMAIL_USER}>`,
       to: candidateEmail,
       subject: `Your Application for ${jobTitle} at ${companyName}`,
       html: candidateHtml,
     });
 
+    // console.log(
+    //   "📩 Candidate email sent. Message ID:",
+    //   candidateMailResponse.messageId
+    // );
+
     // Send email to employer
-    await transporter.sendMail({
-      from: `ReferralShala ${process.env.EMAIL_USER}`,
+    const employerMailResponse = await transporter.sendMail({
+      from: `ReferralShala <${process.env.EMAIL_USER}>`,
       to: employerEmail,
       subject: `New Candidate Application for ${jobTitle}`,
       html: employerHtml,
     });
+
+    // console.log(
+    //   "📩 Employer email sent. Message ID:",
+    //   employerMailResponse.messageId
+    // );
 
     return NextResponse.json(
       { message: "Emails sent successfully!" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("❌ Error sending email:", error);
     return NextResponse.json(
       { error: "Failed to send email" },
       { status: 500 }

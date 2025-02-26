@@ -12,7 +12,7 @@ export async function GET() {
       );
     }
 
-    const data = formatUserData(referrals);
+    // const data = formatUserData(referrals);
     console.log(referrals);
 
     return NextResponse.json(

@@ -1,7 +1,71 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import "../../styles/ReferralCard.css";
 
-const ReferralWrapper = ({ dummyReferrals }) => {
+const ReferralWrapper = ({ dummyReferrals, candidateUserId }) => {
+  const [candidateUserData, setCandidateUserData] = useState({});
+  const [selectedReferral, setSelectedReferral] = useState(null);
+
+  const fetchUserData = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/profile/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+      console.log(`User Data (${userId}):`, data.data);
+      return data.data;
+    } catch (error) {
+      console.error(`Error fetching user data for ${userId}:`, error);
+      return null;
+    }
+  };
+  const fetchCandidateData = async () => {
+    if (candidateUserId) {
+      const candidateData = await fetchUserData(candidateUserId);
+      setCandidateUserData(candidateData || {});
+    }
+  };
+  useEffect(() => {
+    fetchCandidateData();
+  }, [candidateUserId]);
+
+  const handleApply = async (referral) => {
+    setSelectedReferral(referral);
+
+    try {
+      const employerData = await fetchUserData(referral.userId);
+
+      // Wait for state update before using employer data
+      setTimeout(async () => {
+        const emailData = {
+          candidateUserId: candidateUserId,
+          candidateEmail: candidateUserData.emailAddress || "N/A",
+          employerEmail: employerData?.emailAddress || "N/A",
+          candidateName: candidateUserData.firstName,
+          employerName: employerData?.firstName || "Employer",
+          jobTitle: referral.jobTitle,
+          companyName: referral.companyName,
+        };
+
+        const response = await fetch("/api/sendEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(emailData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to send email");
+        }
+
+        console.log("Emails sent successfully!");
+      }, 500);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
+
   // Function to calculate days ago
   const getDaysAgo = (postedDate) => {
     const posted = new Date(postedDate);
@@ -9,34 +73,6 @@ const ReferralWrapper = ({ dummyReferrals }) => {
     const timeDiff = today - posted;
     const daysAgo = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     return daysAgo === 0 ? "Today" : `${daysAgo} days ago`;
-  };
-
-  const handleApply = async (referral) => {
-    try {
-      const emailData = {
-        candidateEmail: "katiyarayush02@gmail.com", // Replace with actual candidate's email
-        employerEmail: "katiyarayush08@gmail.com", // Fetch employer's email from referral object
-        candidateName: "John Doe", // Replace with actual candidate's name
-        employerName: referral.employerName, // Fetch employer's name from referral object
-        jobTitle: referral.jobTitle,
-        companyName: referral.companyName,
-        profileLink: `http://localhost:3000/profile/1`, // Replace with dynamic candidate profile link
-      };
-
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(emailData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send email");
-      }
-
-      console.log("Emails sent successfully!");
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
   };
 
   return (
@@ -73,7 +109,7 @@ const ReferralWrapper = ({ dummyReferrals }) => {
             </a>
             <button
               className="apply-button"
-              onClick={() => handleApply(referral)} // ✅ Fixed: Now passing referral data
+              onClick={() => handleApply(referral)}
             >
               Apply Now
             </button>
