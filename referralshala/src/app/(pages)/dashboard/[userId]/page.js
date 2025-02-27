@@ -112,6 +112,8 @@ const dummyReferrals = [
     experienceRequired: 4,
   },
 ];
+
+
 export default function DashboardPage() {
   const params = useParams();
   const userId = params.params;
@@ -119,6 +121,7 @@ export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [referrals, setreferrals]=useState({});
 
   const [filters, setFilters] = useState({
     experience: "",
@@ -128,6 +131,24 @@ export default function DashboardPage() {
     jobCategory: "",
     jobRoles: [],
   });
+
+  // const fetchReferrals = async () => {
+  //   try {
+  //     const res = await fetch(`/api/referral`, {
+  //       method: "GET",
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     const data = await res.json();
+  //     console.log("referral data", data.data);
+  //     setreferrals(data.data);
+  //     console.log("referrals are",referrals);
+  //     return data.data;
+  //   } catch (error) {
+  //     console.error("Error fetching referrals data:", error);
+  //     return null;
+  //   }
+  // };
 
   const filteredReferrals = dummyReferrals.filter((referral) => {
     const keyword = filters.keywords?.toLowerCase() || "";
@@ -151,6 +172,29 @@ export default function DashboardPage() {
         filters.jobRoles.includes(referral.jobCategory))
     );
   });
+
+  useEffect(()=>{
+
+    const fetchReferrals = async () => {
+      try {
+        const res = await fetch(`/api/referral`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+  
+        const data = await res.json();
+        console.log("referral data", data.data);
+        setreferrals(data.data);
+        console.log("referrals are",referrals);
+        return data.data;
+      } catch (error) {
+        console.error("Error fetching referrals data:", error);
+        return null;
+      }
+    };
+  
+    fetchReferrals();
+  },[]);
 
   useEffect(() => {
     const fetchUserId = async () => {
