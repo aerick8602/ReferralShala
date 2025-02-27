@@ -17,7 +17,7 @@ export async function POST(req) {
 
     const candidateProfileURL = `${process.env.BASE_URL}/profile/${candidateUserId}`;
     const jobOpportunitiesLink = `${process.env.BASE_URL}/dashboard/${candidateUserId}`;
-
+    const updateStatusURL = `${process.env.BASE_URL}/api/application/${candidateUserId}`;
     // Log received values for debugging
     // console.log("Received Data:", {
     //   candidateEmail,
@@ -76,6 +76,7 @@ export async function POST(req) {
       jobTitle,
       companyName,
       candidateProfileURL,
+      updateStatusURL,
     });
 
     // console.log("✅ Email templates processed with user data.");

@@ -80,6 +80,7 @@ const ReferralWrapper = ({ dummyReferrals, candidateUserId }) => {
       message: `Apply for ${referral.jobTitle} at ${referral.companyName}?`,
       header: "Confirm Application",
       icon: "pi pi-exclamation-triangle",
+      style: { width: "400px", maxWidth: "90%" },
       accept: () => handleApply(referral),
       reject: () =>
         showToast("warn", "Cancelled", "Application was cancelled."),

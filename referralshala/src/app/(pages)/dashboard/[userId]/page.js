@@ -125,6 +125,7 @@ const dummyReferrals = [
     postedAt: "2024-01-18",
   },
 ];
+
 export default function DashboardPage() {
   const params = useParams();
   const userId = params.userId;
@@ -132,6 +133,7 @@ export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [referrals, setReferrals] = useState([]);
 
   const [filters, setFilters] = useState({
     experience: "",
@@ -142,7 +144,38 @@ export default function DashboardPage() {
     jobRoles: [],
   });
 
-  const filteredReferrals = dummyReferrals.filter((referral) => {
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await axios.get(`/api/user/${user?.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  };
+
+  const fetchReferrals = async () => {
+    try {
+      const res = await fetch(`/api/referral`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      console.log("referral data", data.data);
+      setReferrals(data.data);
+
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredReferrals = referrals.filter((referral) => {
     const keyword = filters.keywords?.toLowerCase() || "";
 
     return (
@@ -165,22 +198,9 @@ export default function DashboardPage() {
     );
   });
 
-  const fetchUserId = async () => {
-    if (!user?.id) return;
-
-    try {
-      const response = await axios.get(`/api/user/${user?.id}`);
-      setUserData(response.data.data);
-      console.log("Fetched user data:", response.data.data);
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchUserId();
+    fetchReferrals();
   }, []);
 
   if (!isLoaded || !isSignedIn || loading) {
