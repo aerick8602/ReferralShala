@@ -12,9 +12,15 @@ export async function GET() {
       );
     }
 
+<<<<<<< HEAD
     // const data = formatUserData(referrals);   
     // console.log(referrals);
     
+=======
+    // const data = formatUserData(referrals);
+    console.log(referrals);
+
+>>>>>>> e4868f7e8e7e90f546944c4a43b1a84d7b70cbf9
     return NextResponse.json(
       { success: true, data: referrals },
       { status: 200 }
@@ -26,6 +32,7 @@ export async function GET() {
     );
   } 
 }
+<<<<<<< HEAD
 
 // export async function GET() {
 //   try {
@@ -58,3 +65,5 @@ export async function GET() {
 
 
 
+=======
+>>>>>>> e4868f7e8e7e90f546944c4a43b1a84d7b70cbf9

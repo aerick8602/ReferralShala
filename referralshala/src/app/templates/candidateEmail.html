@@ -1,0 +1,62 @@
+<!-- 
+ {{candidateName}}: The name of the candidate (e.g., "John Doe").
+
+{{jobTitle}}: The job title the candidate applied for (e.g., "Software Engineer").
+
+{{companyName}}: The name of the company offering the job (e.g., "Tech Solutions").
+
+{{candidateProfileURL}}: The URL to the candidate's profile (e.g., https://referralshala.com/profile).
+
+{{jobOpportunitiesLink}}: The URL to explore more job opportunities (e.g., https://referralshala.com/referrals).
+ -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Application Received – ReferralShala</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; text-align: center; background-color: #ffffff; padding: 40px; font-size: 14px;">
+    
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://cljlowuiwnpaygnbqwpm.supabase.co/storage/v1/object/sign/ReferralShala/logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJSZWZlcnJhbFNoYWxhL2xvZ28ucG5nIiwiaWF0IjoxNzQwNTM3ODgzLCJleHAiOjE3NzIwNzM4ODN9.x4zB3mFGyXCQ3XgsPXp5ep8WUvl1G1y_uMQXSp2In9I" alt="ReferralShala Logo" style="width: 280px; height: auto;">
+    </div>
+
+    <!-- Email Container -->
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08); padding: 25px; text-align: left; border-top: 4px solid #fe4949;">
+
+        <!-- Greeting -->
+        <h3 style="color: #4b2f31;">Hello {{candidateName}},</h3>
+        <p style="line-height: 1.6;">Thank you for applying for the <strong>{{jobTitle}}</strong> position at <strong>{{companyName}}</strong> through ReferralShala. We’re excited to help you take the next step in your career!</p>
+        <p style="line-height: 1.6;">Your application has been successfully submitted, and the employer has been notified. They will review your profile and reach out directly if your skills and experience align with their requirements.</p>
+        <p style="line-height: 1.6;">To increase your chances of getting noticed, we recommend keeping <a href="{{candidateProfileURL}}" style="color: #fe4949; text-decoration: none;">your profile</a> updated with your latest skills, experiences, and achievements. A complete and polished profile makes a great impression!</p>
+
+        <!-- Action Button -->
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="{{jobOpportunitiesLink}}" style="background: #fe4949; color: #ffffff; text-decoration: none; padding: 10px 18px; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 14px;">Explore More Job Opportunities</a>
+        </div>
+
+        <!-- Tips Section -->
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <h4 style="color: #4b2f31; margin-top: 0;">Quick Tips to Stand Out:</h4>
+            <ul style="padding-left: 20px; margin: 0;">
+                <li style="margin-bottom: 5px;">Tailor your resume to highlight relevant skills for each job application.</li>
+                <li style="margin-bottom: 5px;">Add a professional photo and a compelling headline to your profile.</li>
+                <li style="margin-bottom: 5px;">Engage with employers by following their company pages and staying active on the platform.</li>
+            </ul>
+        </div>
+
+        <!-- Custom Info -->
+        <div style="text-align: center; color: #777; font-size: 12px;">
+            <p style="margin: 0;">Please do not reply to this email, as this inbox is not monitored.</p>
+        </div>
+
+        <!-- Closing -->
+        <p style="line-height: 1.6;">We’re here to support you in your job search journey. If you have any questions or need assistance, feel free to reach out to our support team at <a href="mailto:support@referralshala.com" style="color: #fe4949; text-decoration: none;">support@referralshala.com</a>.</p>
+        <p style="line-height: 1.6;">Wishing you the best of luck in landing your dream job!</p>
+
+        <p style="margin-top: 20px;">Best regards,<br>The ReferralShala Team</p>
+    </div>
+
+</body>
+</html>

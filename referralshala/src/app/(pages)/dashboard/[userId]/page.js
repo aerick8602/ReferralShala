@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import { HashLoader } from "react-spinners";
-import "../../../styles/Dashboard.css";
+import "../../../styles/Referral.css";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
@@ -13,6 +13,7 @@ import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 const dummyReferrals = [
   {
     referralId: 1,
+    userId: 2,
     companyName: "Google",
     jobCategory: "Software Engineering",
     jobTitle: "Frontend Developer",
@@ -20,9 +21,11 @@ const dummyReferrals = [
     jobLink: "https://careers.google.com/jobs/",
     location: "San Francisco, CA",
     experienceRequired: 2,
+    postedAt: "2024-02-20",
   },
   {
     referralId: 2,
+    userId: 1,
     companyName: "Microsoft",
     jobCategory: "Backend Engineering",
     jobTitle: "Node.js Developer",
@@ -30,9 +33,11 @@ const dummyReferrals = [
     jobLink: "https://careers.microsoft.com/",
     location: "Seattle, WA",
     experienceRequired: 3,
+    postedAt: "2024-02-18",
   },
   {
     referralId: 3,
+    userId: 3,
     companyName: "Amazon",
     jobCategory: "Cloud Engineering",
     jobTitle: "AWS Solutions Architect",
@@ -40,6 +45,7 @@ const dummyReferrals = [
     jobLink: "https://www.amazon.jobs/",
     location: "New York, NY",
     experienceRequired: 5,
+    postedAt: "2024-02-15",
   },
   {
     referralId: 4,
@@ -50,6 +56,7 @@ const dummyReferrals = [
     jobLink: "https://www.metacareers.com/jobs/",
     location: "Menlo Park, CA",
     experienceRequired: 4,
+    postedAt: "2024-02-10",
   },
   {
     referralId: 5,
@@ -60,16 +67,18 @@ const dummyReferrals = [
     jobLink: "https://jobs.netflix.com/",
     location: "Los Angeles, CA",
     experienceRequired: 3,
+    postedAt: "2024-02-05",
   },
   {
     referralId: 6,
     companyName: "Tesla",
-    jobCategory: "Embedded Systems",
+    jobCategory: "Cybersecurity Analyst",
     jobTitle: "Firmware Engineer",
     jobDescription: "Develop software for electric vehicles",
     jobLink: "https://www.tesla.com/careers",
     location: "Austin, TX",
     experienceRequired: 3,
+    postedAt: "2024-02-02",
   },
   {
     referralId: 7,
@@ -80,6 +89,7 @@ const dummyReferrals = [
     jobLink: "https://careers.google.com/jobs/",
     location: "San Francisco, CA",
     experienceRequired: 2,
+    postedAt: "2024-01-28",
   },
   {
     referralId: 8,
@@ -90,6 +100,7 @@ const dummyReferrals = [
     jobLink: "https://careers.microsoft.com/",
     location: "Seattle, WA",
     experienceRequired: 3,
+    postedAt: "2024-01-25",
   },
   {
     referralId: 9,
@@ -100,6 +111,7 @@ const dummyReferrals = [
     jobLink: "https://www.amazon.jobs/",
     location: "New York, NY",
     experienceRequired: 5,
+    postedAt: "2024-01-22",
   },
   {
     referralId: 10,
@@ -110,13 +122,14 @@ const dummyReferrals = [
     jobLink: "https://www.metacareers.com/jobs/",
     location: "Menlo Park, CA",
     experienceRequired: 4,
+    postedAt: "2024-01-18",
   },
 ];
 
 
 export default function DashboardPage() {
   const params = useParams();
-  const userId = params.params;
+  const userId = params.userId;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
@@ -196,23 +209,24 @@ export default function DashboardPage() {
     fetchReferrals();
   },[]);
 
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await axios.get(`/api/user/${user?.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUserId = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await axios.get(`/api/user/${user.id}`);
-        setUserData(response.data.data);
-        console.log("Fetched user data:", response.data.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserId();
-  }, [user]);
+  }, []);
+
 
   if (!isLoaded || !isSignedIn || loading) {
     return (
@@ -233,9 +247,10 @@ export default function DashboardPage() {
       <div className="dashboard">
         {/* Filter Section */}
         <div className="filter">
-          <h3 className="filter-title">
-            <i className="pi pi-filter"></i> &nbsp;&nbsp;&nbsp;Referrals by
-          </h3>
+          <div className="filter-title">
+            <i className="pi pi-filter-slash"></i> &nbsp;&nbsp;&nbsp;Referrals
+            by
+          </div>
 
           {/* Experience Filter */}
           <select
@@ -285,14 +300,20 @@ export default function DashboardPage() {
           />
 
           {/* Job Role Filters */}
-          <h4 className="filter-subtitle">Job Role</h4>
+          <h4 className="filter-subtitle">&nbsp;&nbsp;Job Role</h4>
           <div className="checkbox-group">
             {[
-              "Frontend Developer",
               "Embedded Systems Engineer",
-              "Cloud Engineer",
               "Product Manager",
               "AI Engineer",
+              "Data Scientist",
+              "Cloud Engineer",
+              "UI/UX Designer",
+              "DevOps Engineer",
+              "Cybersecurity Analyst",
+              "QA Engineer",
+              "SEO Specialist",
+              "Blockchain Developer",
             ].map((role) => (
               <label key={role} className="filter-checkbox">
                 <input
@@ -310,8 +331,7 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* Apply Filters Button */}
-          <button className="filter-button">Filter Jobs</button>
+          {/* <button className="filter-button">Filter Jobs</button> */}
         </div>
 
         {/* Referral List Section */}
@@ -319,7 +339,19 @@ export default function DashboardPage() {
           <h1 className="referrals-header" style={{ marginLeft: "-100px" }}>
             Job Referrals
           </h1>
-          <ReferralWrapper dummyReferrals={filteredReferrals} />
+          <p
+            style={{
+              marginLeft: "380px",
+              marginTop: "-35px",
+              fontSize: "12px",
+            }}
+          >
+            Unlock Exciting Career Opportunities with Fresh Job Referrals ✨
+          </p>
+          <ReferralWrapper
+            dummyReferrals={filteredReferrals}
+            candidateUserId={userId}
+          />
         </div>
       </div>
 

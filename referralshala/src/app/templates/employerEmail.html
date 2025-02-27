@@ -1,0 +1,54 @@
+<!-- 
+{{employerName}}: The name of the recipient (e.g., "John Smith").
+
+{{candidateName}}: The name of the candidate who applied (e.g., "Jane Doe").
+
+{{jobTitle}}: The job position the candidate applied for (e.g., "Software Engineer").
+
+{{companyName}}: The name of the company offering the job (e.g., "Tech Solutions").
+
+{{candidateProfileURL}}: The URL to the candidate's profile. 
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Job Application – ReferralShala</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333; text-align: center; background-color: #ffffff; padding: 40px; font-size: 14px;">
+    
+    <!-- Logo -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://cljlowuiwnpaygnbqwpm.supabase.co/storage/v1/object/sign/ReferralShala/logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJSZWZlcnJhbFNoYWxhL2xvZ28ucG5nIiwiaWF0IjoxNzQwNTM3ODgzLCJleHAiOjE3NzIwNzM4ODN9.x4zB3mFGyXCQ3XgsPXp5ep8WUvl1G1y_uMQXSp2In9I" alt="ReferralShala Logo" style="width: 280px; height: auto;">
+    </div>
+
+    <!-- Email Container -->
+    <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08); padding: 25px; text-align: left; border-top: 4px solid #fe4949;">
+
+        <!-- Greeting -->
+        <h3 style="color: #4b2f31;">Hi {{employerName}},</h3>
+        <p style="line-height: 1.6;">A new candidate <strong>{{candidateName}}</strong> has applied for the <strong>{{jobTitle}}</strong> position at <strong>{{companyName}}</strong>.</p>
+        <p style="line-height: 1.6;">You can review their profile to learn more about their skills and experience:</p>
+
+        <!-- Action Button -->
+        <div style="text-align: center; margin: 20px 0;">
+            <a href="{{candidateProfileURL}}" style="background: #fe4949; color: #ffffff; text-decoration: none; padding: 10px 18px; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 14px;">View Candidate Profile</a>
+        </div>
+
+        <!-- Additional Info -->
+        <p style="line-height: 1.6;">If you find the candidate suitable, feel free to reach out to them directly through the platform.</p>
+
+        <!-- Custom Info -->
+        <!-- <div style="text-align: center; color: #777; font-size: 12px;">
+            <p style="margin: 0;">Please do not reply to this email, as this inbox is not monitored.</p>
+        </div> -->
+
+        <!-- Closing -->
+        <p style="line-height: 1.6;">We’re here to help you find the best talent for your team. If you have any questions, contact us at <a href="mailto:support@referralshala.com" style="color: #fe4949; text-decoration: none;">support@referralshala.com</a>.</p>
+        <p style="margin-top: 20px;">Best regards,<br>The ReferralShala Team</p>
+    </div>
+
+</body>
+</html>
+
