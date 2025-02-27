@@ -41,6 +41,10 @@ body {
   text-align: center;
 }
 
+.Home {
+  background-color: white;
+}
+
 .greet h1 {
   font-size: 3rem;
   font-weight: 700;
@@ -69,23 +73,17 @@ body {
 
 .logos-slide {
   display: flex;
-  width: 100%; /* Ensures smooth looping */
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-duration: 10s; /* Speed of animation */
+  width: max-content; /* Allows infinite scrolling */
+  animation: scroll-left 20s linear infinite;
   opacity: 0.9;
 }
 
-.logos-row-1 .logos-slide {
-  animation-name: slide-left;
-}
-
 .logos-row-2 .logos-slide {
-  animation-name: slide-right;
+  animation: scroll-right 20s linear infinite;
 }
 
 /* Infinite Scrolling Effect */
-@keyframes slide-left {
+@keyframes scroll-left {
   from {
     transform: translateX(0);
   }
@@ -94,7 +92,7 @@ body {
   }
 }
 
-@keyframes slide-right {
+@keyframes scroll-right {
   from {
     transform: translateX(-20%);
   }
