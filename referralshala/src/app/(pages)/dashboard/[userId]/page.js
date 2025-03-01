@@ -10,121 +10,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 
-const dummyReferrals = [
-  {
-    referralId: 1,
-    userId: 2,
-    companyName: "Google",
-    jobCategory: "Software Engineering",
-    jobTitle: "Frontend Developer",
-    jobDescription: "Develop UI components with React.js",
-    jobLink: "https://careers.google.com/jobs/",
-    location: "San Francisco, CA",
-    experienceRequired: 2,
-    postedAt: "2024-02-20",
-  },
-  {
-    referralId: 2,
-    userId: 1,
-    companyName: "Microsoft",
-    jobCategory: "Backend Engineering",
-    jobTitle: "Node.js Developer",
-    jobDescription: "Build scalable APIs with Express.js",
-    jobLink: "https://careers.microsoft.com/",
-    location: "Seattle, WA",
-    experienceRequired: 3,
-    postedAt: "2024-02-18",
-  },
-  {
-    referralId: 3,
-    userId: 3,
-    companyName: "Amazon",
-    jobCategory: "Cloud Engineering",
-    jobTitle: "AWS Solutions Architect",
-    jobDescription: "Design and implement AWS cloud solutions",
-    jobLink: "https://www.amazon.jobs/",
-    location: "New York, NY",
-    experienceRequired: 5,
-    postedAt: "2024-02-15",
-  },
-  {
-    referralId: 4,
-    companyName: "Meta",
-    jobCategory: "Machine Learning",
-    jobTitle: "AI Research Engineer",
-    jobDescription: "Develop cutting-edge ML models for social media",
-    jobLink: "https://www.metacareers.com/jobs/",
-    location: "Menlo Park, CA",
-    experienceRequired: 4,
-    postedAt: "2024-02-10",
-  },
-  {
-    referralId: 5,
-    companyName: "Netflix",
-    jobCategory: "Data Science",
-    jobTitle: "Data Scientist",
-    jobDescription: "Analyze user behavior and optimize recommendations",
-    jobLink: "https://jobs.netflix.com/",
-    location: "Los Angeles, CA",
-    experienceRequired: 3,
-    postedAt: "2024-02-05",
-  },
-  {
-    referralId: 6,
-    companyName: "Tesla",
-    jobCategory: "Cybersecurity Analyst",
-    jobTitle: "Firmware Engineer",
-    jobDescription: "Develop software for electric vehicles",
-    jobLink: "https://www.tesla.com/careers",
-    location: "Austin, TX",
-    experienceRequired: 3,
-    postedAt: "2024-02-02",
-  },
-  {
-    referralId: 7,
-    companyName: "Google",
-    jobCategory: "Software Engineering",
-    jobTitle: "Frontend Developer",
-    jobDescription: "Develop UI components with React.js",
-    jobLink: "https://careers.google.com/jobs/",
-    location: "San Francisco, CA",
-    experienceRequired: 2,
-    postedAt: "2024-01-28",
-  },
-  {
-    referralId: 8,
-    companyName: "Microsoft",
-    jobCategory: "Backend Engineering",
-    jobTitle: "Node.js Developer",
-    jobDescription: "Build scalable APIs with Express.js",
-    jobLink: "https://careers.microsoft.com/",
-    location: "Seattle, WA",
-    experienceRequired: 3,
-    postedAt: "2024-01-25",
-  },
-  {
-    referralId: 9,
-    companyName: "Amazon",
-    jobCategory: "Cloud Engineering",
-    jobTitle: "AWS Solutions Architect",
-    jobDescription: "Design and implement AWS cloud solutions",
-    jobLink: "https://www.amazon.jobs/",
-    location: "New York, NY",
-    experienceRequired: 5,
-    postedAt: "2024-01-22",
-  },
-  {
-    referralId: 10,
-    companyName: "Meta",
-    jobCategory: "Machine Learning",
-    jobTitle: "AI Research Engineer",
-    jobDescription: "Develop cutting-edge ML models for social media",
-    jobLink: "https://www.metacareers.com/jobs/",
-    location: "Menlo Park, CA",
-    experienceRequired: 4,
-    postedAt: "2024-01-18",
-  },
-];
+
 
 
 export default function DashboardPage() {
@@ -134,7 +20,7 @@ export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-  const [referrals, setreferrals]=useState({});
+  const [referrals, setreferrals]=useState([]);
 
   const [filters, setFilters] = useState({
     experience: "",
@@ -163,7 +49,7 @@ export default function DashboardPage() {
   //   }
   // };
 
-  const filteredReferrals = dummyReferrals.filter((referral) => {
+  const filteredReferrals = referrals.filter((referral) => {
     const keyword = filters.keywords?.toLowerCase() || "";
 
     return (

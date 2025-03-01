@@ -207,13 +207,13 @@ export default function MyApplications() {
             alignHeader="center"
             bodyStyle={{ textAlign: "center" }}
           ></Column>
-          <Column
+          {/* <Column
             field="status.current"
             header="Application Status"
             style={{ width: "15%" }}
             alignHeader="center"
             bodyStyle={{ textAlign: "center" }}
-          ></Column>
+          ></Column> */}
           <Column
             field="applicant.count"
             header="Number of Applicants"
