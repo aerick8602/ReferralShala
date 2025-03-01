@@ -12,7 +12,6 @@ import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 
 
 
-
 export default function DashboardPage() {
   const params = useParams();
   const userId = params.userId;
@@ -20,7 +19,11 @@ export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [referrals, setreferrals]=useState([]);
+=======
+  const [referrals, setReferrals] = useState([]);
+>>>>>>> f0ff1cf2f44d7ba55dfb4e99140b4b4939cafa55
 
   const [filters, setFilters] = useState({
     experience: "",
@@ -31,24 +34,40 @@ export default function DashboardPage() {
     jobRoles: [],
   });
 
-  // const fetchReferrals = async () => {
-  //   try {
-  //     const res = await fetch(`/api/referral`, {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //     });
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await axios.get(`/api/user/${user?.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  };
 
-  //     const data = await res.json();
-  //     console.log("referral data", data.data);
-  //     setreferrals(data.data);
-  //     console.log("referrals are",referrals);
-  //     return data.data;
-  //   } catch (error) {
-  //     console.error("Error fetching referrals data:", error);
-  //     return null;
-  //   }
-  // };
+  const fetchReferrals = async () => {
+    try {
+      const res = await fetch(`/api/referral`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
+<<<<<<< HEAD
+=======
+      const data = await res.json();
+      console.log("referral data", data.data);
+      setReferrals(data.data);
+
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+>>>>>>> f0ff1cf2f44d7ba55dfb4e99140b4b4939cafa55
   const filteredReferrals = referrals.filter((referral) => {
     const keyword = filters.keywords?.toLowerCase() || "";
 
@@ -72,47 +91,10 @@ export default function DashboardPage() {
     );
   });
 
-  useEffect(()=>{
-
-    const fetchReferrals = async () => {
-      try {
-        const res = await fetch(`/api/referral`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-  
-        const data = await res.json();
-        console.log("referral data", data.data);
-        setreferrals(data.data);
-        console.log("referrals are",referrals);
-        return data.data;
-      } catch (error) {
-        console.error("Error fetching referrals data:", error);
-        return null;
-      }
-    };
-  
-    fetchReferrals();
-  },[]);
-
-  const fetchUserId = async () => {
-    if (!user?.id) return;
-
-    try {
-      const response = await axios.get(`/api/user/${user?.id}`);
-      setUserData(response.data.data);
-      console.log("Fetched user data:", response.data.data);
-    } catch (err) {
-      console.error("Error fetching user data:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchUserId();
+    fetchReferrals();
   }, []);
-
 
   if (!isLoaded || !isSignedIn || loading) {
     return (

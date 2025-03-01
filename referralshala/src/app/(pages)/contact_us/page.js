@@ -23,7 +23,8 @@ export default function Page() {
             <div className="contact-image-wrapper">
               {/* <img src="/user.png" alt="Profile" className="contact-image" /> */}
               <img
-                src="/uploads/huehue.png"
+                // src="/uploads/huehue.png"
+                src="/user.png"
                 alt="Profile"
                 className="contact-image"
               />
@@ -56,7 +57,8 @@ export default function Page() {
             <div className="contact-image-wrapper">
               {/* <img src="/user.png" alt="Profile" className="contact-image" /> */}
               <img
-                src="/uploads/cheems.png"
+                // src="/uploads/cheems.png"
+                src="/user.png"
                 alt="Profile"
                 className="contact-image"
               />

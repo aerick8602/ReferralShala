@@ -44,7 +44,9 @@ export default function Navbar({ userId, userType, clerkID }) {
         </div>
         <div>
           <SignedIn>
-            <Menu userId={userId} userType={userType} clerkID={clerkID} />
+            {userId ? (
+              <Menu userId={userId} userType={userType} clerkID={clerkID} />
+            ) : null}
           </SignedIn>
           <SignedOut>
             <div className="button-group">
