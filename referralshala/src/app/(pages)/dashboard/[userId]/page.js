@@ -27,7 +27,6 @@ export default function DashboardPage() {
     jobCategory: "",
     jobRoles: [],
   });
-  
 
   const fetchUserId = async () => {
     if (!user?.id) return;

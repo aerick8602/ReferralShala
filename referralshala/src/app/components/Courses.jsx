@@ -1,4 +1,3 @@
-
 import "../styles/Courses.css";
 import Link from "next/link";
 import { useRef } from "react";
@@ -7,7 +6,8 @@ const courses = [
   {
     id: 1,
     title: "AI & ML Course",
-    description: "Learn AI & ML with hands-on projects and real-world applications.",
+    description:
+      "Learn AI & ML with hands-on projects and real-world applications.",
     image: "aiml.jpeg", // Fill with correct image link
     price: "₹5500",
     link: "https://www.coursera.org/learn/introduction-to-ai", // Fill with correct link
@@ -23,7 +23,8 @@ const courses = [
   {
     id: 3,
     title: "Web Development",
-    description: "Become a full-stack web developer with this comprehensive course.",
+    description:
+      "Become a full-stack web developer with this comprehensive course.",
     image: "webdev.jpeg", // Fill with correct image link
     price: "₹00.00",
     link: "https://www.coursera.org/professional-certificates/meta-front-end-developer", // Fill with correct link
@@ -51,7 +52,7 @@ const courses = [
     image: "cloud.jpeg", // Fill with correct image link
     price: "₹4000",
     link: "https://cloud.google.com/learn/training", // Fill with correct link
-  }
+  },
 ];
 
 const CoursesList = () => {
@@ -72,28 +73,39 @@ const CoursesList = () => {
     <div className="courses-container">
       <h2 className="title">Courses for Sale</h2>
       <div className="slider-wrapper">
-        <button className="scroll-button left" onClick={() => scroll("left")}>◀</button>
+        <button className="scroll-button left" onClick={() => scroll("left")}>
+          ◀
+        </button>
         <div ref={scrollRef} className="courses-slider">
           {courses.map((course) => (
             <div key={course.id} className="course-card">
               {course.image && (
-                <img src={course.image} alt={course.title} className="course-image" />
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="course-image"
+                />
               )}
-              <h3 className="course-title">{course.title}</h3>
-              <p className="course-description">{course.description}</p>
-              <p className="course-price">{course.price}</p>
-              <a 
-                  href={course.link.startsWith("http") ? course.link : `https://${course.link}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+              <div className="course-title">{course.title}</div>
+              <div className="course-description">{course.description}</div>
+              <div className="course-price">{course.price}</div>
+              <a
+                href={
+                  course.link.startsWith("http")
+                    ? course.link
+                    : `https://${course.link}`
+                }
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <button className="view-course">View Course</button>
               </a>
-
             </div>
           ))}
         </div>
-        <button className="scroll-button right" onClick={() => scroll("right")}>▶</button>
+        <button className="scroll-button right" onClick={() => scroll("right")}>
+          ▶
+        </button>
       </div>
     </div>
   );
