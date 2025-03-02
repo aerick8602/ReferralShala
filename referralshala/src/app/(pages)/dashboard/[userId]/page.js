@@ -10,8 +10,6 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import ReferralWrapper from "../../../components/wrappers/ReferralWrapper";
 
-
-
 export default function DashboardPage() {
   const params = useParams();
   const userId = params.userId;

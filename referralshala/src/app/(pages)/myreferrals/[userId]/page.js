@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Avatar } from "primereact/avatar";
 import { Badge } from "primereact/badge";
@@ -14,114 +14,134 @@ import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Divider } from "primereact/divider";
+import { HashLoader } from "react-spinners";
+import { Toast } from "primereact/toast";
 
 export default function MyReferrals() {
   const params = useParams();
-  const userId = params.params;
+  const userId = params.userId;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [isReferralModalOpen, setIsReferralModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currentReferral, setCurrentReferral] = useState({});
-  const [referralData, setReferralData] = useState([
-    {
-      referralId: 1,
-      userId: 101,
-      companyName: "Google",
-      jobCategory: "Software Engineering",
-      jobTitle: "Frontend Developer",
-      jobDescription:
-        "Develop and maintain UI components using React.js and Next.js.",
-      jobLink: "https://careers.google.com/jobs/",
-      location: "San Francisco, CA",
-      experienceRequired: 2,
-      applicationCount: 5,
-      postedAt: "2024-02-10T08:30:00Z",
-      updatedAt: "2024-02-12T10:00:00Z",
-    },
-    {
-      referralId: 2,
-      userId: 102,
-      companyName: "Microsoft",
-      jobCategory: "Backend Engineering",
-      jobTitle: "Node.js Developer",
-      jobDescription: "Design scalable APIs using Express.js and MongoDB.",
-      jobLink: "https://careers.microsoft.com/",
-      location: "Seattle, WA",
-      experienceRequired: 3,
-      applicationCount: 8,
-      postedAt: "2024-01-15T09:45:00Z",
-      updatedAt: "2024-01-18T14:30:00Z",
-    },
-    {
-      referralId: 3,
-      userId: 103,
-      companyName: "Amazon",
-      jobCategory: "Cloud Computing",
-      jobTitle: "AWS DevOps Engineer",
-      jobDescription:
-        "Manage cloud infrastructure using AWS services and Terraform.",
-      jobLink: "https://www.amazon.jobs/",
-      location: "New York, NY",
-      experienceRequired: 4,
-      applicationCount: 12,
-      postedAt: "2024-03-01T11:00:00Z",
-      updatedAt: "2024-03-03T16:20:00Z",
-    },
-    {
-      referralId: 4,
-      userId: 104,
-      companyName: "Meta",
-      jobCategory: "Data Science",
-      jobTitle: "Data Analyst",
-      jobDescription: "Analyze user behavior using SQL, Python, and Power BI.",
-      jobLink: "https://www.metacareers.com/",
-      location: "Menlo Park, CA",
-      experienceRequired: 2,
-      applicationCount: 6,
-      postedAt: "2024-02-20T07:30:00Z",
-      updatedAt: "2024-02-22T12:15:00Z",
-    },
-    {
-      referralId: 5,
-      userId: 105,
-      companyName: "Tesla",
-      jobCategory: "Embedded Systems",
-      jobTitle: "Firmware Engineer",
-      jobDescription: "Develop embedded software for automotive applications.",
-      jobLink: "https://www.tesla.com/careers",
-      location: "Palo Alto, CA",
-      experienceRequired: 5,
-      applicationCount: 3,
-      postedAt: "2024-01-30T14:00:00Z",
-      updatedAt: "2024-02-02T09:50:00Z",
-    },
-  ]);
-
+  const [referralData, setReferralData] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
   const toggleReferralModel = () =>
     setIsReferralModalOpen(!isReferralModalOpen);
 
+  const toast = useRef(null);
+  const showToast = (severity, summary, detail) => {
+    toast.current.show({ severity, summary, detail });
+  };
+
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await axios.get(`/api/user/${user.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  };
+  const getReferrals = async () => {
+    // setLoading(true);
+    try {
+      const res = await axios.get(`/api/referral/get/${userId}`);
+
+      console.log("My referral Data", res.data.data);
+      setReferralData(res.data.data);
+
+      return res.data.data;
+    } catch {
+      console.log("Error fetching referrals data");
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteReferral = async (referralId) => {
+    if (!referralId) {
+      console.error("Error: referralId is required.");
+      return null;
+    }
+
+    try {
+      const res = await axios.delete(`/api/referral/delete/${referralId}`);
+      console.log("Referral deleted successfully:", res.data);
+      showToast(
+        "secondary",
+        "Referral Deleted",
+        "The referral has been deleted successfully."
+      );
+      return res.data;
+    } catch (error) {
+      console.log("Error deleting referral:", error.message);
+      showToast(
+        "danger",
+        "Deletion Failed",
+        "An error occurred while deleting the referral."
+      );
+      return null;
+    }
+  };
+
+  const addReferral = async (referralData) => {
+    try {
+      const res = await axios.post(
+        `/api/referral/post/${userId}`,
+        referralData
+      );
+      console.log("Referral created:", res.data);
+      showToast(
+        "secondary",
+        "Referral Added",
+        "New Referral  has been added successfully!"
+      );
+      return res.data;
+    } catch {
+      console.log("Error creating referral");
+      return null;
+    }
+  };
+
+  const updateReferral = async (referralId, referralData) => {
+    try {
+      const res = await axios.patch(
+        `/api/referral/patch/${referralId}`,
+        referralData
+      );
+      showToast(
+        "secondary",
+        "Referral Updated",
+        "The referral has been updated successfully."
+      );
+      console.log("Referral updated:", res.data);
+      return res.data;
+    } catch (error) {
+      console.log("Error updating referral:", error.message);
+      showToast(
+        "danger",
+        "Update Failed",
+        "An error occurred while updating the referral."
+      );
+      return null;
+    }
+  };
+
   useEffect(() => {
-    const fetchUserId = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await axios.get(`/api/user/${user.id}`);
-        setUserData(response.data.data);
-        console.log("Fetched user data:", response.data.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserId();
+    getReferrals();
   }, [user]);
 
   const handleAdd = () => {
-    toggleReferralModel();
+    setCurrentReferral({}); // Empty object for new referral
+    setIsEditing(false); // Set mode to add
+    setIsReferralModalOpen(true);
   };
 
   const handleEdit = (referralId) => {
@@ -129,7 +149,8 @@ export default function MyReferrals() {
       (ref) => ref.referralId === referralId
     );
     setCurrentReferral(selectedReferral);
-    toggleReferralModel();
+    setIsEditing(true); // Set mode to edit
+    setIsReferralModalOpen(true);
     console.log("Editing:", referralId);
   };
 
@@ -148,11 +169,21 @@ export default function MyReferrals() {
       (ref) => ref.referralId !== referralId
     );
     setReferralData(updatedReferralData);
+    deleteReferral(referralId);
     console.log("Deleting:", referralId);
   };
 
+  if (!isLoaded || !isSignedIn || loading) {
+    return (
+      <div className="loader-container">
+        <HashLoader size={35} color="#fe5757" />
+      </div>
+    );
+  }
+
   return (
     <>
+      <Toast ref={toast} />
       <ConfirmDialog />
       <Navbar
         userId={userData.userId}
@@ -188,9 +219,14 @@ export default function MyReferrals() {
                       }}
                     >
                       <Avatar
-                        label={referral.companyName.charAt(0)}
+                        label={
+                          referral.companyName
+                            ? referral.companyName.charAt(0).toUpperCase()
+                            : "?"
+                        }
                         shape="circle"
                       />
+
                       {referral.companyName}
                     </div>
 
@@ -250,11 +286,13 @@ export default function MyReferrals() {
         <div className="modal-backdrop" onClick={toggleReferralModel}>
           <div className="modal-container" onClick={(e) => e.stopPropagation()}>
             <ReferralCard
-              toggleReferralModel={toggleReferralModel}
-              userType={userData.userType}
-              userData={userData}
+              isEditing={isEditing}
               referralData={currentReferral}
               setReferralData={setReferralData}
+              toggleReferralModel={toggleReferralModel}
+              addReferral={addReferral}
+              updateReferral={updateReferral}
+              getReferrals={getReferrals}
             />
           </div>
         </div>

@@ -19,16 +19,16 @@ export async function POST(req) {
     const jobOpportunitiesLink = `${process.env.BASE_URL}/dashboard/${candidateUserId}`;
     const updateStatusURL = `${process.env.BASE_URL}/api/application/${candidateUserId}`;
     // Log received values for debugging
-    // console.log("Received Data:", {
-    //   candidateEmail,
-    //   employerEmail,
-    //   candidateName,
-    //   employerName,
-    //   jobTitle,
-    //   companyName,
-    //   candidateProfileURL,
-    //   jobOpportunitiesLink,
-    // });
+    console.log("Received Data:", {
+      candidateEmail,
+      employerEmail,
+      candidateName,
+      employerName,
+      jobTitle,
+      companyName,
+      candidateProfileURL,
+      jobOpportunitiesLink,
+    });
 
     const candidateTemplatePath = path.join(
       process.cwd(),

@@ -27,6 +27,7 @@ const ReferralWrapper = ({ dummyReferrals, candidateUserId }) => {
   const fetchCandidateData = async () => {
     if (candidateUserId) {
       const candidateData = await fetchUserData(candidateUserId);
+      console.log("kkkkkkkkkkk", candidateData);
       setCandidateUserData(candidateData || {});
     }
   };
@@ -39,8 +40,28 @@ const ReferralWrapper = ({ dummyReferrals, candidateUserId }) => {
     toast.current.show({ severity, summary, detail });
   };
 
+  const incrementApplicationCount = async (referralId) => {
+    try {
+      const res = await fetch("/api/referral", {
+        method: "PATCH", // Use PATCH instead of POST
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referralId }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        console.log("Updated Referral:", data.referral);
+      } else {
+        console.error("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Error updating application count:", error);
+    }
+  };
+
   const handleApply = async (referral) => {
     setSelectedReferral(referral);
+    incrementApplicationCount(referral.referralId);
 
     try {
       const employerData = await fetchUserData(referral.userId);

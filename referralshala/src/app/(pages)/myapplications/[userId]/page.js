@@ -20,29 +20,67 @@ export default function MyApplications() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [application , setApplication]=useState({});
 
 
 
+=======
+  const [application, setApplication] = useState([]);
+
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await axios.get(`/api/user/${user.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  };
+
+  const fetchApplication = async () => {
+    console.log(userId);
+    try {
+      const res = await fetch(`/api/application/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      console.log("application data", data.data);
+
+      const transformedData = data.data.map((item) => ({
+        company: { name: item.referral.companyName },
+        role: { title: item.referral.jobTitle },
+        appliedOn: new Date(item.referral.postedAt).toISOString().split("T")[0], // Format date as YYYY-MM-DD
+        status: { current: "Pending" }, // Default status, update accordingly if you have more info
+        applicant: { count: item.referral.applicationCount },
+        location: item.referral.location,
+        jobLink: item.referral.jobLink,
+      }));
+
+      console.log("Transformed Data:", transformedData);
+      setApplication(transformedData);
+
+      return transformedData;
+    } catch (error) {
+      console.log("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+>>>>>>> e284ee555c29d1d30683fb56e8cf4b8fc9925612
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await axios.get(`/api/user/${user.id}`);
-        setUserData(response.data.data);
-        console.log("Fetched user data:", response.data.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserId();
+    fetchApplication();
+    // console.log("Application Data", application);
   }, [user]);
 
+<<<<<<< HEAD
   const fetchApplication = async () => {
     console.log(userId)
     try {
@@ -164,6 +202,8 @@ export default function MyApplications() {
   ];
 
 
+=======
+>>>>>>> e284ee555c29d1d30683fb56e8cf4b8fc9925612
   if (!isLoaded || !isSignedIn || loading) {
     return (
       <div className="loader-container">
