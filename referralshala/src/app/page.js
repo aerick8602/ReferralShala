@@ -3,11 +3,13 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Courses from "./components/Courses";
+import Courses from "./components/Courses";
 
 import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 
 export default function Home() {
@@ -149,6 +151,9 @@ export default function Home() {
           <br />
         </div>
          <Courses/>
+
+        <Courses></Courses>
+
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>
     </>
