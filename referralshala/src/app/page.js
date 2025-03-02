@@ -3,7 +3,7 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Courses from "./components/Courses";
-import Courses from "./components/Courses";
+
 
 import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
@@ -152,7 +152,6 @@ export default function Home() {
         </div>
          <Courses/>
 
-        <Courses></Courses>
 
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>
