@@ -1,25 +1,29 @@
-
 import { NextResponse } from "next/server";
 import client from "../../../../../connection/prisma";
 
 export async function DELETE(req, { params }) {
-  const { Id } = await params; 
-  console.log("Id:", Id);
-
   try {
-    const referral = await client.referral.delete({
-      where: {
-        id: parseInt(Id),
-      },
+    const { referralId } = await params;
+    console.log("referralId", referralId);
+
+    if (!referralId) {
+      return NextResponse.json(
+        { success: false, message: "Referral ID is required." },
+        { status: 400 }
+      );
+    }
+
+    await client.referral.delete({
+      where: { referralId: parseInt(referralId) },
     });
 
     return NextResponse.json(
-      { success: true, data: referral },
+      { success: true, message: "Referral deleted successfully." },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to delete referral." },
+      { success: false, message: "Error deleting referral." },
       { status: 500 }
     );
   }
