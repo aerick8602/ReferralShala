@@ -15,11 +15,15 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function MyApplications() {
   const params = useParams();
-  const userId = params.params;
+  const userId = params.userId;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [application , setApplication]=useState({});
+
+
+
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -39,9 +43,34 @@ export default function MyApplications() {
     fetchUserId();
   }, [user]);
 
+  const fetchApplication = async () => {
+    console.log(userId)
+    try {
+      const res = await fetch(`/api/application/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      console.log("application data", data.data);
+      setApplication(data.data);
+
+      return data.data;
+    } catch (error) {
+      console.log("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(()=>{
+    fetchApplication();
+  },[]);
+
   // Dummy data for testing
   // Dummy data for testing with job links
-  const dummyApplications = [
+  const Applications = [
     {
       company: { name: "Google" },
       role: { title: "Software Engineer" },
@@ -134,6 +163,7 @@ export default function MyApplications() {
     },
   ];
 
+
   if (!isLoaded || !isSignedIn || loading) {
     return (
       <div className="loader-container">
@@ -141,6 +171,7 @@ export default function MyApplications() {
       </div>
     );
   }
+
 
   const roleTemplate = (rowData) => {
     return (
@@ -171,7 +202,7 @@ export default function MyApplications() {
 
       <div className="application-table">
         <DataTable
-          value={dummyApplications}
+          value={application}
           paginator
           rows={10}
           rowsPerPageOptions={[10, 25, 50]}

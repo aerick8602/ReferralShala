@@ -141,7 +141,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div>{/* <Courses /> */}</div>
+        <div><Courses /></div>
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>
     </>

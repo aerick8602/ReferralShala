@@ -19,11 +19,7 @@ export default function DashboardPage() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-  const [referrals, setreferrals]=useState([]);
-=======
   const [referrals, setReferrals] = useState([]);
->>>>>>> f0ff1cf2f44d7ba55dfb4e99140b4b4939cafa55
 
   const [filters, setFilters] = useState({
     experience: "",
@@ -33,6 +29,7 @@ export default function DashboardPage() {
     jobCategory: "",
     jobRoles: [],
   });
+  
 
   const fetchUserId = async () => {
     if (!user?.id) return;
@@ -52,8 +49,6 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
       });
 
-<<<<<<< HEAD
-=======
       const data = await res.json();
       console.log("referral data", data.data);
       setReferrals(data.data);
@@ -67,7 +62,6 @@ export default function DashboardPage() {
     }
   };
 
->>>>>>> f0ff1cf2f44d7ba55dfb4e99140b4b4939cafa55
   const filteredReferrals = referrals.filter((referral) => {
     const keyword = filters.keywords?.toLowerCase() || "";
 

@@ -35,6 +35,8 @@ export async function GET(req,{params}) {
   } 
 }
 
+
+
 export async function POST(req, { params }) {
   const { employerId } = await params; 
   const userId=Number(employerId);
