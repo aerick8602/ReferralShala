@@ -72,6 +72,12 @@ export default function Home() {
             </div>
           )}
 
+          <div className="Images">
+            <img src="/image1.webp"></img>
+            <img src="/image2.webp"></img>
+            <img src="/image3.png"></img>
+          </div>
+
           <div className="logos-wrapper">
             {/* First row moving left */}
             <br />
@@ -137,20 +143,11 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="Images">
-            <img src="/image1.webp"></img>
-            <img src="/image2.webp"></img>
-            <img src="/image3.png"></img>
-          </div>
-          <br />
 
+          <br />
           <br />
         </div>
 
-<<<<<<< HEAD
-        <div><Courses /></div>
-=======
->>>>>>> e284ee555c29d1d30683fb56e8cf4b8fc9925612
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>
     </>
