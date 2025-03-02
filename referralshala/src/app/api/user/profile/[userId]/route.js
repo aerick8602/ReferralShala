@@ -18,10 +18,10 @@ export async function GET(req, { params }) {
     }
     // console.log("route.js", profile);
     const userDetails = formatUserData(profile);
-    console.log(userDetails);
+    // console.log(userDetails);
 
     return NextResponse.json(
-      { success: true, data: userDetails }, 
+      { success: true, data: userDetails },
       { status: 200 }
     );
   } catch (error) {
@@ -34,8 +34,6 @@ export async function GET(req, { params }) {
     );
   }
 }
-
-
 
 export async function PATCH(req, { params }) {
   const { userId } = await params;

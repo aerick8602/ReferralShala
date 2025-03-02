@@ -15,124 +15,63 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function MyApplications() {
   const params = useParams();
-  const userId = params.params;
+  const userId = params.userId;
 
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [application, setApplication] = useState([]);
+
+  const fetchUserId = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await axios.get(`/api/user/${user.id}`);
+      setUserData(response.data.data);
+      console.log("Fetched user data:", response.data.data);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  };
+
+  const fetchApplication = async () => {
+    console.log(userId);
+    try {
+      const res = await fetch(`/api/application/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      console.log("application data", data.data);
+
+      const transformedData = data.data.map((item) => ({
+        company: { name: item.referral.companyName },
+        role: { title: item.referral.jobTitle },
+        appliedOn: new Date(item.referral.postedAt).toISOString().split("T")[0], // Format date as YYYY-MM-DD
+        status: { current: "Pending" }, // Default status, update accordingly if you have more info
+        applicant: { count: item.referral.applicationCount },
+        location: item.referral.location,
+        jobLink: item.referral.jobLink,
+      }));
+
+      console.log("Transformed Data:", transformedData);
+      setApplication(transformedData);
+
+      return transformedData;
+    } catch (error) {
+      console.log("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserId = async () => {
-      if (!user?.id) return;
-
-      try {
-        const response = await axios.get(`/api/user/${user.id}`);
-        setUserData(response.data.data);
-        console.log("Fetched user data:", response.data.data);
-      } catch (err) {
-        console.error("Error fetching user data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUserId();
+    fetchApplication();
+    // console.log("Application Data", application);
   }, [user]);
-
-  // Dummy data for testing
-  // Dummy data for testing with job links
-  const dummyApplications = [
-    {
-      company: { name: "Google" },
-      role: { title: "Software Engineer" },
-      appliedOn: "2024-02-01",
-      status: { current: "Under Review" },
-      applicant: { count: 120 },
-      location: "Mountain View, CA",
-      jobLink: "https://careers.google.com/jobs/results/",
-    },
-    {
-      company: { name: "Amazon" },
-      role: { title: "Frontend Developer" },
-      appliedOn: "2024-01-25",
-      status: { current: "Interview Scheduled" },
-      applicant: { count: 85 },
-      location: "Seattle, WA",
-      jobLink: "https://www.amazon.jobs/en/",
-    },
-    {
-      company: { name: "Microsoft" },
-      role: { title: "Backend Engineer" },
-      appliedOn: "2024-02-05",
-      status: { current: "Rejected" },
-      applicant: { count: 150 },
-      location: "Redmond, WA",
-      jobLink: "https://careers.microsoft.com/us/en",
-    },
-    {
-      company: { name: "Meta" },
-      role: { title: "Data Scientist" },
-      appliedOn: "2024-02-10",
-      status: { current: "In Progress" },
-      applicant: { count: 200 },
-      location: "Menlo Park, CA",
-      jobLink: "https://www.metacareers.com/jobs/",
-    },
-    {
-      company: { name: "Tesla" },
-      role: { title: "Machine Learning Engineer" },
-      appliedOn: "2024-02-12",
-      status: { current: "Offer Extended" },
-      applicant: { count: 75 },
-      location: "Palo Alto, CA",
-      jobLink: "https://www.tesla.com/careers",
-    },
-    {
-      company: { name: "Google" },
-      role: { title: "Software Engineer" },
-      appliedOn: "2024-02-01",
-      status: { current: "Under Review" },
-      applicant: { count: 120 },
-      location: "Mountain View, CA",
-      jobLink: "https://careers.google.com/jobs/results/",
-    },
-    {
-      company: { name: "Amazon" },
-      role: { title: "Frontend Developer" },
-      appliedOn: "2024-01-25",
-      status: { current: "Interview Scheduled" },
-      applicant: { count: 85 },
-      location: "Seattle, WA",
-      jobLink: "https://www.amazon.jobs/en/",
-    },
-    {
-      company: { name: "Microsoft" },
-      role: { title: "Backend Engineer" },
-      appliedOn: "2024-02-05",
-      status: { current: "Rejected" },
-      applicant: { count: 150 },
-      location: "Redmond, WA",
-      jobLink: "https://careers.microsoft.com/us/en",
-    },
-    {
-      company: { name: "Meta" },
-      role: { title: "Data Scientist" },
-      appliedOn: "2024-02-10",
-      status: { current: "In Progress" },
-      applicant: { count: 200 },
-      location: "Menlo Park, CA",
-      jobLink: "https://www.metacareers.com/jobs/",
-    },
-    {
-      company: { name: "Tesla" },
-      role: { title: "Machine Learning Engineer" },
-      appliedOn: "2024-02-12",
-      status: { current: "Offer Extended" },
-      applicant: { count: 75 },
-      location: "Palo Alto, CA",
-      jobLink: "https://www.tesla.com/careers",
-    },
-  ];
 
   if (!isLoaded || !isSignedIn || loading) {
     return (
@@ -171,7 +110,7 @@ export default function MyApplications() {
 
       <div className="application-table">
         <DataTable
-          value={dummyApplications}
+          value={application}
           paginator
           rows={10}
           rowsPerPageOptions={[10, 25, 50]}

@@ -45,6 +45,18 @@ body {
   background-color: white;
 }
 
+.Images {
+  margin: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.Images img {
+  width: 30%;
+}
+
 .greet h1 {
   font-size: 3rem;
   font-weight: 700;

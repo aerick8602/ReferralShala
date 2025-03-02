@@ -3,9 +3,13 @@ import "../../styles/ReferralModel.css";
 import { IoClose } from "react-icons/io5";
 
 const ReferralModel = ({
+  getReferrals,
+  isEditing,
+  referralData,
   setReferralData,
   toggleReferralModel,
-  referralData,
+  addReferral,
+  updateReferral,
 }) => {
   const [referral, setReferral] = useState({
     jobTitle: referralData?.jobTitle || "",
@@ -14,31 +18,50 @@ const ReferralModel = ({
     location: referralData?.location || "",
     companyName: referralData?.companyName || "",
     jobCategory: referralData?.jobCategory || "",
-    experienceRequired: referralData?.experienceRequired || "",
+    experienceRequired: referralData?.experienceRequired || 0,
   });
 
   const [showReferralCard, setShowReferralCard] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setReferral((prev) => ({ ...prev, [name]: value }));
+
+    // Ensure experienceRequired only accepts integers
+    if (name === "experienceRequired") {
+      const intValue = parseInt(value, 10);
+      if (isNaN(intValue)) {
+        setReferral((prev) => ({ ...prev, [name]: "" })); // Clear input if not a number
+      } else {
+        setReferral((prev) => ({ ...prev, [name]: intValue }));
+      }
+    } else {
+      setReferral((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Referral Submitted:", referral);
-
-    setReferral({
-      jobTitle: "",
-      jobDescription: "",
-      jobLink: "",
-      location: "",
-      companyName: "",
-      jobCategory: "",
-      experienceRequired: "",
-    });
-    setReferralData((prevData) => [...prevData, referral]);
     toggleReferralModel();
+
+    if (isEditing) {
+      // Update referral
+      const updatedReferral = await updateReferral(
+        referralData.referralId,
+        referral
+      );
+      if (updatedReferral) {
+        setReferralData((prevData) =>
+          prevData.map((item) =>
+            item.referralId === updatedReferral.referralId
+              ? updatedReferral
+              : item
+          )
+        );
+      }
+    } else {
+      const newReferral = await addReferral(referral);
+    }
+    getReferrals();
   };
 
   return (
@@ -185,7 +208,7 @@ const ReferralModel = ({
               </div>
 
               <button type="submit" className="referral-submit-button">
-                Submit
+                {isEditing == true ? "Update" : "Save"}
               </button>
             </form>
           </div>
