@@ -233,6 +233,7 @@
 }
 
 .apply-button {
+  margin-top: 5px;
   display: inline-block;
   background-color: #fe4949;
   color: white;
