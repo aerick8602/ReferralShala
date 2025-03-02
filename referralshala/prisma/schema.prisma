@@ -127,9 +127,8 @@ model Application {
   referralId    Int
   status        String   @default("Pending") // Example: "Pending", "Shortlisted", "Rejected", "Hired"
   appliedAt     DateTime @default(now()) @db.Timestamp(0)
-
-  user     User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  referral Referral @relation(fields: [referralId], references: [referralId], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [userId], onDelete: Cascade, map: "applications")
+  referral      Referral @relation(fields: [referralId], references: [referralId], onDelete: Cascade, map: "application")
 
   @@unique([userId, referralId]) // Prevent duplicate applications for the same referral
   @@index([userId], name: "idx_application_userId")

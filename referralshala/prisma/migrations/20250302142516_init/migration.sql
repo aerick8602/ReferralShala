@@ -93,7 +93,7 @@ CREATE TABLE "Referral" (
 -- CreateTable
 CREATE TABLE "Application" (
     "applicationId" SERIAL NOT NULL,
-    "candidateId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
     "referralId" INTEGER NOT NULL,
     "status" TEXT NOT NULL DEFAULT 'Pending',
     "appliedAt" TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -135,13 +135,13 @@ CREATE INDEX "idx_job_title" ON "Referral"("job_title");
 CREATE INDEX "idx_referral_userId" ON "Referral"("user_id");
 
 -- CreateIndex
-CREATE INDEX "idx_application_candidateId" ON "Application"("candidateId");
+CREATE INDEX "idx_application_userId" ON "Application"("userId");
 
 -- CreateIndex
 CREATE INDEX "idx_application_referralId" ON "Application"("referralId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Application_candidateId_referralId_key" ON "Application"("candidateId", "referralId");
+CREATE UNIQUE INDEX "Application_userId_referralId_key" ON "Application"("userId", "referralId");
 
 -- AddForeignKey
 ALTER TABLE "Candidate" ADD CONSTRAINT "Candidate_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -159,7 +159,7 @@ ALTER TABLE "Experience" ADD CONSTRAINT "Experience_user_id_fkey" FOREIGN KEY ("
 ALTER TABLE "Referral" ADD CONSTRAINT "Referral_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Application" ADD CONSTRAINT "Application_candidateId_fkey" FOREIGN KEY ("candidateId") REFERENCES "Candidate"("candidateId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Application" ADD CONSTRAINT "applications" FOREIGN KEY ("userId") REFERENCES "User"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Application" ADD CONSTRAINT "Application_referralId_fkey" FOREIGN KEY ("referralId") REFERENCES "Referral"("referralId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Application" ADD CONSTRAINT "application" FOREIGN KEY ("referralId") REFERENCES "Referral"("referralId") ON DELETE CASCADE ON UPDATE CASCADE;
