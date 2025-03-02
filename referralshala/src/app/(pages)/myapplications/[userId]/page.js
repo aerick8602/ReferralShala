@@ -20,6 +20,12 @@ export default function MyApplications() {
   const { isSignedIn, user, isLoaded } = useUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
+  const [application , setApplication]=useState({});
+
+
+
+=======
   const [application, setApplication] = useState([]);
 
   const fetchUserId = async () => {
@@ -66,6 +72,7 @@ export default function MyApplications() {
       setLoading(false);
     }
   };
+>>>>>>> e284ee555c29d1d30683fb56e8cf4b8fc9925612
 
   useEffect(() => {
     fetchUserId();
@@ -73,6 +80,130 @@ export default function MyApplications() {
     // console.log("Application Data", application);
   }, [user]);
 
+<<<<<<< HEAD
+  const fetchApplication = async () => {
+    console.log(userId)
+    try {
+      const res = await fetch(`/api/application/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      console.log("application data", data.data);
+      setApplication(data.data);
+
+      return data.data;
+    } catch (error) {
+      console.log("Error fetching referrals data:", error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(()=>{
+    fetchApplication();
+  },[]);
+
+  // Dummy data for testing
+  // Dummy data for testing with job links
+  const Applications = [
+    {
+      company: { name: "Google" },
+      role: { title: "Software Engineer" },
+      appliedOn: "2024-02-01",
+      status: { current: "Under Review" },
+      applicant: { count: 120 },
+      location: "Mountain View, CA",
+      jobLink: "https://careers.google.com/jobs/results/",
+    },
+    {
+      company: { name: "Amazon" },
+      role: { title: "Frontend Developer" },
+      appliedOn: "2024-01-25",
+      status: { current: "Interview Scheduled" },
+      applicant: { count: 85 },
+      location: "Seattle, WA",
+      jobLink: "https://www.amazon.jobs/en/",
+    },
+    {
+      company: { name: "Microsoft" },
+      role: { title: "Backend Engineer" },
+      appliedOn: "2024-02-05",
+      status: { current: "Rejected" },
+      applicant: { count: 150 },
+      location: "Redmond, WA",
+      jobLink: "https://careers.microsoft.com/us/en",
+    },
+    {
+      company: { name: "Meta" },
+      role: { title: "Data Scientist" },
+      appliedOn: "2024-02-10",
+      status: { current: "In Progress" },
+      applicant: { count: 200 },
+      location: "Menlo Park, CA",
+      jobLink: "https://www.metacareers.com/jobs/",
+    },
+    {
+      company: { name: "Tesla" },
+      role: { title: "Machine Learning Engineer" },
+      appliedOn: "2024-02-12",
+      status: { current: "Offer Extended" },
+      applicant: { count: 75 },
+      location: "Palo Alto, CA",
+      jobLink: "https://www.tesla.com/careers",
+    },
+    {
+      company: { name: "Google" },
+      role: { title: "Software Engineer" },
+      appliedOn: "2024-02-01",
+      status: { current: "Under Review" },
+      applicant: { count: 120 },
+      location: "Mountain View, CA",
+      jobLink: "https://careers.google.com/jobs/results/",
+    },
+    {
+      company: { name: "Amazon" },
+      role: { title: "Frontend Developer" },
+      appliedOn: "2024-01-25",
+      status: { current: "Interview Scheduled" },
+      applicant: { count: 85 },
+      location: "Seattle, WA",
+      jobLink: "https://www.amazon.jobs/en/",
+    },
+    {
+      company: { name: "Microsoft" },
+      role: { title: "Backend Engineer" },
+      appliedOn: "2024-02-05",
+      status: { current: "Rejected" },
+      applicant: { count: 150 },
+      location: "Redmond, WA",
+      jobLink: "https://careers.microsoft.com/us/en",
+    },
+    {
+      company: { name: "Meta" },
+      role: { title: "Data Scientist" },
+      appliedOn: "2024-02-10",
+      status: { current: "In Progress" },
+      applicant: { count: 200 },
+      location: "Menlo Park, CA",
+      jobLink: "https://www.metacareers.com/jobs/",
+    },
+    {
+      company: { name: "Tesla" },
+      role: { title: "Machine Learning Engineer" },
+      appliedOn: "2024-02-12",
+      status: { current: "Offer Extended" },
+      applicant: { count: 75 },
+      location: "Palo Alto, CA",
+      jobLink: "https://www.tesla.com/careers",
+    },
+  ];
+
+
+=======
+>>>>>>> e284ee555c29d1d30683fb56e8cf4b8fc9925612
   if (!isLoaded || !isSignedIn || loading) {
     return (
       <div className="loader-container">
@@ -80,6 +211,7 @@ export default function MyApplications() {
       </div>
     );
   }
+
 
   const roleTemplate = (rowData) => {
     return (

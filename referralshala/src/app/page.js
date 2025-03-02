@@ -2,11 +2,13 @@
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Courses from "./components/Courses";
 
 import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+
 import axios from "axios";
 
 export default function Home() {
@@ -71,6 +73,12 @@ export default function Home() {
               </section>
             </div>
           )}
+
+          <div className="Images">
+            <img src="/image1.webp"></img>
+            <img src="/image2.webp"></img>
+            <img src="/image3.png"></img>
+          </div>
 
           <div className="logos-wrapper">
             {/* First row moving left */}
@@ -137,15 +145,12 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="Images">
-            <img src="/image1.webp"></img>
-            <img src="/image2.webp"></img>
-            <img src="/image3.png"></img>
-          </div>
-          <br />
 
           <br />
+          <br />
         </div>
+
+        <Courses></Courses>
 
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>
