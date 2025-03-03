@@ -47,3 +47,58 @@ export async function GET(req, { params }) {
     );
   }
 }
+
+export async function POST(req, { params }) {
+  try {
+    let { userId } = await params;
+    userId = Number(userId);
+    console.log(userId);
+    const { referralId } = await req.json();
+    console.log(referralId);
+    if (!userId || !referralId) {
+      return NextResponse.json(
+        { error: "User ID and Referral ID are required." },
+        { status: 400 }
+      );
+    }
+
+    // Check if the application already exists
+    const existingApplication = await client.application.findUnique({
+      where: {
+        userId_referralId: {
+          userId,
+          referralId,
+        },
+      },
+    });
+
+    if (existingApplication) {
+      return NextResponse.json(
+        { error: "You have already applied for this job." },
+        { status: 400 }
+      );
+    }
+
+    // Create a new application
+    const newApplication = await client.application.create({
+      data: {
+        userId,
+        referralId,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Application submitted successfully!",
+        application: newApplication,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error creating application:", error);
+    return NextResponse.json(
+      { error: "Internal server error." },
+      { status: 500 }
+    );
+  }
+}

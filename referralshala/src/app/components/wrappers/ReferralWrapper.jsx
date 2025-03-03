@@ -58,10 +58,26 @@ const ReferralWrapper = ({ dummyReferrals, candidateUserId }) => {
       console.error("Error updating application count:", error);
     }
   };
+  const applyForReferral = async (referralId) => {
+    try {
+      const response = await fetch(`/api/application/${candidateUserId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referralId }),
+      });
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error applying for referral:", error);
+      return { error: "Failed to apply." };
+    }
+  };
 
   const handleApply = async (referral) => {
     setSelectedReferral(referral);
     incrementApplicationCount(referral.referralId);
+    applyForReferral(referral.referralId);
 
     try {
       const employerData = await fetchUserData(referral.userId);
