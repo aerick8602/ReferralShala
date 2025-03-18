@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    Int      @id @default(autoincrement())
+  Id        String   @unique
+  userType  String   @default("candidate")
+  userData  Json?
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @db.Timestamp(0)
+
+  candidate    Candidate?    @relation("UserToCandidate")
+  employer     Employer?     @relation("UserToEmployer")
+  educations   Education[]
+  experiences  Experience[]
+  referrals    Referral[]
+  applications Application[]
+
+  @@index([Id], name: "idx_user_id")
+}
+
+model Candidate {
+  candidateId   Int       @id @default(autoincrement())
+  userId        Int       @unique @map("user_id")
+  skills        String[]
+  socialLinks   Json?     @map("social_links")
+  resume        Json?     @map("resume")
+  contactNumber String?   @map("contact_number") @db.VarChar(15)
+  location      String?   @db.VarChar(255)
+  createdAt     DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(0)
+
+  user User @relation("UserToCandidate", fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_candidate_userId")
+}
+
+model Employer {
+  employerId    Int       @id @default(autoincrement())
+  userId        Int       @unique @map("user_id")
+  companyName   String?   @map("company_name") @db.VarChar(255)
+  jobRole       String?   @map("job_role") @db.VarChar(255)
+  location      String?   @db.VarChar(255)
+  contactNumber String?   @map("contact_number") @db.VarChar(15)
+  socialLinks   Json?     @map("social_links")
+  createdAt     DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt     DateTime? @updatedAt @db.Timestamp(0)
+
+  user User @relation("UserToEmployer", fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_employer_userId")
+}
+
+model Education {
+  educationId          Int      @id @default(autoincrement())
+  userId               Int      @map("user_id")
+  instituteName        String   @map("institute_name") @db.VarChar(255)
+  degree               String   @db.VarChar(255)
+  stream               String   @db.VarChar(255)
+  startYear            Int
+  endYear              Int?
+  isCurrentlyEducating Boolean  @default(false) @map("is_currently_educating")
+  grade                Json     @db.Json
+  createdAt            DateTime @default(now()) @db.Timestamp(0)
+
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_education_userId")
+}
+
+model Experience {
+  experienceId        Int      @id @default(autoincrement())
+  userId              Int      @map("user_id")
+  companyName         String   @map("company_name") @db.VarChar(255)
+  role                String   @db.VarChar(255)
+  location            String
+  startYear           Int
+  endYear             Int?
+  isCurrentlyEmployed Boolean  @default(false) @map("is_currently_employed")
+  description         String?
+  createdAt           DateTime @default(now()) @db.Timestamp(0)
+
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+
+  @@index([userId], name: "idx_experience_userId")
+}
+
+model Referral {
+  referralId         Int     @id @default(autoincrement())
+  userId             Int     @map("user_id")
+  companyName        String  @map("company_name") @db.VarChar(255)
+  jobCategory        String  @map("job_category")
+  jobTitle           String  @map("job_title") @db.VarChar(255)
+  jobDescription     String? @map("job_description")
+  jobLink            String? @map("job_link")
+  location           String? @db.VarChar(255)
+  experienceRequired Int?    @map("experience_required")
+
+  applicationCount Int @default(0) @map("application_count")
+
+  postedAt  DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt DateTime? @updatedAt @db.Timestamp(0)
+
+  user         User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  applications Application[]
+
+  @@index([companyName], name: "idx_company_name")
+  @@index([jobTitle], name: "idx_job_title")
+  @@index([userId], name: "idx_referral_userId")
+}
+
+model Application {
+  applicationId Int      @id @default(autoincrement())
+  userId        Int
+  referralId    Int
+  status        String   @default("Pending") // Example: "Pending", "Shortlisted", "Rejected", "Hired"
+  appliedAt     DateTime @default(now()) @db.Timestamp(0)
+  user          User     @relation(fields: [userId], references: [userId], onDelete: Cascade, map: "applications")
+  referral      Referral @relation(fields: [referralId], references: [referralId], onDelete: Cascade, map: "application")
+
+  @@unique([userId, referralId]) // Prevent duplicate applications for the same referral
+  @@index([userId], name: "idx_application_userId")
+  @@index([referralId], name: "idx_application_referralId")
+}
