@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Courses from "./components/Courses";
 
-
 import { HashLoader } from "react-spinners";
 import "./styles/Home.css";
 import { useUser } from "@clerk/nextjs";
@@ -150,8 +149,7 @@ export default function Home() {
           <br />
           <br />
         </div>
-         <Courses/>
-
+        <Courses />
 
         <Footer userId={userData.userId} userType={userData.userType} />
       </div>

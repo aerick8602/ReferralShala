@@ -1,129 +1,179 @@
+/* General container styles */
 .courses-container {
-  padding: 20px;
-  position: relative;
+  padding: 60px 20px;
+  /* background: linear-gradient(135deg, #f5f7fa, #c3cfe2); */
+  background: linear-gradient(135deg, #fbeeee, #f9f2f2);
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.title {
-  font-size: 1.5rem;
+.ctitle {
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 15px;
   text-align: center;
+  color: #4b2f31;
+  margin-bottom: 40px;
 }
 
+/* Slider wrapper with shadow effects */
 .slider-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  max-width: 1330px;
+  margin: 0 auto;
   overflow: hidden;
+  /* box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1); */
+  border-radius: 15px;
+  /* background: #fff; */
+  background: linear-gradient(135deg, #fbeeee, #f9f2f2);
 }
 
 .courses-slider {
   display: flex;
-  gap: 20px;
+  gap: 48px;
   overflow: hidden;
   scroll-behavior: smooth;
-  width: 1080px; /* Show exactly 4 cards at a time */
-  padding: 10px;
-}
-.course-content {
-  flex-grow: 1; /* Pushes the button to the bottom */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  width: calc(100% - 120px);
+  padding: 20px;
 }
 
+/* Individual course cards */
 .course-card {
   flex: 0 0 auto;
-  width: 250px;
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  /* padding: 15px; */
-  background: white;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 350px; /* Increased height for better spacing */
+  width: 255px;
+  border-radius: 12px;
+  overflow: hidden;
+  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: #fff;
+}
+
+.course-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
 .course-image {
   width: 100%;
-  height: 150px;
+  height: 180px;
   object-fit: cover;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  /* border-radius: 8px; */
+}
+
+.course-content {
+  font-size: medium;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
 }
 
 .course-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  margin-top: 5px;
+  color: #333;
+  /* margin-bottom: 10px; */
 }
 
 .course-description {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 10px 0;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4; /* Now allows 4 lines */
-  line-clamp: 4;
-  height: 50px; /* Adjust height for better visibility */
+  font-size: 1rem;
+  color: #666;
+  /* line-height: 1.5; */
+  margin-bottom: 20px;
+}
+
+/* Footer section with price and button */
+.course-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .course-price {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
+  color: #27ae60;
 }
 
 .view-course {
-  margin: 10px;
-  border: none;
-  display: inline-block;
-  background-color: #ff3f3f;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: bold;
+  padding: 10px 15px;
   font-size: 0.9rem;
-  transition: all 0.3s ease;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  background: #fc6969;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
 .view-course:hover {
-  background-color: #ff3737;
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
+  background: #f94242;
 }
+
+/* Scroll buttons */
 .scroll-button {
+  background-color: #ffffff;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #ddd;
+  /* background: #333; */
+  color: #fff;
   border: none;
-  padding: 10px;
+  padding: 12px 18px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  font-size: 1.2rem;
+  transition: background 0.3s;
   z-index: 10;
+  font-size: 1.2rem;
 }
 
 .scroll-button.left {
-  left: 70px;
+  left: 20px;
 }
 
 .scroll-button.right {
-  right: 70px;
+  right: 20px;
 }
 
-.scroll-button:hover {
-  background: #ccc;
+/* .scroll-button:hover {
+  background: #555;
+} */
+
+.scroll-button {
+  border: none; /* Remove border */
+
+  padding: 8px; /* Add subtle padding */
+  cursor: pointer; /* Pointer on hover */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  display: flex; /* Center the icon */
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-button .pi-arrow-right {
+  font-size: 24px; /* Larger arrow */
+  color: #555; /* Neutral color */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-button:hover .pi-arrow-right {
+  color: #f94242; /* Change color on hover */
+  transform: scale(1.1); /* Slight grow effect */
+}
+
+.scroll-button .pi-arrow-left {
+  font-size: 24px; /* Larger arrow */
+  color: #555; /* Neutral color */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-button:hover .pi-arrow-left {
+  color: #f94242; /* Change color on hover */
+  transform: scale(1.1); /* Slight grow effect */
+}
+
+.scroll-button:focus {
+  outline: none; /* Remove focus outline */
 }
