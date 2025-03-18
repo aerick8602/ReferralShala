@@ -1,0 +1,140 @@
+/* General container styles */
+.courses-container {
+  padding: 50px 10px;
+  /* background: linear-gradient(135deg, #f5f7fa, #c3cfe2); */
+  background: linear-gradient(135deg, #fbeeee, #f9f2f2);
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.courses-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #4b2f31;
+  margin-bottom: 40px;
+}
+
+/* Slider wrapper with shadow effects */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  max-width: 1365px;
+  margin: 0 auto;
+  overflow: hidden;
+  /* box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1); */
+  background: linear-gradient(135deg, #fbeeee, #f9f2f2);
+  border-radius: 15px;
+  /* background: #fff; */
+}
+
+.courses-slider {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+  width: calc(100% - 150px);
+  padding: 20px;
+}
+
+/* Individual course cards */
+.course-card {
+  flex: 0 0 auto;
+  width: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: #fff;
+}
+
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.course-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.course-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 200px;
+}
+
+.course-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  /* margin-bottom: 10px; */
+}
+
+.course-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Footer section with price and button */
+.course-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.view-course {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #ff5757;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.view-course:hover {
+  background: #fc3131;
+}
+
+/* Scroll buttons */
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 10;
+  font-size: 1.4rem;
+}
+
+.scroll-button.left {
+  left: 20px;
+}
+
+.scroll-button.right {
+  right: 20px;
+}
+
+.scroll-button:hover {
+  background: #555;
+}

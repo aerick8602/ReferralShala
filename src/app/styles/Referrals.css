@@ -1,0 +1,253 @@
+/* Application Header */
+.referrals-header {
+  margin-top: 110px;
+  margin-bottom: 40px;
+  width: 100%;
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  opacity: 0.8;
+  color: #232323;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #fe4949;
+  border: none;
+  background-color: transparent;
+  padding: 10px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 16px;
+  margin-left: 750px;
+  margin-top: -47px;
+  border-radius: 20px;
+  border: 3px solid #fe4949;
+}
+.referrals-description {
+  font-size: 14px;
+}
+.add-details:hover {
+  color: #fe5757;
+}
+.add-details .icon {
+  transition: transform 0.3s ease-in-out;
+}
+.add-details:hover .icon {
+  transform: rotate(90deg);
+}
+
+.referrals-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  min-height: 400px;
+  /* Enhanced 3D Shadow */
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
+}
+
+.icon {
+  margin-right: 5px;
+}
+.edit-btn,
+.delete-btn {
+  background: transparent;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.edit-btn {
+  /* background-color: #e0f2ff; */
+  color: #0077cc;
+}
+
+.edit-btn:focus {
+  border: 1px solid #0077cc;
+}
+
+.edit-btn:hover {
+  background-color: #e7f1f8;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  /* background-color: #ffe0e0; */
+  color: #f54c4c;
+}
+
+.delete-btn:hover {
+  background-color: #f7e9e9;
+  transform: scale(1.05);
+}
+.referral-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* .referral-content {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #555;
+} */
+
+.referral-content {
+  font-size: 16px;
+  color: #333; /* Dark gray for readability */
+  margin-bottom: 10px; /* Add spacing between paragraphs */
+  line-height: 1.5; /* Improve text spacing */
+}
+
+.referral-content a {
+  color: #ff5722; /* Eye-catching orange */
+  font-weight: bold;
+  text-decoration: none; /* Remove underline */
+  transition: color 0.3s ease-in-out;
+}
+
+.referral-content a:hover {
+  color: #d84315; /* Darker orange on hover */
+  text-decoration: underline;
+}
+
+.referral-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.referral-actions .edit,
+.referral-actions .delete {
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: color 0.3s;
+}
+
+.referral-actions .edit:hover {
+  color: #007bff;
+}
+
+.referral-actions .delete:hover {
+  color: #dc3545;
+}
+
+.custom-badge {
+  background-color: #fe4949 !important; /* Custom background color */
+  color: white !important; /* Text color */
+  font-size: 10px !important; /* Adjust text size */
+  margin: 0px;
+  padding: 0px !important; /* Adjust padding */
+  width: 24px !important; /* Set a minimum width */
+  height: 24px !important; /* Set a fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px !important; /* Make it rounded */
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 1rem !important;
+  background: linear-gradient(135deg, #fefafa, #fafafa);
+}
+
+.p-accordion-content {
+  padding: 15px !important;
+}
+
+.referral-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  gap: 20px;
+}
+
+.referral-card {
+  width: 75%;
+  max-width: 650px; /* Keeps it proportional */
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  border-left: 5px solid #fe4949;
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+}
+
+.referral-card:hover {
+  transform: perspective(10000px) rotateX(0deg) rotateY(0deg) translateY(-0.5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.company-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fe4949;
+  margin-bottom: 0px;
+  margin-top: 2px;
+}
+
+.job-category {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 8px;
+  margin-top: 1px;
+}
+
+.job-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+.job-description {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 1px;
+  margin-top: 1px;
+}
+
+.job-location,
+.experience {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.apply-button {
+  margin-top: 5px;
+  display: inline-block;
+  background-color: #fe4949;
+  color: white;
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button:hover {
+  background-color: #ff3737;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}

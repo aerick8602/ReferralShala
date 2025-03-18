@@ -1,0 +1,121 @@
+/* Container Styles */
+.about-page-container {
+  padding: 3rem 1rem;
+  max-width: 950px;
+  margin: 2rem auto;
+  font-family: "Arial", sans-serif;
+  background: transparent;
+}
+
+/* Title Styles */
+.about-page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  /* opacity: 0.8; */
+  color: #4b2f31;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.about-page-title::after {
+  content: "";
+  display: block;
+  width: 400px;
+  height: 8px;
+  background-color: #fe5757;
+  margin: 0.5rem auto 0;
+  clip-path: ellipse(50% 50% at 50% 50%);
+}
+
+/* Card Styles */
+.about-page-card {
+  /* background: #fff; */
+  padding: 1rem;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+
+  text-align: left;
+}
+
+/* Subheading Styles */
+.about-page-subheading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.about-page-subheading::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #fe5757;
+  margin-top: 0.3rem;
+}
+
+/* Paragraph Styles */
+.about-page-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.about-page-list {
+  list-style-type: none; /* Removes the bullet points */
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+  padding-left: 0; /* Optional: Removes extra indentation */
+}
+
+.about-page-list li {
+  margin-bottom: 0.5rem;
+}
+
+/* Grid Section Styles */
+.about-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.about-page-grid-item {
+  background: #ffffff;
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
+  padding: 1.2rem;
+  border-radius: 10px;
+
+  text-align: center;
+}
+
+.about-page-grid-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.8rem;
+}
+
+.about-page-grid-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* CTA Styles */
+.about-page-cta {
+  color: #fe5757;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-page-cta:hover {
+  color: #cc4545;
+  text-decoration: underline;
+}

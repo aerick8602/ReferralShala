@@ -1,0 +1,80 @@
+/* Container Styles */
+.termsContainer {
+  padding: 3rem 1rem;
+  max-width: 950px;
+  margin: 2rem auto;
+  font-family: "Arial", sans-serif;
+}
+
+/* Title Styles */
+.termsHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  /* opacity: 0.8; */
+  color: #4b2f31;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.termsHeading::after {
+  content: "";
+  display: block;
+  width: 400px;
+  height: 8px;
+  background-color: #fe5757;
+  margin: 0.5rem auto 0;
+  clip-path: ellipse(50% 50% at 50% 50%);
+}
+
+/* Subheading Styles */
+.termsSubheading {
+  font-size: 1.2rem;
+  font-weight: 600;
+
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.termsSubheading::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: #fe5757;
+  margin-top: 0.3rem;
+}
+
+/* Paragraph Styles */
+.termsParagraph {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 1.2rem;
+}
+
+/* List Styles */
+.termsList {
+  list-style-type: disc;
+  list-style-position: inside;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1;
+  padding-left: 1rem;
+}
+
+.termsList li {
+  margin-bottom: 0.8rem;
+}
+
+/* Link Styles */
+.termsContactLink {
+  color: #fe5757;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.termsContactLink:hover {
+  color: #cc4545;
+  text-decoration: underline;
+}

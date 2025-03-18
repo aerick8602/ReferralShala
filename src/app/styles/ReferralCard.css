@@ -1,0 +1,123 @@
+.referral-container-card {
+  margin-top: -10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.referral-card {
+  width: 650px;
+  max-width: 650px; /* Keeps it proportional */
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  border-left: 5px solid #fe4949;
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+}
+
+.referral-cp {
+  display: flex;
+  justify-content: space-between;
+}
+
+.posted-date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+.referral-card:hover {
+  transform: perspective(10000px) rotateX(0deg) rotateY(0deg) translateY(-1px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.company-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fe4949;
+  margin-bottom: 0px;
+  margin-top: -1px;
+}
+
+.job-category {
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 8px;
+  margin-top: 0px;
+}
+
+.job-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0px !important;
+  margin-top: 0.5px;
+}
+
+.job-description {
+  font-size: 0.8rem;
+  color: #444;
+  margin-bottom: 0.5px !important;
+  margin-top: 0px !important;
+}
+
+.job-location {
+  font-size: 0.75rem;
+  margin-bottom: 0px;
+  margin-top: 7px;
+  color: #333;
+}
+
+.experience {
+  font-size: 0.75rem;
+  margin-bottom: -2px;
+  margin-top: 4px;
+  color: #333;
+}
+
+.apply-button,
+.know-more-button {
+  display: inline-block;
+  background-color: #fe4949;
+  color: white;
+  text-decoration: none;
+  padding: 4px 7px;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button:hover {
+  background-color: #ff3737;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.know-more-button {
+  /* background-color: #f0ad4e; */
+  color: white;
+  background: transparent;
+  color: #ff3737;
+  border: 2px solid #ff3737;
+}
+
+.know-more-button:hover {
+  transform: translateY(-2px);
+}

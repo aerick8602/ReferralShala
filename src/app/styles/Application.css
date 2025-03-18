@@ -1,0 +1,123 @@
+/* Application Header */
+.application-header {
+  margin-top: 110px;
+  margin-bottom: 40px;
+  width: 100%;
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  /* opacity: 0.8; */
+  color: #4b2f31;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Container */
+.application-table {
+  width: 80%;
+  min-height: 500px;
+  margin: 20px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 207, 207, 0.6);
+  background: rgba(255, 252, 252, 0.8); /* Soft glass effect */
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  /* Enhanced 3D Shadow */
+  box-shadow: 4px 4px 14px rgba(252, 174, 174, 0.3),
+    -4px -4px 8px rgba(248, 214, 214, 0.4),
+    inset 3px 3px 8px rgba(255, 255, 255, 0.3);
+}
+
+/* PrimeReact Table */
+.p-datatable {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+/* Table Layout */
+.p-datatable table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+}
+
+/* Table Header */
+.p-datatable .p-datatable-thead > tr > th {
+  background-color: #fe5757;
+  color: #ffffff;
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Add slight hover effect to table headers */
+/* .p-datatable .p-datatable-thead > tr > th:hover {
+  background: #e04b4b;
+  cursor: pointer;
+} */
+
+/* Table Rows */
+.p-datatable .p-datatable-tbody > tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect for Rows */
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: #f8f8f8;
+  /* transform: scale(1.01); */
+  cursor: pointer;
+}
+
+/* Table Cells */
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 14px 18px;
+  font-size: 14px;
+  border: none;
+  color: #444;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Alternate Row Styling for Better Visibility */
+.p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Empty Table Message */
+.p-datatable .p-datatable-tbody .empty-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #888;
+  padding: 25px;
+  opacity: 0.8;
+}
+
+/* Pagination Bar */
+.p-paginator-bottom {
+  font-size: 12px; /* Reduce font size */
+  padding: 5px 10px; /* Adjust padding */
+}
+
+.p-paginator .p-paginator-pages {
+  gap: 4px;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  min-width: 30px; /* Reduce button size */
+  height: 30px;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next {
+  width: 30px; /* Adjust previous/next button size */
+  height: 30px;
+  font-size: 12px;
+}
