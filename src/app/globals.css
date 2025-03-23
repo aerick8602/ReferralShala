@@ -1,0 +1,23 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;
+ */
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+  background-color: #fffafa;
+}
+
+.p-confirm-dialog .p-button.p-confirm-dialog-accept {
+  background-color: #fe5b5b !important;
+  border-color: #fe5b5b !important;
+}
+
+.p-confirm-dialog .p-button.p-confirm-dialog-reject {
+  border-color: #fe5b5b !important;
+  color: #fe5b5b;
+}

@@ -1,0 +1,172 @@
+/* Remove spinner from number input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Styling for the overall layout */
+.exp-model {
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(207, 207, 207, 0.5);
+  min-height: 100vh;
+  backdrop-filter: blur(1px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.exp-card {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 42%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 300;
+}
+
+.exp-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+/* Form layout and structure */
+.exp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.exp-form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Position for absolute error message */
+}
+
+.exp-form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  padding-bottom: 2px;
+}
+
+.exp-form-group input,
+.exp-form-group select,
+.exp-form-group textarea {
+  padding: 0.38rem;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 0.85rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Input focus effects */
+.exp-form-group input:focus,
+.exp-form-group select:focus,
+.exp-form-group textarea:focus {
+  border-color: #fe5757;
+}
+
+/* Textarea resizing */
+.exp-form-group textarea {
+  resize: vertical;
+  height: 90px;
+}
+
+/* Error message styling */
+.error-text {
+  position: absolute;
+  bottom: -20px; /* Push the error message below the input */
+  color: #fe3c3c;
+  font-size: 0.75rem;
+  display: block; /* Ensure the error message is always visible */
+}
+
+/* Active error message color */
+.error-text.active {
+  color: #fe3c3c; /* Customize color for active error messages */
+}
+
+/* Row layout for the form */
+.exp-form-row {
+  display: flex;
+}
+
+/* .exp-form-row .exp-form-group {
+  flex: 1;
+} */
+
+.exp-form-row .exp-form-group input,
+.exp-form-row .exp-form-group select {
+  width: 100%;
+}
+
+/* Checkbox group styling */
+.exp-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Update button styling */
+.exp-update-button {
+  background-color: #fe5757;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.exp-update-button:hover {
+  background-color: #fe3333;
+}
+
+/* Help text styling */
+.exp-help-text {
+  font-size: 0.8rem;
+  margin-top: -5px;
+  color: #6b7280;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .exp-card {
+    width: 90%;
+  }
+
+  .exp-form-row {
+    flex-direction: column;
+  }
+
+  .exp-form-row .exp-form-group {
+    flex: none;
+    width: 100%;
+  }
+
+  .exp-update-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,156 @@
+/* Hide number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.personal-card {
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(207, 207, 207, 0.5);
+  height: 100vh;
+  backdrop-filter: blur(1px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.personal-card-container {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 42%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 300;
+  overflow-y: auto; /* Allows vertical scrolling */
+  max-height: 90vh; /* Limits height to 90% of the viewport height */
+}
+
+.personal-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.personal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.personal-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.personal-form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  padding-bottom: 2px;
+  /* margin-bottom: 0.3rem; */
+}
+
+.personal-form-group input {
+  padding: 0.55rem;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.personal-form-group input:focus {
+  border-color: #fe5757;
+}
+
+/* .personal-form-group textarea {
+  resize: vertical;
+  min-height: 60px;
+} */
+
+.personal-form-group input:focus,
+.personal-form-group select:focus,
+.personal-form-group textarea:focus {
+  border-color: #fe5757;
+}
+
+.personal-error-text {
+  color: #fe3c3c;
+  font-size: 12px;
+  margin-top: 2px !important;
+  margin-bottom: -20px;
+}
+
+.personal-form-group .remove-btn,
+.add-social-btn {
+  color: #fe5757;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover,
+.add-social-btn:hover {
+  color: #ff2c2c;
+}
+
+.personal-add-button {
+  position: relative;
+  background: transparent;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.personal-add-button:hover {
+  transform: rotate(90deg);
+}
+
+.personal-form-group {
+  position: relative;
+}
+
+.personal-remove-btn {
+  background: transparent;
+  color: #ff2c2c;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .personal-card-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .personal-form-group input {
+    font-size: 0.95rem;
+  }
+}

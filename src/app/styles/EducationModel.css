@@ -1,0 +1,204 @@
+/* Hide number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.edu-model {
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(207, 207, 207, 0.5);
+  min-height: 100vh;
+  backdrop-filter: blur(1px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.edu-card {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 42%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 300;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.edu-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.edu-close-button:hover {
+  transform: scale(1.1);
+}
+
+.edu-title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.edu-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  padding-bottom: 2px;
+}
+
+.edu-form-group input,
+.edu-form-group select,
+.edu-form-group textarea {
+  padding: 0.3rem;
+  border-radius: 4px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  color: #4b5563;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.edu-form-group input:focus,
+.edu-form-group select:focus,
+.edu-form-group textarea:focus {
+  border-color: #fe5757;
+}
+
+.edu-form-group textarea {
+  resize: vertical;
+  height: 90px;
+}
+
+.edu-form-row {
+  display: flex;
+}
+
+.edu-form-row .edu-form-group input,
+.edu-form-row .edu-form-group select {
+  width: 100%;
+}
+
+.edu-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.edu-update-button {
+  background-color: #fe5757;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edu-update-button:hover {
+  background-color: #fe3333;
+}
+
+.edu-help-text {
+  font-size: 0.775rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .edu-form-row {
+    flex-direction: column;
+  }
+
+  .edu-form-row .edu-form-group {
+    flex: none;
+    width: 100%;
+  }
+
+  .edu-update-button {
+    width: 100%;
+  }
+}
+
+.edu-error-text {
+  color: #fe3c3c;
+  font-size: 12px;
+  margin-top: 1px;
+  padding-left: 5px;
+}
+
+.error-text {
+  color: #fe3c3c;
+  font-size: 12px;
+  margin-top: 1px;
+  padding-left: 5px;
+}
+
+.edu-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.edu-form-group input,
+.edu-form-group select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  min-height: 40px;
+}
+
+.edu-error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.edu-form-group .edu-error-text {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}

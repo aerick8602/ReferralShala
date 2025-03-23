@@ -1,0 +1,55 @@
+.skillset-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0px 20px 0px;
+  gap: 15px;
+}
+
+.multiselect-dropdown {
+  margin-left: 20px;
+  width: 495px;
+  min-height: 30px;
+  border-radius: 8px;
+  border: 0.1px solid #fe4949;
+  /* border:none; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Updated Button Styles */
+.add-skills-btn {
+  width: 20%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #fd4343, #fe5757, #fc6969);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.add-skills-btn:hover {
+  background: linear-gradient(to right, #e83e3e, #fa5252, #f85757);
+  transform: scale(1.05);
+}
+
+.add-skills-btn .icon {
+  font-weight: bolder;
+  margin-right: 10px;
+  font-size: 14px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.add-skills-btn:hover .icon {
+  transform: rotate(90deg);
+}
+
+.add-skills-btn:disabled {
+  background: #d3d3d3;
+  cursor: not-allowed;
+  transform: none;
+}

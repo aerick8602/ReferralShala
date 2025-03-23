@@ -1,0 +1,34 @@
+.signupbg {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.super-main-signup {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  /* gap: 150px; */
+  overflow: hidden;
+}
+
+.signlogo {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  margin-left: 30px !important;
+  cursor: pointer;
+}
+
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: 950px; */
+}
