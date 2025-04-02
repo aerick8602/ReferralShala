@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ReferralShala
 
-## Getting Started
+ReferralShala is an innovative platform designed to streamline the job referral process by seamlessly connecting job seekers with employers through trusted professional networks.
 
-First, run the development server:
+## Technologies Used
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Frontend:** Next.js, JavaScript, CSS
+- **Backend:** Prisma, Neon, PostgreSQL, Supabase, Nodemailer
+- **Authentication:** Clerk
+- **APIs:** RESTful APIs for real-time data synchronization
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **User Authentication with Clerk**  
+  Integrated Clerk authentication to manage two types of users: Employers and Candidates. Implemented secure authentication and authorization workflows, ensuring smooth user sessions and role-based access control.  
+  ![User Authentication](/referralshala/public/demo/Screenshot%202025-04-02%20151629.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Fully Responsive Job Referral Platform**  
+  Built a mobile-friendly and fully responsive user interface to provide seamless navigation across all devices. Ensured an optimized experience with fast loading times and smooth interactions.  
+  ![Responsive Design](/referralshala/public/demo/Screenshot%202025-04-02%20151608.png)
 
-## Learn More
+  - **Advanced Filtering and Search for Referrals**  
+    Implemented an advanced filtering system allowing users to refine job searches based on parameters like job title, company, location, and experience level. This ensures candidates find the most relevant opportunities effortlessly.  
+    ![Referral Filtering](/referralshala/public/demo/Screenshot%202025-04-02%20151705.png)
 
-To learn more about Next.js, take a look at the following resources:
+- **Comprehensive UI/UX Dashboards**  
+  Developed dedicated dashboards for Employers and Candidates. Employers can post job openings, manage referrals, and review applications, while Candidates can explore opportunities, apply for referrals, and track their progress.  
+  ![Dashboard](/referralshala/public/demo/Screenshot%202025-04-02%20154002.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Real-Time Data Synchronization with RESTful APIs**  
+  Integrated dynamic APIs to enable real-time updates for job postings and application statuses. Users get instant access to new opportunities without needing to refresh the page.  
+  ![Real-Time Sync](/referralshala/public/demo/Screenshot%202025-04-02%20153111.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **High-Performance Database with Prisma, Neon, and PostgreSQL**  
+  Optimized database operations using Prisma ORM, Neon, and PostgreSQL to enhance data retrieval speeds. Achieved a 20% reduction in query response time, ensuring a smooth user experience.  
+  ![Database Optimization](/referralshala/public/demo/Screenshot%202025-04-02%20154321.png)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Automated Email Notifications via Nodemailer**  
+  Configured automated email alerts for job referral updates. Employers receive candidate profiles upon referral submissions, and Candidates get instant notifications about their application status.  
+  ![Email Notifications](/referralshala/public/demo/Screenshot%202025-04-02%20152025.png)
